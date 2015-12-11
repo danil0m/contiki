@@ -1,6 +1,6 @@
 CONTIKI_PROJECT = my-er-example-server
 TARGET=stm32nucleo-spirit1
-USE_SUBGHZ_BOARD=IDS01A4
+BOARD=ids01a4
 DEVICE=/media/ubuntu/NODE_L152RE1
 all:  
 	make after

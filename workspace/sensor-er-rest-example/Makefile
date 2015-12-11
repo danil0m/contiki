@@ -1,6 +1,7 @@
 CONTIKI_PROJECT = sensor-er-example-server
 TARGET=stm32nucleo-spirit1
-USE_SUBGHZ_BOARD=IDS01A5
+BOARD=ids01a4
+SENSORBOARD=iks01a1
 DEVICE=/media/ubuntu/NODE_L152RE2
 all: 
 	make after

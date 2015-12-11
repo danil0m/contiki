@@ -1,6 +1,6 @@
 CONTIKI_PROJECT= border-router
 TARGET=stm32nucleo-spirit1
-USE_SUBGHZ_BOARD=IDS01A4
+BOARD=ids01a4
 all: 
 	make after
 	arm-none-eabi-objcopy -O binary $(CONTIKI_PROJECT).stm32nucleo-spirit1 $(CONTIKI_PROJECT).bin
