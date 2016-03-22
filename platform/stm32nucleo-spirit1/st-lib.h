@@ -49,6 +49,8 @@
 #define st_lib_g_x_status                        g_xStatus
 
 #define st_lib_p_spi_handle                      pSpiHandle
+
+#define st_lib_rtc_handle						RtcHandle
 /*---------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------*/
@@ -279,6 +281,19 @@
 #define st_lib_hal_uart_rx_cplt_callback(...)    HAL_UART_RxCpltCallback(__VA_ARGS__)
 #define st_lib_hal_uart_transmit(...)            HAL_UART_Transmit(__VA_ARGS__)
 /*---------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------*/
+/* stm32l1xx_hal_rtc.h */
+#include "stm32l1xx_hal_rtc.h"
+
+#define st_lib_rtc_handle_typedef				RTC_HandleTypeDef
+
+
+
+
+/*---------------------------------------------------------------------------*/
+
+
 
 /*---------------------------------------------------------------------------*/
 /* stm32l1xx_nucleo.h */

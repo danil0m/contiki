@@ -22,7 +22,13 @@ endif
 # source files: Contiki arch source files
 CONTIKI_CPU_ARCH=   watchdog.c                                \
                     rtimer-arch.c                             \
-                    clock.c				      
+                    clock.c				      				  \
+                    eeprom.c								  \
+                    low-power.c								  \
+                    rtc.c									  \
+
+#eeprom file system
+CONTIKI_TARGET_SOURCEFILES+= cfs-eeprom.c
 
 ifdef GCC 
 CONTIKI_CPU_PORT=   syscalls.c                                  \
