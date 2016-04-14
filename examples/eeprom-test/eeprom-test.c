@@ -54,7 +54,7 @@ print_content()
   for(i = 0; i < 16; i++)
     printf("0x%x\t", i);
   printf
-    ("\n-----------------------------------------------------------------------------------------------------------------------------------------\n");
+    ("\r\n-----------------------------------------------------------------------------------------------------------------------------------------\r\n");
 
   for(addr_row = 0; addr_row < EEPROM_SIZE / 16; ++addr_row) {
     printf("0x%x\t|", addr_row * 16);
@@ -63,7 +63,7 @@ print_content()
       eeprom_read(addr_row * 16 + j, &byte, 1);
       printf("0x%x\t", byte);
     }
-    printf("\n");
+    printf("\r\n");
   }
 }
 
@@ -97,11 +97,11 @@ PROCESS_THREAD(eeprom_test_process, ev, data)
 
   PROCESS_BEGIN();
 
-  printf("eeprom-test: Size = %d bytes\n", EEPROM_SIZE);
+  printf("eeprom-test: Size = %d bytes\r\n", EEPROM_SIZE);
 
   print_content();
 
-  printf("\nErase EEPROM content\n");
+  printf("\r\nErase EEPROM content\r\n");
   erase_content();
 
   print_content();
@@ -120,7 +120,7 @@ PROCESS_THREAD(eeprom_test_process, ev, data)
       error++;
       eeprom_read(addr, &byte, 1);
       printf
-        ("eeprom-test: EEPROM write failure! 0x%x =/= 0x%x at address 0x%x\n",
+        ("eeprom-test: EEPROM write failure! 0x%x =/= 0x%x at address 0x%x\r\n",
          byte, counter, addr);
       break;
     }
@@ -128,14 +128,14 @@ PROCESS_THREAD(eeprom_test_process, ev, data)
   }
 
   if(error)
-    printf("eeprom-test: EEPROM write test FAIL!\n%d errors", error);
+    printf("eeprom-test: EEPROM write test FAIL!\r\n%d errors", error);
   else
-    printf("eeprom-test: EEPROM write test success!\n");
+    printf("eeprom-test: EEPROM write test success!\r\n");
 
 
   print_content();
 
-  printf("Fill memory with buffer\n");
+  printf("Fill memory with buffer\r\n");
 
   for(addr = 0; addr < EEPROM_SIZE; addr += sizeof(buffer)) {
     eeprom_write(addr, ((unsigned char *)buffer), sizeof(buffer));

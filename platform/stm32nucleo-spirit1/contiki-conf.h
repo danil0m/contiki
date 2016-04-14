@@ -34,6 +34,10 @@
 /*---------------------------------------------------------------------------*/
 #include "platform-conf.h"
 /*---------------------------------------------------------------------------*/
+
+#define EEPROM_CONF_SIZE      4096
+#define EEPROM_CONF_END_ADDR 0x08080FFF
+
 #define SLIP_BRIDGE_CONF_NO_PUTCHAR 1
 
 #define NETSTACK_CONF_RDC_CHANNEL_CHECK_RATE 8

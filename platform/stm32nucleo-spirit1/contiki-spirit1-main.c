@@ -65,7 +65,9 @@
 #include "dev/radio-sensor.h"
 /*---------------------------------------------------------------------------*/
 #if NETSTACK_CONF_WITH_IPV6
+#ifndef NO_STACK_PROCESS
 #include "net/ipv6/uip-ds6.h"
+#endif /*NO_STACK_PROCESS*/
 #endif /*NETSTACK_CONF_WITH_IPV6*/
 /*---------------------------------------------------------------------------*/
 #ifdef X_NUCLEO_IKS01A1
@@ -99,10 +101,12 @@ extern unsigned char node_mac[8];
 #endif /* __GNUC__ */
 /*---------------------------------------------------------------------------*/
 #if NETSTACK_CONF_WITH_IPV6
+#ifndef NO_STACK_PROCESS
 PROCINIT(&etimer_process, &tcpip_process);
 #else /*NETSTACK_CONF_WITH_IPV6*/
 PROCINIT(&etimer_process);
 #warning "No TCP/IP process!"
+#endif /*NO_STACK_PROCESS*/
 #endif /*NETSTACK_CONF_WITH_IPV6*/
 /*---------------------------------------------------------------------------*/
 #define BUSYWAIT_UNTIL(cond, max_time) \
@@ -156,6 +160,7 @@ main(int argc, char *argv[])
   energest_init();
 
 #if NETSTACK_CONF_WITH_IPV6
+#ifndef NO_STACK_PROCESS
   memcpy(&uip_lladdr.addr, node_mac, sizeof(uip_lladdr.addr));
 
   queuebuf_init();
@@ -165,6 +170,7 @@ main(int argc, char *argv[])
   uip_ip6addr(&ipaddr, 0xfc00, 0, 0, 0, 0, 0, 0, 0);
   uip_ds6_set_addr_iid(&ipaddr, &uip_lladdr);
   uip_ds6_addr_add(&ipaddr, 0, ADDR_AUTOCONF);
+#endif /*NO_STACK_PROCESS*/
 #endif /* NETSTACK_CONF_WITH_IPV6*/
 
   process_start(&sensors_process, NULL);

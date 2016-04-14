@@ -58,9 +58,10 @@ slip_input_callback(void)
 {
  // PRINTF("SIN: %u\n", uip_len);
   if(uip_buf[0] == '!') {
-    PRINTF("Got configuration message of type %c\n", uip_buf[1]);
+    //PRINTF("Got configuration message of type %c\n", uip_buf[1]);
     uip_clear_buf();
     if(uip_buf[1] == 'P') {
+        PRINTF("Got configuration message of type %c\n", uip_buf[1]);
       uip_ipaddr_t prefix;
       /* Here we set a prefix !!! */
       memset(&prefix, 0, 16);
@@ -71,7 +72,7 @@ slip_input_callback(void)
       set_prefix_64(&prefix);
     }
   } else if (uip_buf[0] == '?') {
-    PRINTF("Got request message of type %c\n", uip_buf[1]);
+    //PRINTF("Got request message of type %c\n", uip_buf[1]);
     if(uip_buf[1] == 'M') {
       char* hexchar = "0123456789abcdef";
       int j;
@@ -106,11 +107,11 @@ output(void)
   if(uip_ipaddr_cmp(&last_sender, &UIP_IP_BUF->srcipaddr)) {
     /* Do not bounce packets back over SLIP if the packet was received
        over SLIP */
-    PRINTF("slip-bridge: Destination off-link but no route src=");
+   /* PRINTF("slip-bridge: Destination off-link but no route src=");
     PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
     PRINTF(" dst=");
     PRINT6ADDR(&UIP_IP_BUF->destipaddr);
-    PRINTF("\n");
+    PRINTF("\n");*/
   } else {
  //   PRINTF("SUT: %u\n", uip_len);
     slip_send();

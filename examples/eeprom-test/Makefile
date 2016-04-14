@@ -1,7 +1,7 @@
 CONTIKI_PROJECT = eeprom-test
 all: $(CONTIKI_PROJECT)
-TARGET=mbxxx
+TARGET=stm32nucleo-spirit1
 
 CONTIKI = ../..
-CONTIKI_WITH_RIME = 1
+CONTIKI_WITH_RIME = 0
 include $(CONTIKI)/Makefile.include

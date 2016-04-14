@@ -34,6 +34,7 @@
 
 #include "cfs/cfs.h"
 #include "dev/eeprom.h"
+#include <stdio.h>
 
 struct filestate {
   int flag;
@@ -52,15 +53,6 @@ static struct filestate file={FLAG_FILE_CLOSED,0,0};
 #endif
 
 #define CFS_EEPROM_EOF_ENABLED
-#ifdef CFS_EEPROM_EOF_ENABLED_OLD
-/*it is the end of file 32 bit word. The default value is 0xFFFFFFFF. Problems could raise if the word it is repeated in the file.
- * Word good for unsigned data that never reach its maximum value  */
-#ifdef CFS_EEPROM_CONF_EOF
-#define CFS_EEPROM_EOF CFS_EEPROM_CONF_EOF
-#else
-#define CFS_EEPROM_EOF 0xFFFFFFFF
-#endif /*CFS_EEPROM_CONF_EOF*/
-#endif /*CFS_EEPROM_EOF_ENABLED*/
 
 #ifdef CFS_EEPROM_EOF_ENABLED
 /* value of the page size, in order to put file info in the last page  */
@@ -81,26 +73,6 @@ struct file_eeprom {
 
 
 /*---------------------------------------------------------------------------*/
-#ifdef CFS_EEPROM_EOF_ENABLED_OLD
-static eeprom_addr_t discover_filesize(){
-	uint32_t endoffile;
-	eeprom_addr_t file_ptr=0;
-		  do{
-
-			  eeprom_read(CFS_EEPROM_OFFSET + file_ptr, &endoffile, sizeof(endoffile));
-		  	  file_ptr++;
-		  }while(endoffile!=CFS_EEPROM_EOF && CFS_EEPROM_OFFSET+file_ptr<EEPROM_SIZE);
-		  /*to discriminate if at the end of the EEPROM it has been found EOF*/
-		  if(endoffile!=CFS_EEPROM_EOF){
-			  return 0;
-		  }
-		  file.filesize=file_ptr-sizeof(endoffile);
-		  return file.filesize;
-}
-
-#endif /*CFS_EEPROM_EOF_ENABLED*/
-
-/*---------------------------------------------------------------------------*/
 int
 cfs_open(const char *n, int f)
 {
@@ -108,9 +80,6 @@ cfs_open(const char *n, int f)
 struct file_eeprom file_info;
 #endif /*CFS_EEPROM_EOF_ENABLED*/
 
-#ifdef CFS_EEPROM_EOF_ENABLED_OLD
-uint32_t eof=CFS_EEPROM_EOF,eof_size=4;
-#endif /*CFS_EEPROM_EOF_ENABLED*/
 
   if(file.flag == FLAG_FILE_CLOSED) {
     file.flag = FLAG_FILE_OPEN;
@@ -119,7 +88,7 @@ uint32_t eof=CFS_EEPROM_EOF,eof_size=4;
 #ifdef CFS_EEPROM_EOF_ENABLED
       if(file.filesize==0 ){
     	  /*checks if there is a valid file*/
-    	  eeprom_read(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE, &file_info, sizeof(file_info));
+    	  eeprom_read(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE, (uint8_t*)&file_info, sizeof(file_info));
     	  printf("fileinfo: filesize:%d\r\n",file_info.filesize);
     	  printf("fileinfo: valid:%x\r\n",file_info.valid);
     	  if(file_info.valid==VALID){
@@ -130,31 +99,19 @@ uint32_t eof=CFS_EEPROM_EOF,eof_size=4;
       	  }
       }
 #endif /*CFS_EEPROM_EOF_ENABLED*/
-#ifdef CFS_EEPROM_EOF_ENABLED_OLD
-      uint32_t endoffile;
-      eeprom_read(CFS_EEPROM_OFFSET + file.file_ptr, &endoffile, sizeof(endoffile));
-      if(file.filesize==0 &&endoffile!=CFS_EEPROM_EOF){
-    	  discover_filesize();
-      }
-#endif /*CFS_EEPROM_EOF_ENABLED*/
     }
     if(f & CFS_WRITE){
       if(f & CFS_APPEND) {
 #ifdef CFS_EEPROM_EOF_ENABLED
       if(file.filesize==0 ){
     	  /*checks if there is a valid file*/
-    	  eeprom_read(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE, &file_info, sizeof(file_info));
+    	  eeprom_read(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE,(uint8_t*) &file_info, sizeof(file_info));
     	  if(file_info.valid==VALID){
     		  file.filesize=file_info.filesize;
       	  }
       }
 #endif /*CFS_EEPROM_EOF_ENABLED*/
 
-#ifdef CFS_EEPROM_EOF_ENABLED_OLD
-    	  if(file.filesize==0){
-    	      	  discover_filesize();
-    	        }
-#endif /*CFS_EEPROM_EOF_ENABLED*/
     	  file.fileptr = file.filesize;
       } else {
 	file.fileptr = 0;
@@ -164,13 +121,9 @@ uint32_t eof=CFS_EEPROM_EOF,eof_size=4;
 	/*sets new info of the file*/
 	file_info.filesize=0;
 	file_info.valid=VALID;
-	eeprom_write(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE, &file_info, sizeof(file_info));
+	eeprom_write(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE, (uint8_t*)&file_info, sizeof(file_info));
 #endif /*CFS_EEPROM_EOF_ENABLED*/
 
-
-#ifdef CFS_EEPROM_EOF_ENABLED_OLD
-eeprom_write(CFS_EEPROM_OFFSET + file.fileptr,&eof, eof_size);
-#endif /*CFS_EEPROM_EOF_ENABLED*/
       }
     }
     return 1;
@@ -188,27 +141,14 @@ cfs_close(int f)
 int
 cfs_read(int f, void *buf, unsigned int len)
 {
-/*#ifdef CFS_EEPROM_EOF_ENABLED
-	struct file_eeprom file_info;
-	if(file.filesize==0){
-		eeprom_read(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE, &file_info, sizeof(file_info));
-		file.filesize=file_info.filesize;
-	}
-#endif*/ /**CFS_EEPROM_EOF_ENABLED*/
   if(f == 1) {
-    eeprom_read(CFS_EEPROM_OFFSET + file.fileptr, buf, len);
-#ifdef CFS_EEPROM_EOF_ENABLED_OLD
-    if(file.fileptr+len>file.filesize){
-    	      	  return -1;
-    	        }
-#endif /*CFS_EEPROM_EOF_ENABLED*/
-
 #ifdef  CFS_EEPROM_EOF_ENABLED
     	  if(file.fileptr+len>file.filesize){
     		    printf("file size: %d\r\n", file.filesize);
     		  return -1;
     	        }
 #endif /*CFS_EEPROM_EOF_ENABLED*/
+    eeprom_read(CFS_EEPROM_OFFSET + file.fileptr, buf, len);
     file.fileptr += len;
     return len;
   }
@@ -220,23 +160,10 @@ cfs_read(int f, void *buf, unsigned int len)
 int
 cfs_write(int f, const void *buf, unsigned int len)
 {
-uint32_t eof_size=0;
+
 #ifdef CFS_EEPROM_EOF_ENABLED
 struct file_eeprom file_info;
-#endif /*CFS_EEPROM_EOF_ENABLED*/
-#ifdef CFS_EEPROM_EOF_ENABLED_OLD
-uint32_t eof=CFS_EEPROM_EOF;
-
-
-eof_size=4;
-#endif /*CFS_EEPROM_EOF_ENABLED*/
-
-  if(f == 1) {
-	  if(file.fileptr+len+eof_size>EEPROM_SIZE){
-	      	return -1;
-	      }
-#ifdef CFS_EEPROM_EOF_ENABLED
-	  /*check if writing in the info page*/
+/*check if writing in the info page*/
 	  if(file.fileptr+len+CFS_EEPROM_PAGE_SIZE>EEPROM_SIZE){
 	  	      	return -1;
 	  	      }
@@ -250,17 +177,10 @@ eof_size=4;
 	/*sets new info of the file*/
     file_info.filesize=file.filesize;
 	file_info.valid=VALID;
-	eeprom_write(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE, &file_info, sizeof(file_info));
+	eeprom_write(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE,(uint8_t*) &file_info, sizeof(file_info));
 #endif /*CFS_EEPROM_EOF_ENABLED*/
-
-#ifdef CFS_EEPROM_EOF_ENABLED_OLD
-    eeprom_write(CFS_EEPROM_OFFSET + file.fileptr,&eof, eof_size);
-#endif /*CFS_EEPROM_EOF_ENABLED*/
-
     return len;
-  } else {
-    return -1;
-  }
+
 }
 /*---------------------------------------------------------------------------*/
 cfs_offset_t
@@ -285,12 +205,7 @@ cfs_seek(int f, cfs_offset_t o, int w)
   }
 #endif /*CFS_EEPROM_EOF_ENABLED*/
 
-#ifdef CFS_EEPROM_EOF_ENABLED_OLD
-  if(w==CFS_SEEK_END && f == 1){
-	  file.fileptr=file.filesize-o;
-	  return o;
-  }
-#endif /*CFS_EEPROM_EOF_ENABLED*/
+
   else {
     return -1;
   }
@@ -305,7 +220,7 @@ struct file_eeprom file_info;
 	file.filesize=0;
 	file_info.filesize=0;
 	file_info.valid=VALID;
-	eeprom_write(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE, &file_info, sizeof(file_info));
+	eeprom_write(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE, (uint8_t*)&file_info, sizeof(file_info));
 
 
 #endif /*CFS_EEPROM_EOF_ENABLED*/

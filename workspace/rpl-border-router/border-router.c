@@ -51,11 +51,16 @@
 #include <string.h>
 #include <ctype.h>
 
-#define DEBUG DEBUG_NONE
+#include "net/ipv6/uip-ds6.h"
+#include "rest-engine.h"
+
+#define DEBUG DEBUG_PRINT
 #include "net/ip/uip-debug.h"
 
 static uip_ipaddr_t prefix;
 static uint8_t prefix_set;
+static struct uip_ds6_notification route_callbk_struct;
+static void route_notification_callback(int event,uip_ipaddr_t *route,uip_ipaddr_t *nexthop,int num_routes);
 
 PROCESS(border_router_process, "Border router process");
 
@@ -76,14 +81,14 @@ AUTOSTART_PROCESSES(&border_router_process,&webserver_nogui_process);
  * enough program flash is available.
  */
 #define WEBSERVER_CONF_LOADTIME 0
-#define WEBSERVER_CONF_FILESTATS 0
-#define WEBSERVER_CONF_NEIGHBOR_STATUS 0
+#define WEBSERVER_CONF_FILESTATS 1
+#define WEBSERVER_CONF_NEIGHBOR_STATUS 1
 /* Adding links requires a larger RAM buffer. To avoid static allocation
  * the stack can be used for formatting; however tcp retransmissions
  * and multiple connections can result in garbled segments.
  * TODO:use PSOCk_GENERATOR_SEND and tcp state storage to fix this.
  */
-#define WEBSERVER_CONF_ROUTE_LINKS 0
+#define WEBSERVER_CONF_ROUTE_LINKS 1
 #if WEBSERVER_CONF_ROUTE_LINKS
 #define BUF_USES_STACK 1
 #endif
@@ -222,9 +227,9 @@ PT_THREAD(generate_routes(struct httpd_state *s))
 
 #if BUF_USES_STACK
 #if WEBSERVER_CONF_ROUTE_LINKS
-    ADD("<a href=http://[");
+    ADD("<a href=coap://[");
     ipaddr_add(&r->ipaddr);
-    ADD("]/status.shtml>");
+    ADD("]/>");
     ipaddr_add(&r->ipaddr);
     ADD("</a>");
 #else
@@ -332,10 +337,14 @@ set_prefix_64(uip_ipaddr_t *prefix_64)
   }
 }
 /*---------------------------------------------------------------------------*/
+void route_notification_callback(int event,uip_ipaddr_t *route,uip_ipaddr_t *nexthop,int num_routes){
+    uip_debug_ipaddr_print(route);
+    printf("\r\n");
+}
+/*---------------------------------------------------------------------------*/
 PROCESS_THREAD(border_router_process, ev, data)
 {
   static struct etimer et;
-
   PROCESS_BEGIN();
 
 /* While waiting for the prefix to be sent through the SLIP connection, the future
@@ -351,6 +360,8 @@ PROCESS_THREAD(border_router_process, ev, data)
   SENSORS_ACTIVATE(button_sensor);
 
   PRINTF("RPL-Border router started\n");
+ uip_ds6_notification_add(&route_callbk_struct, route_notification_callback);
+
 #if 0
    /* The border router runs with a 100% duty cycle in order to ensure high
      packet reception rates.
@@ -374,6 +385,9 @@ PROCESS_THREAD(border_router_process, ev, data)
 #if DEBUG || 1
   print_local_addresses();
 #endif
+  /* Initialize the REST engine. */
+   rest_init_engine();
+
 
   while(1) {
     PROCESS_YIELD();

@@ -9,7 +9,7 @@
 
 unsigned char eeprom[EEPROM_SIZE] __attribute__((section(".eeprom")));
 
-
+/*param: size in byte*/
 void eeprom_write(eeprom_addr_t addr, unsigned char *buf, int size){
 
 	int i;
