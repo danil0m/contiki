@@ -84,34 +84,36 @@ PROCESS_THREAD(er_example_server, ev, data)
 
   /*when wake-up from standby, select next alarm*/
   fp=cfs_open("file", CFS_READ);
-  do{
-	  if(cfs_read(fp,&last_alarm, sizeof(Alarm_Typedef_t))==-1){
-  		  /*if not 0 =-1 else 0*/
-		  read_file=-1*read_file;
-  		  break;
-	  }
-  	  if(read_file==0){
-  		  first_alarm=last_alarm;
-  		  read_file=1;
+  if(fp!=-1){
+  	  do{
+  		  if(cfs_read(fp,&last_alarm, sizeof(Alarm_Typedef_t))==-1){
+  			  /*if not 0 =-1 else 0*/
+  			  read_file=-1*read_file;
+  			  break;
+  		  }
+  		  if(read_file==0){
+  			  first_alarm=last_alarm;
+  			  read_file=1;
+  		  }
+
+  	  }while(!Compare_Alarm(last_alarm));
+
+  	  if(read_file==-1){
+  		  /*not found an alarm greater than time set the first*/
+  		  Set_Alarm(first_alarm.hour,first_alarm.minute,first_alarm.second);
+  		  last_alarm=GetAlarm();
+  		  printf("alarm set: %d:%d:%d\r\n", last_alarm.hour, last_alarm.minute, last_alarm.second);
   	  }
-
-  	}while(!Compare_Alarm(last_alarm));
-
-  if(read_file==-1){
-	  /*not found an alarm greater than time set the first*/
-	  Set_Alarm(first_alarm.hour,first_alarm.minute,first_alarm.second);
-  	  last_alarm=GetAlarm();
-      printf("alarm set: %d:%d:%d\r\n", last_alarm.hour, last_alarm.minute, last_alarm.second);
+  	  else if(read_file==1){
+  		  Set_Alarm(last_alarm.hour,last_alarm.minute,last_alarm.second);
+  		  last_alarm=GetAlarm();
+  		  printf("alarm set: %d:%d:%d\r\n", last_alarm.hour, last_alarm.minute, last_alarm.second);
+  	  }
+  	  else {
+  		  printf("no alarm found\r\n");
+  	  }
+  	  cfs_close(fp);
   }
-  else if(read_file==1){
-	  Set_Alarm(last_alarm.hour,last_alarm.minute,last_alarm.second);
-  	  last_alarm=GetAlarm();
-  	  printf("alarm set: %d:%d:%d\r\n", last_alarm.hour, last_alarm.minute, last_alarm.second);
-	}
-  else {
-	  printf("no alarm found\r\n");
-  }
-
 
   PROCESS_PAUSE();
 
