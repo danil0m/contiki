@@ -1,0 +1,510 @@
+RPL: Sending a DIS to ff02::1a
+sicslowpan output: sending packet len 46
+before compression (6): 6000000000063a40fe800000000000000400f9ffcdce3231ff02000000000000000000000000001a9b00
+sicslowpan output: header of len 4
+csma: send_packet, queue length 1, free packets 7
+csma: preparing number 0 0x20002314, queue len 1
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1
+mac: sent after 1 tx
+csma: rexmit ok 1
+csma: free_queued_packet, queue length 0, free packets 8
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1
+mac: sent after 1 tx
+sicslowpan input: IPHC
+IPHC: next header inline: 58
+Uncompressing 2 + 0 => fe80::500:f8ff:8b5e:74a1
+Uncompressing 2 + 1 => ff02::1a
+sicslowpan_init processed_ip_in_len 0, sicslowpan_len 116
+sicslowpan input: IP packet ready (length 116)
+after decompression 76:60000000004c3a40fe800000000000000500f8ff8b5e74a1ff02000000000000000000000000001a9b010
+RPL: Received a DIO from fe80::500:f8ff:8b5e:74a1
+RPL: Neighbor added to neighbor cache fe80::500:f8ff:8b5e:74a1, 07:00:f8:ff:8b:5e:74:a1
+RPL: Incoming DIO (id, ver, rank) = (30,88,768)
+RPL: Incoming DIO (dag_id, pref) = (aaaa::b00:f6ff:b8b5:474a, 0)
+RPL: DIO option 4, length: 14                                                                               
+RPL: DAG conf:dbl=8, min=12 red=10 maxinc=1792 mininc=256 ocp=1 d_l=5 l_u=60                                
+RPL: DIO option 8, length: 30                                                                               
+RPL: Copying prefix information                                                                             
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending a multicast-DIO with rank 1280                                                                 
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231ff02000000000000000000000000001a9b0
+sicslowpan output: header of len 4                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+RPL: Sending DAO with prefix aaaa::400:f9ff:cdce:3231 to fe80::500:f8ff:8b5e:74a1                           
+sicslowpan output: sending packet len 90                                                                    
+before compression (50): 6000000000323a40fe800000000000000400f9ffcdce3231fe800000000000000500f8ff8b5e74a19b5
+sicslowpan output: header of len 3                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending a multicast-DIO with rank 1024                                                                 
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231ff02000000000000000000000000001a9b0
+sicslowpan output: header of len 4                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending a multicast-DIO with rank 1024                                                                 
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231ff02000000000000000000000000001a9b0
+sicslowpan output: header of len 4                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+sicslowpan input: IPHC                                                                                      
+IPHC: next header inline: 58                                                                                
+Uncompressing 2 + 0 => fe80::500:f8ff:8b5e:74a1                                                             
+Uncompressing 2 + 1 => ff02::1a                                                                             
+sicslowpan_init processed_ip_in_len 0, sicslowpan_len 116                                                   
+sicslowpan input: IP packet ready (length 116)                                                              
+after decompression 76:60000000004c3a40fe800000000000000500f8ff8b5e74a1ff02000000000000000000000000001a9b010
+RPL: Received a DIO from fe80::500:f8ff:8b5e:74a1                                                           
+RPL: Neighbor already in neighbor cache                                                                     
+RPL: Incoming DIO (id, ver, rank) = (30,88,768)                                                             
+RPL: Incoming DIO (dag_id, pref) = (aaaa::b00:f6ff:b8b5:474a, 0)                                            
+RPL: DIO option 4, length: 14                                                                               
+RPL: DAG conf:dbl=8, min=12 red=10 maxinc=1792 mininc=256 ocp=1 d_l=5 l_u=60                                
+RPL: DIO option 8, length: 30                                                                               
+RPL: Copying prefix information                                                                             
+RPL: Sending DAO with prefix aaaa::400:f9ff:cdce:3231 to fe80::500:f8ff:8b5e:74a1                           
+sicslowpan output: sending packet len 90                                                                    
+before compression (50): 6000000000323a40fe800000000000000400f9ffcdce3231fe800000000000000500f8ff8b5e74a19b5
+sicslowpan output: header of len 3                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending a multicast-DIO with rank 1024                                                                 
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231ff02000000000000000000000000001a9b0
+sicslowpan output: header of len 4                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending a multicast-DIO with rank 1024                                                                 
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231ff02000000000000000000000000001a9b0
+sicslowpan output: header of len 4                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending unicast-DIO with rank 1024 to fe80::500:f8ff:8b5e:74a1                                         
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231fe800000000000000500f8ff8b5e74a19b0
+sicslowpan output: header of len 3                                                                          
+uip_len: 116, fragments: 2, free bufs: 7                                                                    
+Fragmentation sending packet len 116                                                                        
+sicslowpan output: 1rst fragment (len 64, tag 1)                                                            
+csma: send_packet, queue length 1, free packets 7                                                           
+sicslowpan output: fragment (offset 13, len 12, tag 1)                                                      
+csma: send_packet, queue length 2, free packets 6                                                           
+csma: preparing number 0 0x20002314, queue len 2                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 1, free packets 7                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+sicslowpan input: IPHC                                                                                      
+IPHC: next header inline: 58                                                                                
+Uncompressing 2 + 0 => fe80::500:f8ff:8b5e:74a1                                                             
+Uncompressing 2 + 1 => ff02::1a                                                                             
+sicslowpan_init processed_ip_in_len 0, sicslowpan_len 116                                                   
+sicslowpan input: IP packet ready (length 116)                                                              
+after decompression 76:60000000004c3a40fe800000000000000500f8ff8b5e74a1ff02000000000000000000000000001a9b010
+RPL: Received a DIO from fe80::500:f8ff:8b5e:74a1                                                           
+RPL: Neighbor already in neighbor cache                                                                     
+RPL: Incoming DIO (id, ver, rank) = (30,88,768)                                                             
+RPL: Incoming DIO (dag_id, pref) = (aaaa::b00:f6ff:b8b5:474a, 0)                                            
+RPL: DIO option 4, length: 14                                                                               
+RPL: DAG conf:dbl=8, min=12 red=10 maxinc=1792 mininc=256 ocp=1 d_l=5 l_u=60                                
+RPL: DIO option 8, length: 30                                                                               
+RPL: Copying prefix information                                                                             
+RPL: Sending DAO with prefix aaaa::400:f9ff:cdce:3231 to fe80::500:f8ff:8b5e:74a1                           
+sicslowpan output: sending packet len 90                                                                    
+before compression (50): 6000000000323a40fe800000000000000400f9ffcdce3231fe800000000000000500f8ff8b5e74a19b5
+sicslowpan output: header of len 3                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+sicslowpan input: IPHC                                                                                      
+IPHC: next header inline: 58                                                                                
+Uncompressing 2 + 0 => fe80::500:f8ff:8b5e:74a1                                                             
+Uncompressing 2 + 1 => ff02::1a                                                                             
+sicslowpan_init processed_ip_in_len 0, sicslowpan_len 116                                                   
+sicslowpan input: IP packet ready (length 116)                                                              
+after decompression 76:60000000004c3a40fe800000000000000500f8ff8b5e74a1ff02000000000000000000000000001a9b010
+RPL: Received a DIO from fe80::500:f8ff:8b5e:74a1                                                           
+RPL: Neighbor already in neighbor cache                                                                     
+RPL: Incoming DIO (id, ver, rank) = (30,88,768)                                                             
+RPL: Incoming DIO (dag_id, pref) = (aaaa::b00:f6ff:b8b5:474a, 0)                                            
+RPL: DIO option 4, length: 14                                                                               
+RPL: DAG conf:dbl=8, min=12 red=10 maxinc=1792 mininc=256 ocp=1 d_l=5 l_u=60                                
+RPL: DIO option 8, length: 30                                                                               
+RPL: Copying prefix information                                                                             
+RPL: Sending DAO with prefix aaaa::400:f9ff:cdce:3231 to fe80::500:f8ff:8b5e:74a1                           
+sicslowpan output: sending packet len 90                                                                    
+before compression (50): 6000000000323a40fe800000000000000400f9ffcdce3231fe800000000000000500f8ff8b5e74a19b5
+sicslowpan output: header of len 3                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+sicslowpan input: IPHC                                                                                      
+IPHC: next header inline: 58                                                                                
+Uncompressing 2 + 0 => fe80::500:f8ff:8b5e:74a1                                                             
+Uncompressing 2 + 1 => ff02::1a                                                                             
+sicslowpan_init processed_ip_in_len 0, sicslowpan_len 116                                                   
+sicslowpan input: IP packet ready (length 116)                                                              
+after decompression 76:60000000004c3a40fe800000000000000500f8ff8b5e74a1ff02000000000000000000000000001a9b010
+RPL: Received a DIO from fe80::500:f8ff:8b5e:74a1                                                           
+RPL: Neighbor already in neighbor cache                                                                     
+RPL: Incoming DIO (id, ver, rank) = (30,88,768)                                                             
+RPL: Incoming DIO (dag_id, pref) = (aaaa::b00:f6ff:b8b5:474a, 0)                                            
+RPL: DIO option 4, length: 14                                                                               
+RPL: DAG conf:dbl=8, min=12 red=10 maxinc=1792 mininc=256 ocp=1 d_l=5 l_u=60                                
+RPL: DIO option 8, length: 30                                                                               
+RPL: Copying prefix information                                                                             
+RPL: Sending DAO with prefix aaaa::400:f9ff:cdce:3231 to fe80::500:f8ff:8b5e:74a1                           
+sicslowpan output: sending packet len 90                                                                    
+before compression (50): 6000000000323a40fe800000000000000400f9ffcdce3231fe800000000000000500f8ff8b5e74a19b5
+sicslowpan output: header of len 3                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+sicslowpan input: FRAG1 size 116, tag 17, offset 0)                                                         
+sicslowpan input: INIT FRAGMENTATION (len 116, tag 17)                                                      
+sicslowpan input: IPHC                                                                                      
+IPHC: next header inline: 58                                                                                
+Uncompressing 2 + 0 => fe80::a00:f7ff:94d1:6b2e                                                             
+Uncompressing 2 + 0 => fe80::400:f9ff:cdce:3231                                                             
+processed_ip_in_len 104, packetbuf_payload_len 64                                                           
+sicslowpan_init processed_ip_in_len 104, sicslowpan_len 116                                                 
+sicslowpan input: FRAGN size 116, tag 17, offset 13)                                                        
+last_fragment?: processed_ip_in_len 104 packetbuf_payload_len 12 frag_size 116                              
+processed_ip_in_len 116, packetbuf_payload_len 12                                                           
+sicslowpan_init processed_ip_in_len 116, sicslowpan_len 116                                                 
+sicslowpan input: IP packet ready (length 116)                                                              
+after decompression 76:60000000004c3a40fe800000000000000a00f7ff94d16b2efe800000000000000400f9ffcdce32319b010
+RPL: Received a DIO from fe80::a00:f7ff:94d1:6b2e                                                           
+RPL: Neighbor added to neighbor cache fe80::a00:f7ff:94d1:6b2e, 08:00:f7:ff:94:d1:6b:2e                     
+RPL: Incoming DIO (id, ver, rank) = (30,88,65535)                                                           
+RPL: Incoming DIO (dag_id, pref) = (aaaa::b00:f6ff:b8b5:474a, 0)                                            
+RPL: DIO option 4, length: 14                                                                               
+RPL: DAG conf:dbl=8, min=12 red=10 maxinc=1792 mininc=256 ocp=1 d_l=5 l_u=60                                
+RPL: DIO option 8, length: 30                                                                               
+RPL: Copying prefix information                                                                             
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending a multicast-DIO with rank 1024                                                                 
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231ff02000000000000000000000000001a9b0
+sicslowpan output: header of len 4                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending a multicast-DIO with rank 1024                                                                 
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231ff02000000000000000000000000001a9b0
+sicslowpan output: header of len 4                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+sicslowpan input: FRAGN size 116, tag 3131, offset 13)                                                      
+last_fragment?: processed_ip_in_len 0 packetbuf_payload_len 12 frag_size 116                                
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending a multicast-DIO with rank 1024                                                                 
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231ff02000000000000000000000000001a9b0
+sicslowpan output: header of len 4                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+sicslowpan input: IPHC                                                                                      
+IPHC: next header inline: 58                                                                                
+Uncompressing 2 + 0 => fe80::500:f8ff:8b5e:74a1                                                             
+Uncompressing 2 + 1 => ff02::1a                                                                             
+sicslowpan_init processed_ip_in_len 0, sicslowpan_len 116                                                   
+sicslowpan input: IP packet ready (length 116)                                                              
+after decompression 76:60000000004c3a40fe800000000000000500f8ff8b5e74a1ff02000000000000000000000000001a9b010
+RPL: Received a DIO from fe80::500:f8ff:8b5e:74a1                                                           
+RPL: Neighbor already in neighbor cache                                                                     
+RPL: Incoming DIO (id, ver, rank) = (30,88,768)                                                             
+RPL: Incoming DIO (dag_id, pref) = (aaaa::b00:f6ff:b8b5:474a, 0)                                            
+RPL: DIO option 4, length: 14                                                                               
+RPL: DAG conf:dbl=8, min=12 red=10 maxinc=1792 mininc=256 ocp=1 d_l=5 l_u=60                                
+RPL: DIO option 8, length: 30                                                                               
+RPL: Copying prefix information                                                                             
+RPL: Sending DAO with prefix aaaa::400:f9ff:cdce:3231 to fe80::500:f8ff:8b5e:74a1                           
+sicslowpan output: sending packet len 90                                                                    
+before compression (50): 6000000000323a40fe800000000000000400f9ffcdce3231fe800000000000000500f8ff8b5e74a19b5
+sicslowpan output: header of len 3                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending unicast-DIO with rank 1024 to fe80::a00:f7ff:94d1:6b2e                                         
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231fe800000000000000a00f7ff94d16b2e9b0
+sicslowpan output: header of len 3                                                                          
+uip_len: 116, fragments: 2, free bufs: 7                                                                    
+Fragmentation sending packet len 116                                                                        
+sicslowpan output: 1rst fragment (len 64, tag 2)                                                            
+csma: send_packet, queue length 1, free packets 7                                                           
+sicslowpan output: fragment (offset 13, len 12, tag 2)                                                      
+csma: send_packet, queue length 2, free packets 6                                                           
+csma: preparing number 0 0x20002314, queue len 2                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 1, free packets 7                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending a multicast-DIO with rank 1024                                                                 
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231ff02000000000000000000000000001a9b0
+sicslowpan output: header of len 4                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending a multicast-DIO with rank 1024                                                                 
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231ff02000000000000000000000000001a9b0
+sicslowpan output: header of len 4                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+sicslowpan input: IPHC                                                                                      
+IPHC: next header inline: 58                                                                                
+Uncompressing 2 + 0 => fe80::500:f8ff:8b5e:74a1                                                             
+Uncompressing 2 + 1 => ff02::1a                                                                             
+sicslowpan_init processed_ip_in_len 0, sicslowpan_len 116                                                   
+sicslowpan input: IP packet ready (length 116)                                                              
+after decompression 76:60000000004c3a40fe800000000000000500f8ff8b5e74a1ff02000000000000000000000000001a9b010
+RPL: Received a DIO from fe80::500:f8ff:8b5e:74a1                                                           
+RPL: Neighbor already in neighbor cache                                                                     
+RPL: Incoming DIO (id, ver, rank) = (30,88,768)                                                             
+RPL: Incoming DIO (dag_id, pref) = (aaaa::b00:f6ff:b8b5:474a, 0)                                            
+RPL: DIO option 4, length: 14                                                                               
+RPL: DAG conf:dbl=8, min=12 red=10 maxinc=1792 mininc=256 ocp=1 d_l=5 l_u=60                                
+RPL: DIO option 8, length: 30                                                                               
+RPL: Copying prefix information                                                                             
+RPL: Sending DAO with prefix aaaa::400:f9ff:cdce:3231 to fe80::500:f8ff:8b5e:74a1                           
+sicslowpan output: sending packet len 90                                                                    
+before compression (50): 6000000000323a40fe800000000000000400f9ffcdce3231fe800000000000000500f8ff8b5e74a19b5
+sicslowpan output: header of len 3                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending unicast-DIO with rank 1024 to fe80::a00:f7ff:94d1:6b2e                                         
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231fe800000000000000a00f7ff94d16b2e9b0
+sicslowpan output: header of len 3                                                                          
+uip_len: 116, fragments: 2, free bufs: 7                                                                    
+Fragmentation sending packet len 116                                                                        
+sicslowpan output: 1rst fragment (len 64, tag 3)                                                            
+csma: send_packet, queue length 1, free packets 7                                                           
+sicslowpan output: fragment (offset 13, len 12, tag 3)                                                      
+csma: send_packet, queue length 2, free packets 6                                                           
+csma: preparing number 0 0x20002314, queue len 2                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 1, free packets 7                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+RPL: Sending prefix info in DIO for aaaa::                                                                  
+RPL: Sending a multicast-DIO with rank 1024                                                                 
+sicslowpan output: sending packet len 116                                                                   
+before compression (76): 60000000004c3a40fe800000000000000400f9ffcdce3231ff02000000000000000000000000001a9b0
+sicslowpan output: header of len 4                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+sicslowpan input: IPHC                                                                                      
+IPHC: next header inline: 58                                                                                
+Uncompressing 2 + 0 => fe80::500:f8ff:8b5e:74a1                                                             
+Uncompressing 2 + 1 => ff02::1a                                                                             
+sicslowpan_init processed_ip_in_len 0, sicslowpan_len 116                                                   
+sicslowpan input: IP packet ready (length 116)                                                              
+after decompression 76:60000000004c3a40fe800000000000000500f8ff8b5e74a1ff02000000000000000000000000001a9b010
+RPL: Received a DIO from fe80::500:f8ff:8b5e:74a1                                                           
+RPL: Neighbor already in neighbor cache                                                                     
+RPL: Incoming DIO (id, ver, rank) = (30,88,768)                                                             
+RPL: Incoming DIO (dag_id, pref) = (aaaa::b00:f6ff:b8b5:474a, 0)                                            
+RPL: DIO option 4, length: 14                                                                               
+RPL: DAG conf:dbl=8, min=12 red=10 maxinc=1792 mininc=256 ocp=1 d_l=5 l_u=60                                
+RPL: DIO option 8, length: 30                                                                               
+RPL: Copying prefix information                                                                             
+sicslowpan input: FRAG1 size 116, tag 3133, offset 0)                                                       
+sicslowpan input: INIT FRAGMENTATION (len 116, tag 3133)                                                    
+sicslowpan input: IPHC                                                                                      
+IPHC: next header inline: 58                                                                                
+Uncompressing 2 + 0 => fe80::500:f8ff:8b5e:74a1                                                             
+Uncompressing 2 + 0 => fe80::400:f9ff:cdce:3231                                                             
+processed_ip_in_len 104, packetbuf_payload_len 64                                                           
+sicslowpan_init processed_ip_in_len 104, sicslowpan_len 116                                                 
+RPL: Sending DAO with prefix aaaa::400:f9ff:cdce:3231 to fe80::500:f8ff:8b5e:74a1                           
+sicslowpan output: sending packet len 90                                                                    
+before compression (50): 6000000000323a40fe800000000000000400f9ffcdce3231fe800000000000000500f8ff8b5e74a19b5
+sicslowpan output: header of len 3                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+sicslowpan input: IPHC                                                                                      
+IPHC: next header inline: 58                                                                                
+Uncompressing 2 + 0 => fe80::500:f8ff:8b5e:74a1                                                             
+Uncompressing 2 + 1 => ff02::1a                                                                             
+sicslowpan_init processed_ip_in_len 0, sicslowpan_len 116                                                   
+sicslowpan input: IP packet ready (length 116)                                                              
+after decompression 76:60000000004c3a40fe800000000000000500f8ff8b5e74a1ff02000000000000000000000000001a9b010
+RPL: Received a DIO from fe80::500:f8ff:8b5e:74a1                                                           
+RPL: Neighbor already in neighbor cache                                                                     
+RPL: Incoming DIO (id, ver, rank) = (30,88,768)                                                             
+RPL: Incoming DIO (dag_id, pref) = (aaaa::b00:f6ff:b8b5:474a, 0)                                            
+RPL: DIO option 4, length: 14                                                                               
+RPL: DAG conf:dbl=8, min=12 red=10 maxinc=1792 mininc=256 ocp=1 d_l=5 l_u=60                                
+RPL: DIO option 8, length: 30                                                                               
+RPL: Copying prefix information                                                                             
+RPL: Sending DAO with prefix aaaa::400:f9ff:cdce:3231 to fe80::500:f8ff:8b5e:74a1                           
+sicslowpan output: sending packet len 90                                                                    
+before compression (50): 6000000000323a40fe800000000000000400f9ffcdce3231fe800000000000000500f8ff8b5e74a19b5
+sicslowpan output: header of len 3                                                                          
+csma: send_packet, queue length 1, free packets 7                                                           
+csma: preparing number 0 0x20002314, queue len 1                                                            
+mac_callback_t 0x80144a5 ptr 0x2000229c status 0 num_tx 1                                                   
+mac: sent after 1 tx                                                                                        
+csma: rexmit ok 1                                                                                           
+csma: free_queued_packet, queue length 0, free packets 8                                                    
+mac_callback_t 0x8018eb5 ptr 0x0 status 0 num_tx 1                                                          
+mac: sent after 1 tx                                                                                        
+sicslowpan input: IPHC                                                                                      
+IPHC: next header inline: 58                                                                                
+Uncompressing 2 + 0 => fe80::500:f8ff:8b5e:74a1                                                             
+Uncompressing 2 + 1 => ff02::1a                                                                             
+sicslowpan_init processed_ip_in_len 0, sicslowpan_len 116                                                   
+sicslowpan input: IP packet ready (length 116)                                                              
+after decompression 76:60000000004c3a40fe800000000000000500f8ff8b5e74a1ff02000000000000000000000000001a9b010
+RPL: ReceiveRP

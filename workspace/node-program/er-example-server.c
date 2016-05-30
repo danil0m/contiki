@@ -45,6 +45,19 @@
 #include "rtc.h"
 #include "cfs.h"
 #include "low-power.h"
+#include "rpl.h"
+#include "net/ip/uip-debug.h"
+#include "etimer.h"
+#include "contiki.h"
+#include "er-coap.h"
+#include "er-coap-transactions.h"
+#include <stdlib.h>
+#include "dev/button-sensor.h"
+#include "net/ip/tcpip.h"
+#include "process.h"
+#include "net/ipv6/uip-ds6-route.h"
+#include "dev/leds.h"
+
 
 #define DEBUG 0
 #if DEBUG
@@ -71,17 +84,32 @@ extern resource_t
   res_date,
   res_rssi,
   res_lqi,
-  res_radio;
+  res_radio,
+  res_sendpacket,
+  res_separate,
+  res_sync;
 
+struct etimer event_timer;
+
+static void printok(void* data, void* response){
+	printf("ok\r\n");
+
+}
+
+
+int i=0;
+extern struct process shutdown_process;
 PROCESS(er_example_server, "Erbium Example Server");
-AUTOSTART_PROCESSES(&er_example_server);
+AUTOSTART_PROCESSES(&er_example_server, &shutdown_process);
 
 PROCESS_THREAD(er_example_server, ev, data)
 {
   PROCESS_BEGIN();
+
   int read_file=0,fp;
   Alarm_Typedef_t first_alarm,last_alarm;
 
+  //dis_output(NULL);
   /*when wake-up from standby, select next alarm*/
   fp=cfs_open("file", CFS_READ);
   if(fp!=-1){
@@ -118,7 +146,7 @@ PROCESS_THREAD(er_example_server, ev, data)
   PROCESS_PAUSE();
 
   PRINTF("Starting Erbium Example Server\n");
-
+  leds_on(LEDS_RED);
 #ifdef RF_CHANNEL
   PRINTF("RF channel: %u\n", RF_CHANNEL);
 #endif
@@ -141,7 +169,7 @@ PROCESS_THREAD(er_example_server, ev, data)
    * All static variables are the same for each URI path.
    */
   rest_activate_resource(&res_hello, "test/hello");
-  rest_activate_resource(&res_low_power, "node/enter_standby");
+  rest_activate_resource(&res_low_power, "node/sdn");
   rest_activate_resource(&res_alarms, "node/alarms");
   rest_activate_resource(&res_sensors, "node/sensors");
   rest_activate_resource(&res_time, "node/time");
@@ -149,11 +177,91 @@ PROCESS_THREAD(er_example_server, ev, data)
   rest_activate_resource(&res_rssi, "node/rssi");
   rest_activate_resource(&res_lqi, "node/lqi");
   rest_activate_resource(&res_radio, "node/radio");
+  rest_activate_resource(&res_sendpacket, "node/sendpacket");
+  rest_activate_resource(&res_separate, "node/separate");
+  rest_activate_resource(&res_sync, "node/sync");
 
 
   /* Define application-specific events here. */
   while(1) {
+
+	  if(rpl_get_instance(RPL_DEFAULT_INSTANCE)!=NULL){
+	        	if(rpl_get_instance(RPL_DEFAULT_INSTANCE)->current_dag!=NULL){
+	        		printf("grounded\r\n");
+	        		coap_transaction_t* trans;
+	        		  coap_packet_t packet[1];
+	        		  uip_ipaddr_t addr;
+	        		  printf("root: ");
+	        		  uip_debug_ipaddr_print(&(rpl_get_instance(RPL_DEFAULT_INSTANCE)->current_dag->dag_id));
+	        		  printf("\r\n");
+	        		  uip_ip6addr_u8(&addr, 0xaa,0xaa,0x0,0x0,0x0,0x0,0x0,0x0, 0x0, 0x00,0x0,0x0, 0x0,0x0, 0x0,0x1);
+	        		  uip_debug_ipaddr_print(&addr);
+	        		  printf("\r\n");
+	        		  coap_init_message(packet, COAP_TYPE_CON, COAP_PUT, coap_get_mid());
+	        		  coap_set_header_uri_path(packet, "sensors/");
+	        		  uint8_t token[4];
+	        		  uint16_t rand_numb;
+	        		  rand_numb=rand();
+	        		  printf("rand1: %x\r\n", rand_numb);
+	        		  token[0]=rand_numb/256;
+	        		  token[1]=rand_numb%256;
+	        		  rand_numb=rand();
+	        		  printf("rand2: %x\r\n", rand_numb);
+	        		  token[2]=rand_numb/256;
+	        		  token[3]=rand_numb%256;
+	        		  printf("token: ");
+	        		  for(i=0;i<4;i++){
+	        			  printf("%x", token[i]);
+	        		  }
+	        		  printf("\r\n");
+	        		  coap_set_token(packet, token, 4);
+	        		  trans= coap_new_transaction(packet->mid, &addr, UIP_HTONS(5683) );
+	        		  trans->callback=printok;
+	        		  //Warning: No check for serialization error.
+	        		  trans->packet_len = coap_serialize_message(packet, trans->packet);
+	        		  printf("packet token: ");
+	        		  for(i=0;i<packet->token_len;i++){
+	        			  printf("%x", packet->token[i]);
+	        		  }
+	        		  printf("\r\n");
+	        		  printf("packet: ");
+	        		  for(i=0;i<trans->packet_len; i++){
+	        			  if(trans->packet[i]<0x41){
+	        			  printf("0x%x", trans->packet[i]);
+	        			  }else{
+	        				  printf("%c", trans->packet[i]);
+
+	        			  }
+	        		  }
+	        		  printf("\r\n");
+	        		  coap_send_transaction(trans);
+/*
+	        		  Time_Typedef_t time1;
+	        		  	    time1=RTC_GetTime();
+	        		  	    printf("time init: %d:%d:%d.%d\r\n", time1.hour,time1.minute,time1.second,time1.millisecond);
+	        		  	    for(i=0;i<1000000;++i){
+	        		  			if(!(i%1000)){
+	        		  			PROCESS_CURRENT()->needspoll=1;
+	        		  			PROCESS_WAIT_EVENT();
+	        		  			}
+	        		  	    }
+	        		  	    Time_Typedef_t time2;
+	        		  	    time2=RTC_GetTime();
+	        		  	    printf("time end: %d:%d:%d.%d\r\n", time2.hour,time2.minute,time2.second,time2.millisecond);*/
+
+	        	}
+	        	else{
+	        	}
+	    }else{
+	    	process_poll(PROCESS_CURRENT());
+	        }
     PROCESS_WAIT_EVENT();
+    if(ev == sensors_event && data == &button_sensor) {
+
+      /* Also call the separate response example handler. */
+      res_separate.resume();
+    }
+
 
   }                             /* while (1) */
 

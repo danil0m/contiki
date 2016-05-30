@@ -42,7 +42,7 @@
 #include <string.h>
 #include "er-coap-engine.h"
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -69,7 +69,7 @@ coap_receive(void)
 {
   erbium_status_code = NO_ERROR;
 
-  PRINTF("handle_incoming_data(): received uip_datalen=%u \n",
+  PRINTF("handle_incoming_data(): received uip_datalen=%u \r\n",
          (uint16_t)uip_datalen());
 
   /* static declaration reduces stack peaks and program code size */
@@ -81,7 +81,7 @@ coap_receive(void)
 
     PRINTF("receiving UDP datagram from: ");
     PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
-    PRINTF(":%u\n  Length: %u\n", uip_ntohs(UIP_UDP_BUF->srcport),
+    PRINTF(":%u\r\n  Length: %u\r\n", uip_ntohs(UIP_UDP_BUF->srcport),
            uip_datalen());
 
     erbium_status_code =
@@ -91,10 +91,10 @@ coap_receive(void)
 
       /*TODO duplicates suppression, if required by application */
 
-      PRINTF("  Parsed: v %u, t %u, tkl %u, c %u, mid %u\n", message->version,
+      PRINTF("  Parsed: v %u, t %u, tkl %u, c %u, mid %u\r\n", message->version,
              message->type, message->token_len, message->code, message->mid);
-      PRINTF("  URL: %.*s\n", message->uri_path_len, message->uri_path);
-      PRINTF("  Payload: %.*s\n", message->payload_len, message->payload);
+      PRINTF("  URL: %.*s\r\n", message->uri_path_len, message->uri_path);
+      PRINTF("  Payload: %.*s\r\n", message->payload_len, message->payload);
 
       /* handle requests */
       if(message->code >= COAP_GET && message->code <= COAP_DELETE) {
@@ -124,7 +124,7 @@ coap_receive(void)
           }
           if(coap_get_header_block2
                (message, &block_num, NULL, &block_size, &block_offset)) {
-            PRINTF("Blockwise: block request %lu (%u/%u) @ %lu bytes\n",
+            PRINTF("Blockwise: block request %lu (%u/%u) @ %lu bytes\r\n",
                    block_num, block_size, COAP_MAX_BLOCK_SIZE, block_offset);
             block_size = MIN(block_size, COAP_MAX_BLOCK_SIZE);
             new_offset = block_offset;
@@ -146,7 +146,7 @@ coap_receive(void)
                 if(IS_OPTION(message, COAP_OPTION_BLOCK1)
                    && response->code < BAD_REQUEST_4_00
                    && !IS_OPTION(response, COAP_OPTION_BLOCK1)) {
-                  PRINTF("Block1 NOT IMPLEMENTED\n");
+                  PRINTF("Block1 NOT IMPLEMENTED\r\n");
 
                   erbium_status_code = NOT_IMPLEMENTED_5_01;
                   coap_error_message = "NoBlock1Support";
@@ -157,11 +157,11 @@ coap_receive(void)
                   /* unchanged new_offset indicates that resource is unaware of blockwise transfer */
                   if(new_offset == block_offset) {
                     PRINTF
-                      ("Blockwise: unaware resource with payload length %u/%u\n",
+                      ("Blockwise: unaware resource with payload length %u/%u\r\n",
                       response->payload_len, block_size);
                     if(block_offset >= response->payload_len) {
                       PRINTF
-                        ("handle_incoming_data(): block_offset >= response->payload_len\n");
+                        ("handle_incoming_data(): block_offset >= response->payload_len\r\n");
 
                       response->code = BAD_OPTION_4_02;
                       coap_set_payload(response, "BlockOutOfScope", 15); /* a const char str[] and sizeof(str) produces larger code size */
@@ -178,7 +178,7 @@ coap_receive(void)
 
                     /* resource provides chunk-wise data */
                   } else {
-                    PRINTF("Blockwise: blockwise resource, new offset %ld\n",
+                    PRINTF("Blockwise: blockwise resource, new offset %ld\r\n",
                            new_offset);
                     coap_set_header_block2(response, block_num,
                                            new_offset != -1
@@ -194,7 +194,7 @@ coap_receive(void)
                   /* Resource requested Block2 transfer */
                 } else if(new_offset != 0) {
                   PRINTF
-                    ("Blockwise: no block option for blockwise resource, using block size %u\n",
+                    ("Blockwise: no block option for blockwise resource, using block size %u\r\n",
                     COAP_MAX_BLOCK_SIZE);
 
                   coap_set_header_block2(response, 0, new_offset != -1,
@@ -228,13 +228,13 @@ coap_receive(void)
       } else {
 
         if(message->type == COAP_TYPE_CON && message->code == 0) {
-          PRINTF("Received Ping\n");
+          PRINTF("Received Ping\r\n");
           erbium_status_code = PING_RESPONSE;
         } else if(message->type == COAP_TYPE_ACK) {
           /* transactions are closed through lookup below */
-          PRINTF("Received ACK\n");
+          PRINTF("Received ACK\r\n");
         } else if(message->type == COAP_TYPE_RST) {
-          PRINTF("Received RST\n");
+          PRINTF("Received RST\r\n");
           /* cancel possible subscriptions */
           coap_remove_observer_by_mid(&UIP_IP_BUF->srcipaddr,
                                       UIP_UDP_BUF->srcport, message->mid);
@@ -259,7 +259,7 @@ coap_receive(void)
 	/* if observe notification */
         if((message->type == COAP_TYPE_CON || message->type == COAP_TYPE_NON)
               && IS_OPTION(message, COAP_OPTION_OBSERVE)) {
-          PRINTF("Observe [%u]\n", message->observe);
+          PRINTF("Observe [%u]\r\n", message->observe);
           coap_handle_notification(&UIP_IP_BUF->srcipaddr, UIP_UDP_BUF->srcport,
               message);
         }
@@ -278,7 +278,7 @@ coap_receive(void)
     } else {
       coap_message_type_t reply_type = COAP_TYPE_ACK;
 
-      PRINTF("ERROR %u: %s\n", erbium_status_code, coap_error_message);
+      PRINTF("ERROR %u: %s\r\n", erbium_status_code, coap_error_message);
       coap_clear_transaction(transaction);
 
       if(erbium_status_code == PING_RESPONSE) {
@@ -335,7 +335,7 @@ extern resource_t res_dtls;
 PROCESS_THREAD(coap_engine, ev, data)
 {
   PROCESS_BEGIN();
-  PRINTF("Starting %s receiver...\n", coap_rest_implementation.name);
+  PRINTF("Starting %s receiver...\r\n", coap_rest_implementation.name);
 
   rest_activate_resource(&res_well_known_core, ".well-known/core");
 
@@ -404,25 +404,25 @@ PT_THREAD(coap_blocking_request
                                                               packet);
 
       coap_send_transaction(state->transaction);
-      PRINTF("Requested #%lu (MID %u)\n", state->block_num, request->mid);
+      PRINTF("Requested #%lu (MID %u)\r\n", state->block_num, request->mid);
 
       PT_YIELD_UNTIL(&state->pt, ev == PROCESS_EVENT_POLL);
 
       if(!state->response) {
-        PRINTF("Server not responding\n");
+        PRINTF("Server not responding\r\n");
         PT_EXIT(&state->pt);
       }
 
       coap_get_header_block2(state->response, &res_block, &more, NULL, NULL);
 
-      PRINTF("Received #%lu%s (%u bytes)\n", res_block, more ? "+" : "",
+      PRINTF("Received #%lu%s (%u bytes)\r\n", res_block, more ? "+" : "",
              state->response->payload_len);
 
       if(res_block == state->block_num) {
         request_callback(state->response);
         ++(state->block_num);
       } else {
-        PRINTF("WRONG BLOCK %lu/%lu\n", res_block, state->block_num);
+        PRINTF("WRONG BLOCK %lu/%lu\r\n", res_block, state->block_num);
         ++block_error;
       }
     } else {

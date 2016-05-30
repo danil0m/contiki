@@ -125,7 +125,7 @@ static void res_put_handler(void *request, void *response, uint8_t *buffer, uint
 								  second=number;
 								  time.second=atoi(second);
 								  printf("time  sent: %d:%d:%d\r\n", time.hour,time.minute,time.second);
-								  RTC_TimeRegulate(time.hour,time.minute,time.second);
+								  RTC_TimeRegulate(time.hour,time.minute,time.second, 0);
 								  time=RTC_GetTime();
 								  printf("time: %d:%d:%d\r\n", time.hour,time.minute,time.second);
 							  }

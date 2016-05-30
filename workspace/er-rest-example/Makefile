@@ -38,6 +38,9 @@ APPS += rest-engine
 #CUSTOM_RULE_C_TO_OBJECTDIR_O = 1
 #CUSTOM_RULE_S_TO_OBJECTDIR_O = 1
 
+#verbose build 
+V=1
+
 CONTIKI_WITH_IPV6 = 1
 include $(CONTIKI)/Makefile.include
 

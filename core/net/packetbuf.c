@@ -122,11 +122,11 @@ packetbuf_copyto_hdr(uint8_t *to)
 #if DEBUG_LEVEL > 0
   {
     int i;
-    PRINTF("packetbuf_write_hdr: header:\n");
+    PRINTF("packetbuf_write_hdr: header:\r\n");
     for(i = hdrptr; i < PACKETBUF_HDR_SIZE; ++i) {
       PRINTF("0x%02x, ", packetbuf[i]);
     }
-    PRINTF("\n");
+    PRINTF("\r\n");
   }
 #endif /* DEBUG_LEVEL */
   memcpy(to, packetbuf + hdrptr, PACKETBUF_HDR_SIZE - hdrptr);
@@ -147,13 +147,13 @@ packetbuf_copyto(void *to)
     for(i = hdrptr; i < PACKETBUF_HDR_SIZE; ++i) {
       bufferptr += sprintf(bufferptr, "0x%02x, ", packetbuf[i]);
     }
-    PRINTF("packetbuf_write: header: %s\n", buffer);
+    PRINTF("packetbuf_write: header: %s\r\n", buffer);
     bufferptr = buffer;
     bufferptr[0] = 0;
     for(i = bufptr; ((i < buflen + bufptr) && (bufferlen < (sizeof(buffer) - 10))); ++i) {
       bufferlen += sprintf(bufferptr + bufferlen, "0x%02x, ", packetbufptr[i]);
     }
-    PRINTF("packetbuf_write: data: %s\n", buffer);
+    PRINTF("packetbuf_write: data: %s\r\n", buffer);
   }
 #endif /* DEBUG_LEVEL */
   if(PACKETBUF_HDR_SIZE - hdrptr + buflen > PACKETBUF_SIZE) {
@@ -197,7 +197,7 @@ packetbuf_hdrreduce(int size)
 void
 packetbuf_set_datalen(uint16_t len)
 {
-  PRINTF("packetbuf_set_len: len %d\n", len);
+  PRINTF("packetbuf_set_len: len %d\r\n", len);
   buflen = len;
 }
 /*---------------------------------------------------------------------------*/

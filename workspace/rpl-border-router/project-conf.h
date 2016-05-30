@@ -51,10 +51,15 @@
 #define WEBSERVER_CONF_CFS_CONNS 2
 #endif
 
+#define RPL_CONF_DEFAULT_INSTANCE 31
+
+/*to compile APIs for observing resources*/
+#define COAP_OBSERVE_CLIENT 1
+
 //Added to configure Routing Tables lifetime shorter than 0xffff * 0xff
-/*
+
 #define RPL_CONF_DEFAULT_LIFETIME_UNIT           60 //60 seconds
 
-#define RPL_CONF_DEFAULT_LIFETIME                10   //10 minute
-*/
+#define RPL_CONF_DEFAULT_LIFETIME                30   //10 minute
+
 #endif /* PROJECT_ROUTER_CONF_H_ */

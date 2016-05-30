@@ -52,6 +52,7 @@
 #define DEBUG DEBUG_NONE
 #include "net/ip/uip-debug.h"
 
+
 static void reset(rpl_dag_t *);
 static void neighbor_link_callback(rpl_parent_t *, int, int);
 static rpl_parent_t *best_parent(rpl_parent_t *, rpl_parent_t *);
@@ -114,7 +115,7 @@ calculate_path_metric(rpl_parent_t *p)
 static void
 reset(rpl_dag_t *dag)
 {
-  PRINTF("RPL: Reset MRHOF\n");
+  PRINTF("RPL: Reset MRHOF\r\n");
 }
 
 static void
@@ -150,7 +151,7 @@ neighbor_link_callback(rpl_parent_t *p, int status, int numtx)
       p->flags |= RPL_PARENT_FLAG_LINK_METRIC_VALID;
     }
 
-    PRINTF("RPL: ETX changed from %u to %u (packet ETX = %u)\n",
+    PRINTF("RPL: ETX changed from %u to %u (packet ETX = %u)\r\n",
         (unsigned)(recorded_etx / RPL_DAG_MC_ETX_DIVISOR),
         (unsigned)(new_etx  / RPL_DAG_MC_ETX_DIVISOR),
         (unsigned)(packet_etx / RPL_DAG_MC_ETX_DIVISOR));
@@ -190,9 +191,38 @@ calculate_rank(rpl_parent_t *p, rpl_rank_t base_rank)
   return new_rank;
 }
 
+#ifdef NOCONFLICT
+int isConflictAddress(uip_ipaddr_t* address){
+	int i;
+	uip_ipaddr_t confl_addr;
+	  uip_ip6addr_u8(&confl_addr, 0xaa,0xaa,0x0,0x0,0x0,0x0,0x0,0x0, 0x0b, 0x00,0xf6,0xff, 0xb8,0xb5, 0x47,0x4a);
+	for(i=0;i<sizeof(uip_ipaddr_t);i++){
+		if(address->u8[i]!=confl_addr.u8[i]){
+			return 0;
+		}
+
+	}
+	return 1;
+}
+#endif /**/
+
 static rpl_dag_t *
 best_dag(rpl_dag_t *d1, rpl_dag_t *d2)
 {
+#ifdef NOCONFLICT
+
+	if(!isConflictAddress(&d1->dag_id)){
+		return d2;
+		uip_debug_ipaddr_print(&d2->dag_id);
+		PRINTF("\r\n");
+	}
+	if(!isConflictAddress(&d2->dag_id)){
+			return d1;
+			uip_debug_ipaddr_print(&d1->dag_id);
+					PRINTF("\r\n");
+		}
+#endif
+
   if(d1->grounded != d2->grounded) {
     return d1->grounded ? d1 : d2;
   }
@@ -224,7 +254,7 @@ best_parent(rpl_parent_t *p1, rpl_parent_t *p2)
   if(p1 == dag->preferred_parent || p2 == dag->preferred_parent) {
     if(p1_metric < p2_metric + min_diff &&
        p1_metric > p2_metric - min_diff) {
-      PRINTF("RPL: MRHOF hysteresis: %u <= %u <= %u\n",
+      PRINTF("RPL: MRHOF hysteresis: %u <= %u <= %u\r\n",
              p2_metric - min_diff,
              p1_metric,
              p2_metric + min_diff);
@@ -259,7 +289,7 @@ update_metric_container(rpl_instance_t *instance)
   dag = instance->current_dag;
 
   if (!dag->joined) {
-    PRINTF("RPL: Cannot update the metric container when not joined\n");
+    PRINTF("RPL: Cannot update the metric container when not joined\r\n");
     return;
   }
 
@@ -273,7 +303,7 @@ update_metric_container(rpl_instance_t *instance)
   instance->mc.length = sizeof(instance->mc.obj.etx);
   instance->mc.obj.etx = path_metric;
 
-  PRINTF("RPL: My path ETX to the root is %u.%u\n",
+  PRINTF("RPL: My path ETX to the root is %u.%u\r\n",
 	instance->mc.obj.etx / RPL_DAG_MC_ETX_DIVISOR,
 	(instance->mc.obj.etx % RPL_DAG_MC_ETX_DIVISOR * 100) /
 	 RPL_DAG_MC_ETX_DIVISOR);

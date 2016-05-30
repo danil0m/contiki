@@ -1,0 +1,1333 @@
+
+low-power-trials.stm32nucleo-spirit1:     file format elf32-littlearm
+
+SYMBOL TABLE:
+08000000 l    d  .isr_vector	00000000 .isr_vector
+08000140 l    d  .text	00000000 .text
+0801c058 l    d  .rodata	00000000 .rodata
+0801c6c8 l    d  .ARM	00000000 .ARM
+0801c6d0 l    d  .init_array	00000000 .init_array
+0801c6d8 l    d  .fini_array	00000000 .fini_array
+20000000 l    d  .data	00000000 .data
+20000b2c l    d  .bss	00000000 .bss
+2000289c l    d  ._user_heap_stack	00000000 ._user_heap_stack
+08080000 l    d  .eeprom	00000000 .eeprom
+00000000 l    d  .ARM.attributes	00000000 .ARM.attributes
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_ranges	00000000 .debug_ranges
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    df *ABS*	00000000 obj_stm32nucleo-spirit1/startup_stm32l152xe.o
+f108f85f l       *ABS*	00000000 BootRAM
+080019cc l       .text	00000000 LoopCopyDataInit
+080019c4 l       .text	00000000 CopyDataInit
+080019e0 l       .text	00000000 LoopFillZerobss
+080019da l       .text	00000000 FillZerobss
+08001a08 l       .text	00000000 Infinite_Loop
+00000000 l    df *ABS*	00000000 crtstuff.c
+0801c040 l     O .text	00000000 __EH_FRAME_BEGIN__
+08000140 l     F .text	00000000 __do_global_dtors_aux
+20000b2c l       .bss	00000000 completed.8108
+0801c6d8 l     O .fini_array	00000000 __do_global_dtors_aux_fini_array_entry
+08000164 l     F .text	00000000 frame_dummy
+20000b30 l       .bss	00000000 object.8113
+0801c6d4 l     O .init_array	00000000 __frame_dummy_init_array_entry
+00000000 l    df *ABS*	00000000 _arm_addsubdf3.o
+00000000 l    df *ABS*	00000000 _arm_muldivdf3.o
+00000000 l    df *ABS*	00000000 _arm_cmpdf2.o
+00000000 l    df *ABS*	00000000 _arm_fixdfsi.o
+00000000 l    df *ABS*	00000000 _arm_fixunsdfsi.o
+00000000 l    df *ABS*	00000000 _arm_truncdfsf2.o
+00000000 l    df *ABS*	00000000 _arm_addsubsf3.o
+00000000 l    df *ABS*	00000000 _arm_muldivsf3.o
+00000000 l    df *ABS*	00000000 _arm_cmpsf2.o
+00000000 l    df *ABS*	00000000 _arm_fixsfsi.o
+00000000 l    df *ABS*	00000000 _arm_fixunssfsi.o
+00000000 l    df *ABS*	00000000 lib_a-memcpy.o
+00000000 l    df *ABS*	00000000 _aeabi_uldivmod.o
+00000000 l    df *ABS*	00000000 bpabi.c
+00000000 l    df *ABS*	00000000 _dvmd_tls.o
+00000000 l    df *ABS*	00000000 libgcc2.c
+00000000 l    df *ABS*	00000000 libgcc2.c
+00000000 l    df *ABS*	00000000 low-power-trials.c
+08001840 l     F .text	00000060 process_thread_low_power_trials
+00000000 l    df *ABS*	00000000 contiki-spirit1-main.c
+0800198c l     F .text	00000034 set_rime_addr
+00000000 l    df *ABS*	00000000 button-sensor.c
+20000b48 l     O .bss	00000004 _active
+08001a0c l     F .text	0000000e init
+08001a1c l     F .text	00000018 activate
+08001a34 l     F .text	00000018 deactivate
+08001a4c l     F .text	00000014 active
+08001a60 l     F .text	00000018 value
+08001a78 l     F .text	0000003c configure
+08001ab4 l     F .text	00000020 status
+00000000 l    df *ABS*	00000000 radio-sensor.c
+20000b4c l     O .bss	00000004 _active
+08001ad4 l     F .text	0000000c init
+08001ae0 l     F .text	00000018 activate
+08001af8 l     F .text	00000018 deactivate
+08001b10 l     F .text	00000018 active
+08001b28 l     F .text	0000006c value
+08001b94 l     F .text	0000003c configure
+08001bd0 l     F .text	00000020 status
+00000000 l    df *ABS*	00000000 spirit1.c
+2000001c l     O .data	00000004 spirit_on
+20000b50 l     O .bss	00000001 receiving_packet
+20000b52 l     O .bss	00000002 last_rssi
+20000b54 l     O .bss	00000002 last_lqi
+20000b58 l     O .bss	00000061 spirit_rxbuf
+20000bbc l     O .bss	00000001 spirit_txbuf
+20000bc0 l     O .bss	00000004 just_got_an_ack
+20000bc4 l     O .bss	00000004 packet_is_prepared
+08002474 l     F .text	000000f4 process_thread_spirit_radio_process
+08001c58 l     F .text	00000180 spirit_radio_init
+08001dd8 l     F .text	00000064 spirit_radio_prepare
+08001e3c l     F .text	0000019c spirit_radio_transmit
+08001fd8 l     F .text	00000032 spirit_radio_send
+0800200c l     F .text	00000134 spirit_radio_read
+08002140 l     F .text	00000120 spirit_radio_channel_clear
+08002260 l     F .text	00000018 spirit_radio_receiving_packet
+08002278 l     F .text	00000020 spirit_radio_pending_packet
+08002378 l     F .text	000000fc spirit_radio_on
+08002298 l     F .text	000000e0 spirit_radio_off
+08001bf0 l     F .text	00000018 spirit1_strobe
+20000bc8 l     O .bss	00000004 interrupt_callback_in_progress
+20000bcc l     O .bss	00000004 interrupt_callback_wants_poll
+00000000 l    df *ABS*	00000000 node-id.c
+00000000 l    df *ABS*	00000000 spirit1_appli.c
+08002a3c l     F .text	00000104 LowPower_Config
+080029c4 l     F .text	00000078 SystemClockConfig_STOP
+00000000 l    df *ABS*	00000000 stm32l1xx_it.c
+00000000 l    df *ABS*	00000000 stm32cube_hal_init.c
+08002e8c l     F .text	00000110 SystemClock_Config
+08003034 l     F .text	00000034 MX_GPIO_Init
+08002dd8 l     F .text	0000004c RTC_Config
+08002e24 l     F .text	00000068 RTC_TimeStampConfig
+08002f9c l     F .text	00000006 Error_Handler
+00000000 l    df *ABS*	00000000 stm32l1xx_nucleo.c
+00000000 l    df *ABS*	00000000 radio_gpio.c
+0801c2f8 l     O .rodata	0000000a aRADIO_GPIO_PIN
+0801c304 l     O .rodata	00000014 aRADIO_GPIO_SPEED
+0801c318 l     O .rodata	00000014 aRADIO_GPIO_PUPD
+0801c32c l     O .rodata	00000010 aRADIO_GPIO_EXTI_MODE
+0801c33c l     O .rodata	00000004 aRADIO_GPIO_IRQn
+00000000 l    df *ABS*	00000000 radio_shield_config.c
+00000000 l    df *ABS*	00000000 radio_spi.c
+080035dc l     F .text	0000004c SPI_Write
+08003628 l     F .text	00000014 SPI_Error
+00000000 l    df *ABS*	00000000 SPIRIT1_Util.c
+20000bd3 l     O .bss	00000001 xRangeExtType
+00000000 l    df *ABS*	00000000 SPIRIT_Commands.c
+00000000 l    df *ABS*	00000000 SPIRIT_General.c
+00000000 l    df *ABS*	00000000 SPIRIT_Gpio.c
+00000000 l    df *ABS*	00000000 SPIRIT_Irq.c
+00000000 l    df *ABS*	00000000 SPIRIT_LinearFifo.c
+00000000 l    df *ABS*	00000000 SPIRIT_Management.c
+0801c340 l     O .rodata	00000004 s_vectcBandRegValue
+20000bd4 l     O .bss	00000004 s_nDesiredFrequency
+200000fc l     O .data	00000001 s_cCommunicationState
+0801c344 l     O .rodata	00000004 s_vectcBHalfFactor
+00000000 l    df *ABS*	00000000 SPIRIT_PktBasic.c
+00000000 l    df *ABS*	00000000 SPIRIT_PktCommon.c
+00000000 l    df *ABS*	00000000 SPIRIT_Qi.c
+00000000 l    df *ABS*	00000000 SPIRIT_Radio.c
+20000bd8 l     O .bss	00000004 s_lXtalFrequency
+0801c348 l     O .rodata	00000004 s_vectcBHalfFactor
+0801c34c l     O .rodata	00000004 s_vectcBandRegValue
+0801c350 l     O .rodata	000000b4 s_vectnBandwidth26M
+0801c404 l     O .rodata	00000020 s_vectnVCOFreq
+200000fd l     O .data	00000001 xDoVcoCalibrationWA
+0801c424 l     O .rodata	00000078 fPowerFactors
+00000000 l    df *ABS*	00000000 SPIRIT_Timer.c
+00000000 l    df *ABS*	00000000 SPIRIT_Types.c
+00000000 l    df *ABS*	00000000 stm32l1xx_hal.c
+20000bdc l     O .bss	00000004 uwTick
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_cortex.c
+080064f0 l     F .text	00000048 NVIC_SetPriorityGrouping
+08006538 l     F .text	0000001c NVIC_GetPriorityGrouping
+08006554 l     F .text	00000030 NVIC_EnableIRQ
+08006584 l     F .text	00000034 NVIC_DisableIRQ
+080065b8 l     F .text	00000054 NVIC_SetPriority
+0800660c l     F .text	00000066 NVIC_EncodePriority
+08006674 l     F .text	00000044 SysTick_Config
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_gpio.c
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_pwr_ex.c
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_pwr.c
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_rcc_ex.c
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_rcc.c
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_rtc_ex.c
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_rtc.c
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_spi_ex.c
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_spi.c
+0800a070 l     F .text	00000148 SPI_WaitOnFlagUntilTimeout
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_uart.c
+0800a640 l     F .text	0000029c UART_SetConfig
+0800a50c l     F .text	00000134 UART_WaitOnFlagUntilTimeout
+00000000 l    df *ABS*	00000000 system_stm32l1xx.c
+00000000 l    df *ABS*	00000000 watchdog.c
+00000000 l    df *ABS*	00000000 rtimer-arch.c
+00000000 l    df *ABS*	00000000 clock.c
+20000be4 l     O .bss	00000004 seconds
+20000be8 l     O .bss	00000004 ticks
+00000000 l    df *ABS*	00000000 autostart.c
+00000000 l    df *ABS*	00000000 energest.c
+00000000 l    df *ABS*	00000000 ctimer.c
+20000bec l     O .bss	00000004 ctimer_list_list
+20000104 l     O .data	00000004 ctimer_list
+20000bf0 l     O .bss	00000001 initialized
+0800ab74 l     F .text	000000e8 process_thread_ctimer_process
+00000000 l    df *ABS*	00000000 etimer.c
+20000bf4 l     O .bss	00000004 timerlist
+20000bf8 l     O .bss	00000004 next_expiration
+0800ae3c l     F .text	0000012c process_thread_etimer_process
+0800adb8 l     F .text	00000084 update_time
+0800af78 l     F .text	00000068 add_timer
+00000000 l    df *ABS*	00000000 process.c
+20000c04 l     O .bss	00000001 lastevent
+20000c05 l     O .bss	00000001 nevents
+20000c06 l     O .bss	00000001 fevent
+20000c08 l     O .bss	00000060 events
+20000c68 l     O .bss	00000001 poll_requested
+0800b184 l     F .text	000000c4 exit_process
+0800b248 l     F .text	00000074 call_process
+0800b308 l     F .text	0000004c do_poll
+0800b354 l     F .text	00000118 do_event
+20000c69 l     O .bss	00000001 ev.5363
+20000c6c l     O .bss	00000004 data.5364
+20000c70 l     O .bss	00000004 receiver.5365
+20000c74 l     O .bss	00000004 p.5366
+20000c78 l     O .bss	00000001 snum.5381
+00000000 l    df *ABS*	00000000 rtimer.c
+00000000 l    df *ABS*	00000000 timer.c
+00000000 l    df *ABS*	00000000 leds.c
+20000c79 l     O .bss	00000001 leds
+00000000 l    df *ABS*	00000000 slip.c
+0800b85c l     F .text	0000009c process_thread_slip_process
+20000c7a l     O .bss	00000001 state
+20000c7c l     O .bss	00000002 begin
+20000c7e l     O .bss	00000002 end
+20000c80 l     O .bss	00000128 rxbuf
+20000da8 l     O .bss	00000002 pkt_end
+20000dac l     O .bss	00000004 input_callback
+0800b688 l     F .text	00000038 rxbuf_init
+0800b6c0 l     F .text	0000019c slip_poll_handler
+00000000 l    df *ABS*	00000000 sensors.c
+20000db0 l     O .bss	00000001 num_sensors
+0800bab8 l     F .text	00000150 process_thread_sensors_process
+0800ba3c l     F .text	00000048 get_sensor_index
+20000db4 l     O .bss	00000004 i.4729
+20000db8 l     O .bss	00000004 events.4730
+00000000 l    df *ABS*	00000000 list.c
+00000000 l    df *ABS*	00000000 random.c
+00000000 l    df *ABS*	00000000 uip-ds6.c
+20000dbc l     O .bss	00000010 loc_fipaddr
+20000dcc l     O .bss	00000004 locaddr
+20000dd0 l     O .bss	00000004 locmaddr
+20000dd4 l     O .bss	00000004 locprefix
+00000000 l    df *ABS*	00000000 uip-ds6-route.c
+20000dd8 l     O .bss	00000040 _nbr_routes_mem
+20000148 l     O .data	00000010 nbr_routes_struct
+20000158 l     O .data	00000004 nbr_routes
+20000e18 l     O .bss	00000014 neighborroutememb_memb_count
+20000e2c l     O .bss	000000a0 neighborroutememb_memb_mem
+2000015c l     O .data	0000000c neighborroutememb
+20000ecc l     O .bss	00000004 routelist_list
+20000168 l     O .data	00000004 routelist
+20000ed0 l     O .bss	00000014 routememb_memb_count
+20000ee4 l     O .bss	00000320 routememb_memb_mem
+2000016c l     O .data	0000000c routememb
+20001204 l     O .bss	00000004 defaultrouterlist_list
+20000178 l     O .data	00000004 defaultrouterlist
+20001208 l     O .bss	00000002 defaultroutermemb_memb_count
+2000120c l     O .bss	00000040 defaultroutermemb_memb_mem
+2000017c l     O .data	0000000c defaultroutermemb
+2000124c l     O .bss	00000004 notificationlist_list
+20000188 l     O .data	00000004 notificationlist
+20001250 l     O .bss	00000004 num_routes
+0800c5ac l     F .text	00000068 call_route_callback
+0800ca5c l     F .text	00000014 rm_routelist_callback
+0800c66c l     F .text	00000030 uip_ds6_route_nexthop_lladdr
+0800ca04 l     F .text	00000058 rm_routelist
+00000000 l    df *ABS*	00000000 uip6.c
+20001257 l     O .bss	00000001 c
+20001258 l     O .bss	00000002 lastport
+2000125c l     O .bss	00000004 iss
+20001260 l     O .bss	00000001 opt
+20001262 l     O .bss	00000002 tmp16
+0800cd1c l     F .text	00000090 chksum
+0800cdac l     F .text	00000090 upper_layer_chksum
+0800d010 l     F .text	00000054 uip_add_rcv_nxt
+0800d064 l     F .text	00000144 ext_hdr_options_process
+00000000 l    df *ABS*	00000000 uip-ds6-nbr.c
+20001264 l     O .bss	00000140 _ds6_neighbors_mem
+2000018c l     O .data	00000010 ds6_neighbors_struct
+00000000 l    df *ABS*	00000000 uip-nd6.c
+00000000 l    df *ABS*	00000000 tcpip.c
+200013a4 l     O .bss	00000010 periodic
+200013b4 l     O .bss	00000044 s
+200013f8 l     O .bss	00000004 outputfunc
+0800f004 l     F .text	000000bc process_thread_tcpip_process
+0800eb9c l     F .text	0000001c start_periodic_tcp_timer
+0800ebb8 l     F .text	00000024 check_for_tcp_syn
+0800ebdc l     F .text	00000028 packet_input
+0800ec04 l     F .text	000001bc eventhandler
+200013fc l     O .bss	00000001 i.7770
+200013fd l     O .bss	00000001 i.7814
+200013fe l     O .bss	00000001 i.7826
+00000000 l    df *ABS*	00000000 uip-debug.c
+00000000 l    df *ABS*	00000000 rpl-dag.c
+20001400 l     O .bss	00000080 _rpl_parents_mem
+200001b0 l     O .data	00000010 rpl_parents_struct
+0800f1fc l     F .text	00000014 nbr_callback
+0800f27c l     F .text	00000048 rpl_set_preferred_parent
+0800f2c4 l     F .text	00000064 lollipop_greater_than
+0800f328 l     F .text	00000054 remove_parents
+0800f37c l     F .text	00000054 nullify_parents
+0800f3d0 l     F .text	0000004e should_send_dao
+0800f420 l     F .text	00000066 acceptable_rank
+0800f488 l     F .text	00000066 get_dag
+0800f59c l     F .text	00000040 set_ip_from_prefix
+0800f5dc l     F .text	000000aa check_prefix
+0800f964 l     F .text	00000034 find_parent_any_dag_any_instance
+0800f9c8 l     F .text	00000028 find_parent_dag
+0800fc58 l     F .text	00000070 best_parent
+08010254 l     F .text	000000f8 global_repair
+00000000 l    df *ABS*	00000000 rpl-timers.c
+20001480 l     O .bss	00000020 periodic_timer
+200014a0 l     O .bss	00000002 next_dis
+200014a2 l     O .bss	00000001 dio_send_ok
+08010780 l     F .text	00000054 handle_periodic_timer
+080107d4 l     F .text	0000008c new_dio_interval
+08010860 l     F .text	000000c8 handle_dio_timer
+080109a8 l     F .text	00000060 set_dao_lifetime_timer
+08010a08 l     F .text	00000080 handle_dao_timer
+08010a88 l     F .text	0000007c schedule_dao
+08010b1c l     F .text	00000124 get_probing_target
+08010c40 l     F .text	00000046 handle_probing_timer
+00000000 l    df *ABS*	00000000 rpl-ext-header.c
+08010e78 l     F .text	0000011c set_rpl_opt
+00000000 l    df *ABS*	00000000 rpl.c
+200014a3 l     O .bss	00000001 mode
+00000000 l    df *ABS*	00000000 rpl-mrhof.c
+0801181c l     F .text	00000012 reset
+08011830 l     F .text	00000098 neighbor_link_callback
+080119a0 l     F .text	00000072 best_parent
+08011938 l     F .text	00000066 best_dag
+080118c8 l     F .text	0000006e calculate_rank
+08011a14 l     F .text	00000018 update_metric_container
+080117e0 l     F .text	0000003c calculate_path_metric
+00000000 l    df *ABS*	00000000 queuebuf.c
+200014a4 l     O .bss	00000008 bufmem_memb_count
+200014ac l     O .bss	00000020 bufmem_memb_mem
+200001e0 l     O .data	0000000c bufmem
+200014cc l     O .bss	00000008 buframmem_memb_count
+200014d4 l     O .bss	00000580 buframmem_memb_mem
+200001ec l     O .data	0000000c buframmem
+08011a2c l     F .text	00000018 queuebuf_load_to_ram
+00000000 l    df *ABS*	00000000 nbr-table.c
+20001a54 l     O .bss	00000008 used_map
+20001a5c l     O .bss	00000008 locked_map
+20001a64 l     O .bss	00000020 all_tables
+20001a84 l     O .bss	00000004 num_tables
+20001a88 l     O .bss	00000008 neighbor_addr_mem_memb_count
+20001a90 l     O .bss	00000060 neighbor_addr_mem_memb_mem
+200001f8 l     O .data	0000000c neighbor_addr_mem
+20001af0 l     O .bss	00000004 nbr_table_keys_list
+20000204 l     O .data	00000004 nbr_table_keys
+08011bb8 l     F .text	00000034 key_from_index
+08011bec l     F .text	00000038 item_from_index
+08011c24 l     F .text	00000038 index_from_key
+08011c5c l     F .text	00000038 index_from_item
+08011c94 l     F .text	00000024 item_from_key
+08011cb8 l     F .text	00000024 key_from_item
+08011cdc l     F .text	00000064 index_from_lladdr
+08011d40 l     F .text	00000050 nbr_get_bit
+08011d90 l     F .text	0000008c nbr_set_bit
+08011e1c l     F .text	00000144 nbr_table_allocate
+00000000 l    df *ABS*	00000000 packetbuf.c
+20001af4 l     O .bss	00000002 buflen
+20001af6 l     O .bss	00000002 bufptr
+20001af8 l     O .bss	00000001 hdrptr
+20001afc l     O .bss	000000b0 packetbuf_aligned
+20000208 l     O .data	00000004 packetbuf
+20001bac l     O .bss	00000004 packetbufptr
+00000000 l    df *ABS*	00000000 netstack.c
+00000000 l    df *ABS*	00000000 linkaddr.c
+00000000 l    df *ABS*	00000000 csma.c
+20001bb0 l     O .bss	00000002 neighbor_memb_memb_count
+20001bb4 l     O .bss	00000070 neighbor_memb_memb_mem
+2000020c l     O .data	0000000c neighbor_memb
+20001c24 l     O .bss	00000008 packet_memb_memb_count
+20001c2c l     O .bss	00000060 packet_memb_memb_mem
+20000218 l     O .data	0000000c packet_memb
+20001c8c l     O .bss	00000008 metadata_memb_memb_count
+20001c94 l     O .bss	00000060 metadata_memb_memb_mem
+20000224 l     O .data	0000000c metadata_memb
+20001cf4 l     O .bss	00000004 neighbor_list_list
+20000230 l     O .data	00000004 neighbor_list
+08012640 l     F .text	00000048 neighbor_queue_from_addr
+08012688 l     F .text	00000028 default_timebase
+080126b0 l     F .text	00000040 transmit_packet_list
+080127b0 l     F .text	00000194 packet_sent
+080126f0 l     F .text	000000c0 free_packet
+08012944 l     F .text	000001d0 send_packet
+20001cf8 l     O .bss	00000001 initialized.6231
+20001cfa l     O .bss	00000002 seqno.6232
+08012b14 l     F .text	00000010 input_packet
+08012b24 l     F .text	00000014 on
+08012b38 l     F .text	00000020 off
+08012b58 l     F .text	00000020 channel_check_interval
+08012b78 l     F .text	00000024 init
+00000000 l    df *ABS*	00000000 mac.c
+00000000 l    df *ABS*	00000000 nullrdc.c
+08012bd4 l     F .text	00000090 send_one_packet
+08012c64 l     F .text	00000018 send_packet
+08012c7c l     F .text	00000040 send_list
+08012cbc l     F .text	00000058 packet_input
+08012d14 l     F .text	00000014 on
+08012d28 l     F .text	0000002c off
+08012d54 l     F .text	00000010 channel_check_interval
+08012d64 l     F .text	0000000a init
+00000000 l    df *ABS*	00000000 nullsec.c
+08012d70 l     F .text	0000000c init
+08012d7c l     F .text	00000028 send
+08012da4 l     F .text	00000010 input
+00000000 l    df *ABS*	00000000 leds-arch.c
+00000000 l    df *ABS*	00000000 uart-msg.c
+00000000 l    df *ABS*	00000000 spirit1-arch.c
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_msp.c
+00000000 l    df *ABS*	00000000 SPIRIT_Calibration.c
+00000000 l    df *ABS*	00000000 stm32l1xx_hal_tim.c
+0801362c l     F .text	000000d8 TIM_Base_SetConfig
+08013704 l     F .text	00000084 TIM_OC1_SetConfig
+08013788 l     F .text	00000088 TIM_OC2_SetConfig
+08013810 l     F .text	00000086 TIM_OC3_SetConfig
+08013898 l     F .text	00000088 TIM_OC4_SetConfig
+08013a2c l     F .text	00000042 TIM_ETR_SetConfig
+08013920 l     F .text	00000064 TIM_TI1_ConfigInputStage
+080139ec l     F .text	0000003e TIM_ITRx_SetConfig
+08013984 l     F .text	00000066 TIM_TI2_ConfigInputStage
+00000000 l    df *ABS*	00000000 stimer.c
+00000000 l    df *ABS*	00000000 memb.c
+00000000 l    df *ABS*	00000000 uip-icmp6.c
+20001cfc l     O .bss	00000010 tmp_ipaddr
+20001d0c l     O .bss	00000004 echo_reply_callback_list_list
+20000238 l     O .data	00000004 echo_reply_callback_list
+20001d10 l     O .bss	00000004 input_handler_list_list
+2000023c l     O .data	00000004 input_handler_list
+08013c5c l     F .text	00000060 input_handler_lookup
+08013d20 l     F .text	000001c8 echo_request_input
+080141f0 l     F .text	0000018c echo_reply_input
+20000240 l     O .data	0000000c echo_request_handler
+2000024c l     O .data	0000000c echo_reply_handler
+00000000 l    df *ABS*	00000000 sicslowpan.c
+20001d14 l     O .bss	00000004 packetbuf_ptr
+20001d18 l     O .bss	00000001 packetbuf_hdr_len
+20001d1c l     O .bss	00000004 packetbuf_payload_len
+20001d20 l     O .bss	00000001 uncomp_hdr_len
+20001d24 l     O .bss	00000004 last_tx_status
+20001d28 l     O .bss	00000002 sicslowpan_len
+20001d2c l     O .bss	00000118 sicslowpan_aligned_buf
+20001e44 l     O .bss	00000002 processed_ip_in_len
+20001e46 l     O .bss	00000002 my_tag
+20001e48 l     O .bss	00000002 reass_tag
+20001e4c l     O .bss	00000008 reass_timer
+20001e54 l     O .bss	00000004 last_rssi
+20001e58 l     O .bss	00000004 callback
+08014398 l     F .text	0000008c set_packet_attrs
+20001e5c l     O .bss	00000014 addr_contexts
+20001e70 l     O .bss	00000004 context
+20001e74 l     O .bss	00000004 hc06_ptr
+0801c520 l     O .rodata	00000004 ttl_values
+08014424 l     F .text	0000006c addr_context_lookup_by_prefix
+08014490 l     F .text	00000068 addr_context_lookup_by_number
+080144f8 l     F .text	00000104 compress_addr_64
+080145fc l     F .text	000000d0 uncompress_addr
+080146cc l     F .text	0000072c compress_hdr_hc06
+08014df8 l     F .text	00000630 uncompress_hdr_hc06
+08015428 l     F .text	0000003c packet_sent
+08015464 l     F .text	0000002c send_packet
+08015490 l     F .text	0000038c output
+0801581c l     F .text	000003f4 input
+00000000 l    df *ABS*	00000000 rpl-icmp6.c
+20000258 l     O .data	00000001 dao_sequence
+2000025c l     O .data	0000000c dis_handler
+08015e18 l     F .text	0000006c dis_input
+20000268 l     O .data	0000000c dio_handler
+08015ef0 l     F .text	000004a8 dio_input
+20000274 l     O .data	0000000c dao_handler
+080167e0 l     F .text	000003b4 dao_input
+20000280 l     O .data	0000000c dao_ack_handler
+08016dd4 l     F .text	00000020 dao_ack_input
+08015c68 l     F .text	0000008c get_global_addr
+08015cf4 l     F .text	00000048 get32
+08015d3c l     F .text	00000064 set32
+08015da0 l     F .text	00000036 get16
+08015dd8 l     F .text	00000040 set16
+00000000 l    df *ABS*	00000000 framer-802154.c
+20001e78 l     O .bss	00000001 mac_dsn
+20001e79 l     O .bss	00000001 initialized
+08016e7c l     F .text	00000044 is_broadcast_addr
+08016ec0 l     F .text	00000170 create_frame
+08017030 l     F .text	00000012 hdr_length
+08017044 l     F .text	00000012 create
+08017058 l     F .text	000000b0 parse
+00000000 l    df *ABS*	00000000 frame802154.c
+08017108 l     F .text	0000002c addr_len
+08017134 l     F .text	000000a6 field_len
+00000000 l    df *ABS*	00000000 syscalls.c
+20001e7c l     O .bss	00000004 heap_end.5041
+00000000 l    df *ABS*	00000000 console.c
+00000000 l    df *ABS*	00000000 crt.c
+00000000 l    df *ABS*	00000000 uart.c
+00000000 l    df *ABS*	00000000 errno.c
+00000000 l    df *ABS*	00000000 init.c
+00000000 l    df *ABS*	00000000 memcmp.c
+00000000 l    df *ABS*	00000000 memmove.c
+00000000 l    df *ABS*	00000000 memset.c
+00000000 l    df *ABS*	00000000 printf.c
+00000000 l    df *ABS*	00000000 putchar.c
+00000000 l    df *ABS*	00000000 puts.c
+00000000 l    df *ABS*	00000000 rand.c
+00000000 l    df *ABS*	00000000 strlen.c
+00000000 l    df *ABS*	00000000 vfprintf.c
+08018f38 l     F .text	0000007a __sbprintf
+0801c548 l     O .rodata	00000010 zeroes.6931
+0801c59c l     O .rodata	00000010 blanks.6930
+00000000 l    df *ABS*	00000000 wsetup.c
+00000000 l    df *ABS*	00000000 __call_atexit.c
+08019078 l     F .text	00000014 register_fini
+00000000 l    df *ABS*	00000000 atexit.c
+00000000 l    df *ABS*	00000000 dtoa.c
+08019098 l     F .text	0000012e quorem
+00000000 l    df *ABS*	00000000 fflush.c
+00000000 l    df *ABS*	00000000 findfp.c
+0801a1f0 l     F .text	000000f0 __sinit.part.1
+00000000 l    df *ABS*	00000000 fini.c
+00000000 l    df *ABS*	00000000 mallocr.c
+00000000 l    df *ABS*	00000000 fvwrite.c
+00000000 l    df *ABS*	00000000 fwalk.c
+00000000 l    df *ABS*	00000000 locale.c
+200006bc l     O .data	00000038 lconv
+200006f4 l     O .data	00000020 lc_ctype_charset
+00000000 l    df *ABS*	00000000 makebuf.c
+00000000 l    df *ABS*	00000000 mallocr.c
+00000000 l    df *ABS*	00000000 memchr.c
+00000000 l    df *ABS*	00000000 mlock.c
+00000000 l    df *ABS*	00000000 mprec.c
+0801c5c8 l     O .rodata	0000000c p05.5296
+00000000 l    df *ABS*	00000000 putc.c
+00000000 l    df *ABS*	00000000 mallocr.c
+00000000 l    df *ABS*	00000000 s_fpclassify.c
+00000000 l    df *ABS*	00000000 sbrkr.c
+00000000 l    df *ABS*	00000000 stdio.c
+00000000 l    df *ABS*	00000000 vfprintf.c
+0801bab4 l     F .text	00000078 __sprint_r.part.0
+00000000 l    df *ABS*	00000000 wbuf.c
+00000000 l    df *ABS*	00000000 writer.c
+00000000 l    df *ABS*	00000000 __atexit.c
+00000000 l    df *ABS*	00000000 mallocr.c
+00000000 l    df *ABS*	00000000 closer.c
+00000000 l    df *ABS*	00000000 fclose.c
+00000000 l    df *ABS*	00000000 fputwc.c
+00000000 l    df *ABS*	00000000 fstatr.c
+00000000 l    df *ABS*	00000000 isattyr.c
+00000000 l    df *ABS*	00000000 lseekr.c
+00000000 l    df *ABS*	00000000 readr.c
+00000000 l    df *ABS*	00000000 wcrtomb.c
+00000000 l    df *ABS*	00000000 wctomb_r.c
+00000000 l    df *ABS*	00000000 s_round.c
+00000000 l    df *ABS*	00000000 /home/ubuntu/eclipse/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.3.0.201507241112/tools/compiler/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crti.o
+00000000 l    df *ABS*	00000000 /home/ubuntu/eclipse/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.3.0.201507241112/tools/compiler/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m/crtn.o
+00000000 l    df *ABS*	00000000 impure.c
+20000290 l     O .data	00000428 impure_data
+00000000 l    df *ABS*	00000000 reent.c
+00000000 l    df *ABS*	00000000 
+00000000 l       *UND*	00000000 _clear_bss_init__
+00000000 l       *ABS*	00000000 _Min_Stack_Size
+0801c6dc l       .fini_array	00000000 __fini_array_end
+20000b2c l       .bss	00000000 __bss_start__
+00000000 l       *UND*	00000000 InterruptVectors
+2000289c l       .bss	00000000 __bss_end__
+00000000 l       *UND*	00000000 _end_of_init__
+00000000 l       *ABS*	00000000 _Min_Heap_Size
+00000000 l       *UND*	00000000 software_init_hook
+00000000 l       *UND*	00000000 _reset_vector__
+0801c6d8 l       .fini_array	00000000 __fini_array_start
+0801c6d8 l       .init_array	00000000 __init_array_end
+00000000 l       *UND*	00000000 hardware_init_hook
+0801c6d0 l       .init_array	00000000 __preinit_array_end
+00000000 l       *UND*	00000000 __stack
+0801c6d0 l       .init_array	00000000 __init_array_start
+00000000 l       *UND*	00000000 _copy_data_init__
+0801c6d0 l       .init_array	00000000 __preinit_array_start
+00000000 l       *UND*	00000000 free
+08002bc0 g     F .text	00000028 RTC_Alarm_IRQHandler
+08002c20 g     F .text	0000001c EXTI2_IRQHandler
+080179c0 g     F .text	00000010 putchar
+20001ecc g     O .bss	0000000c xTxFrame
+0801bebc g     F .text	00000024 _isatty_r
+08000a04 g     F .text	00000012 .hidden __aeabi_dcmple
+08001a08  w    F .text	00000002 COMP_ACQ_IRQHandler
+080012f0 g     F .text	00000030 .hidden __gnu_uldivmod_helper
+0800363c g     F .text	00000104 SdkEvalSpiWriteRegisters
+0801769c g     F .text	0000000e __io_getchar
+0800bda8 g     F .text	00000010 random_rand
+080179d0 g     F .text	00000060 _puts_r
+0800aa44 g     F .text	00000020 rtimer_arch_now
+08000940 g     F .text	0000007a .hidden __cmpdf2
+20000080 g     O .data	00000010 Radio_LPM_cb
+0801bee0 g     F .text	00000028 _lseek_r
+08002b80 g     F .text	0000000c DebugMon_Handler
+08005f6c g     F .text	00000044 SpiritRadioGetDigDiv
+08003470 g     F .text	00000028 RadioShieldLedOff
+08000940 g     F .text	0000007a .hidden __eqdf2
+08013cbc g     F .text	00000044 uip_icmp6_input
+0800cfb4 g     F .text	0000005c uip_unlisten
+08001324 g     F .text	000002aa .hidden __divdi3
+08012db4 g     F .text	0000001e leds_arch_init
+08003930 g     F .text	00000100 SdkEvalSpiWriteFifo
+08012244 g     F .text	00000088 packetbuf_copyto
+08016df4 g     F .text	00000058 dao_ack_output
+0801437c g     F .text	0000001c uip_icmp6_init
+080004b0 g     F .text	0000005a .hidden __floatdidf
+20001fe0 g     O .bss	00000008 uip_ds6_timer_ra
+0800c7c0 g     F .text	00000168 uip_ds6_route_add
+08017998 g     F .text	00000028 printf
+0800c308 g     F .text	00000054 uip_ds6_maddr_add
+0801bf30 g     F .text	00000054 _wcrtomb_r
+08008d38 g     F .text	0000004c HAL_RCC_GetPCLK1Freq
+080066cc g     F .text	00000036 HAL_NVIC_SetPriority
+08008d84 g     F .text	0000004c HAL_RCC_GetPCLK2Freq
+080120d8 g     F .text	00000040 nbr_table_get_from_lladdr
+0801ba8c g     F .text	00000020 __sseek
+0801a2e0 g     F .text	0000000a __sinit
+0801bb44 g     F .text	000000a8 __swbuf_r
+08002b54 g     F .text	00000006 HardFault_Handler
+08012488 g     F .text	00000034 packetbuf_attr_copyto
+0800b07c g     F .text	00000020 etimer_pending
+0801c4ac g     O .rodata	00000004 aPLLDivisionFactorTable
+08001a08  w    F .text	00000002 TIM10_IRQHandler
+08011f60 g     F .text	00000050 nbr_table_register
+0800bcac g     F .text	00000026 list_push
+0801af7c g     F .text	00000002 __malloc_unlock
+0801bfa0 g     F .text	000000a0 round
+080026d0 g     F .text	00000060 node_id_restore
+20001fe8 g     O .bss	000000f8 uip_ds6_if
+08001a08  w    F .text	00000002 USB_HP_IRQHandler
+08010f94 g     F .text	00000234 rpl_update_header_empty
+0800284c g     F .text	00000012 MCU_Enter_StopMode
+08001a08  w    F .text	00000002 TIM6_IRQHandler
+08000ef4 g     F .text	00000136 .hidden __divsf3
+08004b0c g     F .text	0000003c SpiritQiSetRssiThresholddBm
+0800cf24 g     F .text	00000090 remove_ext_hdr
+0800aa64 g     F .text	00000044 SysTick_Handler
+0800fd14 g     F .text	00000024 rpl_remove_parent
+200020e0 g     O .bss	00000001 uip_ds6_netif_addr_list_offset
+08003d74 g     F .text	0000000c Spirit1DisableIrq
+08006ad8 g     F .text	00000030 HAL_GPIO_WritePin
+20002154 g     O .bss	00000002 uip_len
+080044c8 g     F .text	00000074 SpiritManagementWaCmdStrobeTx
+08001a08  w    F .text	00000002 PVD_IRQHandler
+08012200 g     F .text	00000044 packetbuf_copyfrom
+0800f4f0 g     F .text	000000aa rpl_repair_root
+08017834 g     F .text	000000c6 memmove
+08003d44 g     F .text	0000000e Spirit1EnableTxIrq
+0800cc58 g     F .text	000000c4 uip_add32
+200000f4 g     O .data	00000004 aLED_GPIO_PORT
+08004aa8 g     F .text	00000034 SpiritQiGetLqi
+08015c10 g     F .text	00000058 sicslowpan_init
+0801c6dc g       *ABS*	00000000 _sidata
+08008ce0 g     F .text	00000058 HAL_RCC_GetHCLKFreq
+08002b8c g     F .text	0000000c PendSV_Handler
+08002b40 g     F .text	0000000c NMI_Handler
+08006704 g     F .text	0000001a HAL_NVIC_EnableIRQ
+0801af80 g     F .text	00000050 _Balloc
+0800b49c g     F .text	000000b8 process_post
+0801c6d0 g       .ARM	00000000 __exidx_end
+08001118 g     F .text	0000004c .hidden __fixsfsi
+08003dbc g     F .text	00000014 Spirit1SetRssiTH
+08017634 g     F .text	00000050 uart_receive_char
+08002c3c g     F .text	0000001c EXTI3_IRQHandler
+08006330 g     F .text	0000008c SpiritTimerSetRxTimeoutStopCondition
+08008bb4 g     F .text	0000012c HAL_RCC_GetSysClockFreq
+08003150 g     F .text	00000034 BSP_LED_Off
+0800c35c g     F .text	00000020 uip_ds6_maddr_rm
+08000930 g     F .text	0000008a .hidden __gtdf2
+08017774 g     F .text	0000000c __errno
+0800fefc g     F .text	0000003c rpl_find_of
+0800fd38 g     F .text	00000074 rpl_nullify_parent
+20000118 g     O .data	00000010 etimer_process
+08005e70 g     F .text	0000005c SpiritRadioSetRefDiv
+08008f3c g     F .text	000002ac HAL_RTC_SetAlarm_IT
+08004058 g     F .text	00000060 SpiritIrqGetStatus
+0801c49c g     O .rodata	00000010 aAPBAHBPrescTable
+0800ac88 g     F .text	0000002c ctimer_set
+08006b08 g     F .text	00000030 HAL_GPIO_EXTI_IRQHandler
+08012ec0 g     F .text	000000b0 HAL_MspInit
+08003bc4 g     F .text	000000e8 SpiritManagementRangeExtInit
+0801be94 g     F .text	00000028 _fstat_r
+08013268 g     F .text	00000052 SpiritCalibrationSelectVco
+08012520 g     F .text	00000024 packetbuf_attr
+0800e998 g     F .text	00000024 uip_ds6_nbr_get_ll
+20002898 g     O .bss	00000004 errno
+080103ac g     F .text	0000006c rpl_recalculate_ranks
+0801c058 g       .text	00000000 _etext
+0800b000 g     F .text	0000001c etimer_reset
+20000b2c g       .bss	00000000 _sbss
+0800e9bc g     F .text	00000054 uip_ds6_nbr_lookup
+20001fa0 g     O .bss	00000002 g_xStatus
+08013394  w    F .text	00000012 HAL_TIM_OC_MspInit
+08011404 g     F .text	00000024 rpl_insert_header
+080009cc g     F .text	00000010 .hidden __aeabi_cdcmple
+080114d8 g     F .text	0000003c rpl_remove_routes
+08000b7c g     F .text	00000160 .hidden __aeabi_fadd
+0800fe24 g     F .text	0000006c rpl_get_any_dag
+0800f688 g     F .text	000000a2 rpl_set_prefix
+0800459c g     F .text	000001b0 SpiritPktBasicInit
+08000b78 g     F .text	00000164 .hidden __subsf3
+08009700  w    F .text	00000012 HAL_RTC_AlarmAEventCallback
+08011514 g     F .text	00000056 rpl_remove_routes_by_nexthop
+08003cec g     F .text	00000024 Spirit1SetPower
+08003dd0 g     F .text	00000012 Spirit1EnableSQI
+20001fdd g     O .bss	00000001 slip_active
+0800bc70 g     F .text	0000003a list_add
+0800d1a8 g     F .text	000016a8 uip_process
+0800411c g     F .text	00000218 SpiritManagementSetFrequencyBase
+0800678c g     F .text	0000031c HAL_GPIO_Init
+200000dc g     O .data	00000004 BUTTON_PORT
+080048d0 g     F .text	00000064 SpiritPktBasicGetReceivedPktLength
+080054fc g     F .text	00000090 SpiritRadioGetFrequencyBase
+20000bfc g     O .bss	00000004 process_list
+080033f0 g     F .text	0000000e SdkEvalEnterShutdown
+080011a4 g     F .text	000000ec memcpy
+0800f22c g     F .text	00000024 rpl_get_parent
+080009bc g     F .text	00000020 .hidden __aeabi_cdrcmple
+08003d54 g     F .text	00000020 Spirit1EnableRxIrq
+08012048 g     F .text	00000090 nbr_table_add_lladdr
+0800ea58 g     F .text	0000002a uip_ds6_nbr_lladdr_from_ipaddr
+200020e1 g     O .bss	00000001 uip_ds6_addr_size
+08001104 g     F .text	00000012 .hidden __aeabi_fcmpgt
+0801a1e4 g     F .text	0000000c _cleanup_r
+08001c08 g     F .text	00000050 spirit_set_ready_state
+08000440 g     F .text	00000022 .hidden __floatsidf
+08005d60 g     F .text	00000054 SpiritRadioSetPALevelMaxIndex
+08000938 g     F .text	00000082 .hidden __ltdf2
+0801720c g     F .text	00000166 frame802154_create
+08003184 g     F .text	000000c4 BSP_PB_Init
+0800c564 g     F .text	00000048 uip_ds6_compute_reachable_time
+08012364 g     F .text	00000020 packetbuf_set_datalen
+08006cf4 g     F .text	00000030 HAL_PWR_EnterSTANDBYMode
+08002be8 g     F .text	0000001c EXTI0_IRQHandler
+0800b8f8 g     F .text	00000144 slip_input_byte
+0801c510 g     O .rodata	00000004 unc_llconf
+08001a08  w    F .text	00000002 I2C2_EV_IRQHandler
+20002158 g     O .bss	00000004 uip_sappdata
+0800ef4c g     F .text	000000b8 tcpip_uipcall
+08001290 g     F .text	00000000 .hidden __aeabi_uldivmod
+08017a30 g     F .text	00000010 puts
+080123c8 g     F .text	00000018 packetbuf_datalen
+2000261c g     O .bss	00000010 packetbuf_addrs
+0800bd38 g     F .text	00000034 list_length
+0800e96c g     F .text	0000002c uip_ds6_nbr_rm
+2000215c g     O .bss	00000004 uip_acc32
+08003a30 g     F .text	0000010c SdkEvalSpiReadFifo
+20001ef0 g     O .bss	00000004 UVI_Value
+0800648c  w    F .text	0000002a HAL_Delay
+0801c4c4 g     O .rodata	0000001c csma_driver
+20000100 g     O .data	00000004 SystemCoreClock
+20001ed8 g     O .bss	00000004 pMCU_LPM_Comm
+0801b9b4 g     F .text	00000058 __fpclassifyd
+00000000  w      *UND*	00000000 malloc
+200020e4 g     O .bss	00000060 uip_ds6_prefix_list
+080176e0 g     F .text	00000020 _fstat
+080124bc g     F .text	00000038 packetbuf_attr_copyfrom
+08000ce4 g     F .text	0000001c .hidden __aeabi_i2f
+08006bd0 g     F .text	0000003e HAL_PWREx_EnableUltraLowPower
+0801c5d8 g     O .rodata	000000c8 __mprec_tens
+20001fdc g     O .bss	00000001 process_maxevents
+0800951c g     F .text	0000015c HAL_RTC_SetDate
+20002890 g     O .bss	00000008 frag_sender
+08002b6c g     F .text	00000006 UsageFault_Handler
+0801a8dc g     F .text	00000008 __locale_charset
+0800b124 g     F .text	00000060 process_start
+0800a95c g     F .text	0000000c watchdog_periodic
+08001034 g     F .text	00000066 .hidden __lesf2
+08000a90 g     F .text	00000040 .hidden __fixunsdfsi
+0800eb50 g     F .text	00000030 tcpip_output
+0800f8a4 g     F .text	0000004a rpl_free_dag
+20001e88 g     O .bss	00000004 __malloc_top_pad
+0800b554 g     F .text	00000030 process_post_synch
+08011678 g     F .text	00000064 rpl_ipv6_neighbor_callback
+0800e87c g     F .text	0000004c uip_htonl
+08006aa8 g     F .text	00000030 HAL_GPIO_ReadPin
+0800bc38 g     F .text	00000038 list_tail
+20000714 g     O .data	00000004 __mb_cur_max
+08000420 g     F .text	0000001e .hidden __aeabi_ui2d
+0801a8f0 g     F .text	00000008 _localeconv_r
+08003e58 g     F .text	0000002c SpiritCmdStrobeCommand
+0800f81c g     F .text	00000088 rpl_alloc_dag
+20002654 g     O .bss	0000003c UartHandle
+0800c69c g     F .text	0000002a uip_ds6_route_nexthop
+0801b104 g     F .text	00000012 __i2b
+0801a56c g     F .text	00000320 __sfvwrite_r
+08005a4c g     F .text	00000270 SpiritRadioGetdBm2Reg
+0801c2ec g     O .rodata	0000000a GPIO_PIN
+20000000 g       .data	00000000 _sdata
+08001a08  w    F .text	00000002 SPI1_IRQHandler
+0800a950 g     F .text	0000000c watchdog_start
+0800019c g     F .text	00000000 .hidden __aeabi_drsub
+0801ba0c g     F .text	00000024 _sbrk_r
+0800afe0 g     F .text	00000020 etimer_set
+080093a0 g     F .text	0000017c HAL_RTC_SetTime
+20001eb8 g     O .bss	0000000c device_id
+0801bf08 g     F .text	00000028 _read_r
+080009f0 g     F .text	00000012 .hidden __aeabi_dcmplt
+0801bd3c g     F .text	00000084 _fclose_r
+20001e84 g     O .bss	00000004 __malloc_max_sbrked_mem
+0801c4bc g     O .rodata	00000008 linkaddr_null
+0800ea10 g     F .text	00000024 uip_ds6_nbr_ll_lookup
+08012624 g     F .text	0000001c linkaddr_set_node_addr
+0800673c g     F .text	00000018 HAL_SYSTICK_Config
+08000464 g     F .text	0000003a .hidden __extendsfdf2
+08000760 g     F .text	000001d0 .hidden __aeabi_ddiv
+20002160 g     O .bss	00000008 uip_lladdr
+080028e4 g     F .text	0000000a RadioPowerOFF
+080001a8 g     F .text	00000276 .hidden __adddf3
+08003b80 g     F .text	00000044 SpiritManagementIdentificationRFBoard
+0800103c g     F .text	0000005e .hidden __nesf2
+0800ad24 g     F .text	00000050 ctimer_reset
+0800f210 g     F .text	0000001c rpl_dag_init
+0800ce3c g     F .text	00000010 uip_icmp6chksum
+0801c6c8 g       .ARM	00000000 __exidx_start
+08004ff0 g     F .text	00000134 SpiritRadioSearchWCP
+20002168 g     O .bss	00000118 uip_aligned_buf
+0800cc00 g     F .text	00000058 uip_ds6_defrt_periodic
+0800050c g     F .text	00000254 .hidden __aeabi_dmul
+08017700 g     F .text	00000016 _isatty
+20002280 g     O .bss	00000001 uip_flags
+20000030 g     O .data	00000044 spirit_cb
+0800eabc g     F .text	00000088 uip_ds6_neighbor_periodic
+0801c540 g     O .rodata	00000004 _global_impure_ptr
+0800b584 g     F .text	00000038 process_poll
+08001a08  w    F .text	00000002 USB_FS_WKUP_IRQHandler
+20000be0 g     O .bss	00000004 rtimer_clock
+08011b0c g     F .text	00000038 queuebuf_free
+0801b5d4 g     F .text	000003e0 _realloc_r
+08017780 g     F .text	00000050 __libc_init_array
+08009714 g     F .text	00000058 RTC_EnterInitMode
+08011a44 g     F .text	0000001c queuebuf_init
+08001a08  w    F .text	00000002 DMA2_Channel2_IRQHandler
+080015d0 g     F .text	0000026e .hidden __udivdi3
+08001a08  w    F .text	00000002 DMA1_Channel4_IRQHandler
+0801be70 g     F .text	00000024 _fputwc_r
+20000bd0 g     O .bss	00000002 node_id
+0801c6a0 g     O .rodata	00000028 __mprec_bigtens
+0800288c g     F .text	00000016 MCU_Enter_SleepMode
+08000420 g     F .text	0000001e .hidden __floatunsidf
+08001a08  w    F .text	00000002 ADC1_IRQHandler
+08010418 g     F .text	00000060 rpl_process_parent_event
+080028a4 g     F .text	00000040 RadioPowerON
+080175a4 g     F .text	00000068 _sbrk
+0800929c  w    F .text	00000012 HAL_RTCEx_AlarmBEventCallback
+0801b3a8 g     F .text	00000046 __mcmp
+08003df4 g     F .text	0000002a Spirit1GetRxPacket
+08003854 g     F .text	000000dc SdkEvalSpiCommandStrobes
+0801156c g     F .text	0000005a rpl_add_route
+08009248 g     F .text	00000054 HAL_RTCEx_WakeUpTimerIRQHandler
+08012150 g     F .text	00000024 nbr_table_lock
+080097e4 g     F .text	000000c4 HAL_SPI_Init
+0801c040 g     F .text	00000000 _init
+0800bc20 g     F .text	00000018 list_head
+20002144 g     O .bss	00000010 uip_ds6_timer_periodic
+080125e0 g     F .text	0000001a linkaddr_copy
+0800b104 g     F .text	00000020 process_alloc_event
+08003428 g     F .text	00000048 RadioShieldLedInit
+080091e8 g     F .text	0000005e HAL_RTC_WaitForSynchro
+0800eb44 g     F .text	0000000c uip_nd6_init
+08004b48 g     F .text	00000434 SpiritRadioInit
+08003b3c g     F .text	00000042 Spirit1InterfaceInit
+0800350c g     F .text	000000d0 HAL_SPI_MspInit
+080064d4  w    F .text	0000001c HAL_ResumeTick
+08000ad0 g     F .text	0000009e .hidden __aeabi_d2f
+0800c4b4 g     F .text	0000002c uip_ds6_set_addr_iid
+08001a08  w    F .text	00000002 USART3_IRQHandler
+08013168 g     F .text	00000038 SpiritCalibrationGetVcoCalData
+20002284 g     O .bss	00000004 uip_next_hdr
+08000b78 g     F .text	00000164 .hidden __aeabi_fsub
+08010c88 g     F .text	00000048 rpl_schedule_probing
+0801a2f4 g     F .text	0000002c __libc_fini_array
+2000264c g     O .bss	00000008 linkaddr_node_addr
+08008dd0 g     F .text	0000016c HAL_RCC_GetOscConfig
+0800a398 g     F .text	00000172 HAL_UART_Receive
+2000289c g       .bss	00000000 _ebss
+080033b4 g     F .text	0000003c RadioGpioSetLevel
+0800ea34 g     F .text	00000024 uip_ds6_nbr_ipaddr_from_lladdr
+0800b01c g     F .text	0000001c etimer_restart
+08001a08  w    F .text	00000002 DMA1_Channel7_IRQHandler
+0800acb4 g     F .text	00000070 ctimer_set_with_process
+080019c0  w    F .text	00000034 Reset_Handler
+08003d1c g     F .text	00000014 Spirit1SetPayloadlength
+0801b068 g     F .text	00000040 __hi0bits
+200024ec g     O .bss	00000004 default_instance
+08005db4 g     F .text	00000060 SpiritRadioAFCFreezeOnSync
+08006c10 g     F .text	0000003e HAL_PWREx_DisableUltraLowPower
+080010f0 g     F .text	00000012 .hidden __aeabi_fcmpge
+08000a40 g     F .text	0000004e .hidden __fixdfsi
+08001a08  w    F .text	00000002 LCD_IRQHandler
+08014124 g     F .text	000000cc uip_icmp6_send
+08001a08  w    F .text	00000002 UART5_IRQHandler
+0801330c g     F .text	00000036 HAL_TIM_Base_Start_IT
+08000d10 g     F .text	0000007c .hidden __floatdisf
+0800ac5c g     F .text	0000002c ctimer_init
+0800c6c8 g     F .text	00000018 uip_ds6_route_head
+0800fe90 g     F .text	0000006c rpl_get_instance
+080063e8 g     F .text	00000038 HAL_Init
+0801b57c g     F .text	00000058 _putc_r
+0800102c g     F .text	0000006e .hidden __gtsf2
+0801c514 g     O .rodata	00000004 unc_ctxconf
+080098a8 g     F .text	0000004a HAL_SPI_DeInit
+08001a08  w    F .text	00000002 TIM4_IRQHandler
+08006b4c g     F .text	0000003e HAL_PWREx_EnableFastWakeUp
+080001a8 g     F .text	00000276 .hidden __aeabi_dadd
+08002980 g     F .text	00000044 HAL_RTCEx_WakeUpTimerEventCallback
+08000938 g     F .text	00000082 .hidden __ledf2
+080010dc g     F .text	00000012 .hidden __aeabi_fcmple
+08016398 g     F .text	00000446 dio_output
+0800aaa8 g     F .text	00000020 clock_init
+0800aaf8 g     F .text	00000026 clock_wait
+08001a08  w    F .text	00000002 DMA2_Channel1_IRQHandler
+0801b258 g     F .text	000000a0 __pow5mult
+080004a0 g     F .text	0000006a .hidden __aeabi_ul2d
+080124f4 g     F .text	0000002c packetbuf_set_attr
+080051fc g     F .text	00000040 SpiritRadioGetChannelSpace
+20002288 g     O .bss	00000004 uip_udp_conn
+0800b644 g     F .text	00000030 timer_expired
+08012414 g     F .text	0000001a packetbuf_totlen
+00000000  w      *UND*	00000000 __deregister_frame_info
+08006b38  w    F .text	00000014 HAL_GPIO_EXTI_Callback
+2000289c g       ._user_heap_stack	00000000 end
+08001a08  w    F .text	00000002 I2C1_EV_IRQHandler
+0800bdb8 g     F .text	0000013c uip_ds6_init
+0800e8e4 g     F .text	00000088 uip_ds6_nbr_add
+080098f4  w    F .text	00000012 HAL_SPI_MspDeInit
+0800a990 g     F .text	000000b4 rtimer_arch_init
+200000c0 g     O .data	00000006 xAddressInit
+080040e4 g     F .text	00000038 SpiritLinearFifoReadNumElementsRxFifo
+080100d0 g     F .text	00000182 rpl_add_dag
+08003d80 g     F .text	0000003c Spirit1SetRxTimeout
+0801c2b4 g     O .rodata	00000038 spirit_radio_driver
+20001edc g     O .bss	0000000c xRxFrame
+0800976c g     F .text	0000003c RTC_ByteToBcd2
+2000262c g     O .bss	0000001e packetbuf_attrs
+08000a2c g     F .text	00000012 .hidden __aeabi_dcmpgt
+08001a08  w    F .text	00000002 DMA1_Channel6_IRQHandler
+08011b90 g     F .text	00000028 queuebuf_attr
+08001a08  w    F .text	00000002 UART4_IRQHandler
+0800c928 g     F .text	000000dc uip_ds6_route_rm
+08001a08  w    F .text	00000002 DMA2_Channel4_IRQHandler
+0801a2ec g     F .text	00000002 __sfp_lock_acquire
+0801aee4 g     F .text	00000092 memchr
+080125b0 g     F .text	00000030 netstack_init
+080028f0 g     F .text	0000000c RadioStandBy
+08004334 g     F .text	00000194 SpiritManagementWaVcoCalibration
+0801a3bc g     F .text	000001b0 _free_r
+200000c8 g     O .data	00000014 GPIO_PORT
+08002d78 g     F .text	00000060 stm32cube_hal_init
+0800caf4 g     F .text	00000064 uip_ds6_defrt_rm
+08001a08  w    F .text	00000002 TIM3_IRQHandler
+08001a08  w    F .text	00000002 RCC_IRQHandler
+20001ee8 g     O .bss	00000004 pRadio_LPM_Comm
+0801a8e4 g     F .text	0000000c __locale_mb_cur_max
+08011a74 g     F .text	00000070 queuebuf_new_from_packetbuf
+08000a18 g     F .text	00000012 .hidden __aeabi_dcmpge
+0800e850 g     F .text	0000002a uip_htons
+08017684 g     F .text	00000018 __io_putchar
+08001a08  w    F .text	00000002 DMA1_Channel1_IRQHandler
+08002730 g     F .text	0000001c HAL_Spirit1_Init
+080001a4 g     F .text	0000027a .hidden __aeabi_dsub
+080125fc g     F .text	00000028 linkaddr_cmp
+08001a08 g       .text	00000002 Default_Handler
+20000b24 g     O .data	00000004 __malloc_sbrk_base
+20000074 g     O .data	0000000c MCU_LPM_cb
+0800ce4c g     F .text	00000010 uip_tcpchksum
+08013028 g     F .text	000000d4 USARTConfig
+080064b8  w    F .text	0000001c HAL_SuspendTick
+080004a0 g     F .text	0000006a .hidden __floatundidf
+20000234 g     O .data	00000004 Usart_BaudRate
+08017a54 g     F .text	00000040 rand
+080176ac g     F .text	0000001a _lseek
+08005d0c g     F .text	00000054 SpiritRadioSetPACwc
+0801b2f8 g     F .text	000000b0 __lshift
+20000090 g     O .data	00000003 xGpioIRQ
+080040b8 g     F .text	0000002c SpiritIrqClearStatus
+20000138 g     O .data	00000010 sensors_process
+08011ae4 g     F .text	00000028 queuebuf_update_attr_from_packetbuf
+08000ce4 g     F .text	0000001c .hidden __floatsisf
+08003e84 g     F .text	0000005c SpiritGeneralSetExtRef
+08002ccc g     F .text	0000000e EXTI15_10_IRQHandler
+0801bc14 g     F .text	000000a4 __register_exitproc
+0800aac8 g     F .text	00000018 clock_seconds
+200001c0 g     O .data	00000004 rpl_parents
+0800c4e0 g     F .text	00000082 get_match_length
+08011fb0 g     F .text	0000004c nbr_table_head
+080056f4 g     F .text	000001d8 SpiritRadioSearchChannelBwME
+0801b118 g     F .text	0000013e __multiply
+08003cd8 g     F .text	00000014 Spirit1RadioInit
+200024f0 g     O .bss	0000012c instance_table
+0800c0e4 g     F .text	000000e0 uip_ds6_addr_add
+0800f8f0 g     F .text	00000074 rpl_add_parent
+0800845c g     F .text	00000758 HAL_RCC_ClockConfig
+080066b8 g     F .text	00000014 HAL_NVIC_SetPriorityGrouping
+0800b5bc g     F .text	00000022 process_is_running
+08001118 g     F .text	0000004c .hidden __aeabi_f2iz
+20001e8c g     O .bss	00000028 __malloc_current_mallinfo
+0800103c g     F .text	0000005e .hidden __eqsf2
+0801b4d4 g     F .text	000000a8 __d2b
+08004864 g     F .text	0000006c SpiritPktBasicSetPayloadLength
+080027c4 g     F .text	00000088 Enter_LP_mode
+080058cc g     F .text	00000180 SpiritRadioSearchFreqDevME
+2000228c g     O .bss	00000004 uip_appdata
+08004824 g     F .text	00000040 SpiritPktBasicGetAddressField
+08006720 g     F .text	0000001a HAL_NVIC_DisableIRQ
+08002568 g     F .text	00000168 spirit1_interrupt_callback
+08011784 g     F .text	0000005c rpl_init
+08012118 g     F .text	00000038 nbr_table_remove
+20002290 g     O .bss	00000004 uip_conn
+200024e8 g     O .bss	00000001 tcpip_event
+08001a08  w    F .text	00000002 TIM7_IRQHandler
+0800c288 g     F .text	00000080 uip_ds6_get_link_local
+080122cc g     F .text	00000048 packetbuf_hdralloc
+08000ef4 g     F .text	00000136 .hidden __aeabi_fdiv
+0801bd18 g     F .text	00000024 _close_r
+08000440 g     F .text	00000022 .hidden __aeabi_i2d
+08003cac g     F .text	00000018 SpiritManagementGetRangeExtender
+08001a08  w    F .text	00000002 TIM5_IRQHandler
+08005fb0 g     F .text	00000018 SpiritRadioGetXtalFrequency
+08016b94 g     F .text	00000032 dao_output
+0800af68 g     F .text	00000010 etimer_request_poll
+080177d0 g     F .text	00000062 memcmp
+080132bc g     F .text	0000004e HAL_TIM_Base_Init
+0800523c g     F .text	00000088 SpiritRadioGetFrequencyOffset
+0801c4e0 g     O .rodata	00000020 nullrdc_driver
+08000d00 g     F .text	0000008c .hidden __floatundisf
+08018fb4 g     F .text	000000c4 __swsetup_r
+0800fa2c g     F .text	0000022c rpl_select_dag
+08001320  w    F .text	00000002 .hidden __aeabi_ldiv0
+08002c58 g     F .text	00000074 EXTI9_5_IRQHandler
+0800a054 g     F .text	0000001c HAL_SPI_GetState
+08000760 g     F .text	000001d0 .hidden __divdf3
+08001a08  w    F .text	00000002 TIM9_IRQHandler
+20002294 g     O .bss	000000c0 uip_conns
+0800a244 g     F .text	00000152 HAL_UART_Transmit
+0800ca70 g     F .text	00000084 uip_ds6_defrt_add
+08001a08  w    F .text	00000002 TAMPER_STAMP_IRQHandler
+08002b98 g     F .text	00000028 RTC_WKUP_IRQHandler
+0801c51c g     O .rodata	00000002 llprefix
+08012544 g     F .text	0000002c packetbuf_set_addr
+20000718 g     O .data	00000408 __malloc_av_
+08000cdc g     F .text	00000024 .hidden __aeabi_ui2f
+0800050c g     F .text	00000254 .hidden __muldf3
+08005ecc g     F .text	00000044 SpiritRadioGetRefDiv
+0801ba30 g     F .text	00000022 __sread
+20000108 g     O .data	00000010 ctimer_process
+08006028 g     F .text	00000030 SpiritTimerSetRxTimeoutCounter
+0800bfec g     F .text	00000090 uip_ds6_prefix_add
+0800558c g     F .text	00000168 SpiritRadioSearchDatarateME
+08012174 g     F .text	00000024 nbr_table_unlock
+0800ede8 g     F .text	00000164 tcpip_ipv6_output
+08003740 g     F .text	00000114 SdkEvalSpiReadRegisters
+08006474  w    F .text	00000018 HAL_GetTick
+0801af78 g     F .text	00000002 __malloc_lock
+080112ec g     F .text	00000118 rpl_invert_header
+08005cbc g     F .text	00000050 SpiritRadioSetPALeveldBm
+0801a1b8 g     F .text	0000002c _fflush_r
+080051cc g     F .text	00000030 SpiritRadioGetChannel
+0801bcb8 g     F .text	0000005e _calloc_r
+08004a44 g     F .text	00000064 SpiritQiSetSqiThreshold
+08001a08  w    F .text	00000002 SPI2_IRQHandler
+080123e0 g     F .text	00000034 packetbuf_hdrlen
+0800103c g     F .text	0000005e .hidden __cmpsf2
+08003d10 g     F .text	0000000a Spirit1PacketConfig
+08013468 g     F .text	000001c4 HAL_TIM_ConfigClockSource
+0800b2bc g     F .text	0000004c process_init
+080178fc g     F .text	0000009a memset
+08002908 g     F .text	00000078 Set_Alarm
+0800bf68 g     F .text	00000084 uip_ds6_list_loop
+08002b5c g     F .text	00000006 MemManage_Handler
+080018a0 g     F .text	000000ec main
+08003248 g     F .text	0000002c BSP_PB_GetState
+20001e80 g     O .bss	00000004 __malloc_max_total_mem
+08012570 g     F .text	00000024 packetbuf_addr
+08012594 g     F .text	0000001c packetbuf_holds_broadcast
+08000d10 g     F .text	0000007c .hidden __aeabi_l2f
+08017a40 g     F .text	00000014 srand
+08009b94 g     F .text	000004be HAL_SPI_TransmitReceive
+08003e4c g     F .text	0000000a Spirit1ClearIRQ
+080097a8 g     F .text	0000003c RTC_Bcd2ToByte
+08001034 g     F .text	00000066 .hidden __ltsf2
+08004f80 g     F .text	00000070 SpiritRadioSetXtalFlag
+08010478 g     F .text	00000308 rpl_process_dio
+0800f7ac g     F .text	00000070 rpl_alloc_instance
+08002b74 g     F .text	0000000c SVC_Handler
+08010970 g     F .text	00000038 rpl_reset_dio_timer
+0801baac g     F .text	00000008 __sclose
+08001a08  w    F .text	00000002 DMA2_Channel5_IRQHandler
+08009678 g     F .text	00000088 HAL_RTC_AlarmIRQHandler
+0800fdac g     F .text	00000078 rpl_move_parent
+080133a8 g     F .text	000000c0 HAL_TIM_OC_ConfigChannel
+08004934 g     F .text	00000038 SpiritPktCommonGetControlLength
+08000ad0 g     F .text	0000009e .hidden __truncdfsf2
+080191c8 g     F .text	00000ea2 _dtoa_r
+0801a9d8 g     F .text	0000050c _malloc_r
+0801bf84 g     F .text	0000001a __ascii_wctomb
+08012e0c g     F .text	000000b4 spirit1_arch_refresh_status
+080004b0 g     F .text	0000005a .hidden __aeabi_l2d
+20001eec g     O .bss	00000004 pRadioDriver
+0800b05c g     F .text	0000001e etimer_expiration_time
+0800bd6c g     F .text	00000022 list_item_next
+08013b00 g     F .text	00000060 memb_alloc
+0800c704 g     F .text	00000018 uip_ds6_route_num_routes
+0800e8c8 g     F .text	0000001c uip_ds6_neighbors_init
+00000000  w      *UND*	00000000 __libc_fini
+08004adc g     F .text	00000030 SpiritQiGetRssi
+20000bd2 g     O .bss	00000001 rx_timeout
+08001a08  w    F .text	00000002 DMA1_Channel5_IRQHandler
+0800c1c4 g     F .text	00000088 uip_ds6_addr_rm
+08006b8c g     F .text	00000044 HAL_PWREx_DisableFastWakeUp
+08001a08  w    F .text	00000002 USB_LP_IRQHandler
+08000d00 g     F .text	0000008c .hidden __aeabi_ul2f
+08001a08  w    F .text	00000002 EXTI4_IRQHandler
+080010a4 g     F .text	00000010 .hidden __aeabi_cfcmple
+0800c37c g     F .text	0000003c uip_ds6_maddr_lookup
+0801a320 g     F .text	0000009c _malloc_trim_r
+08003068 g     F .text	00000058 SystemPower_Config
+08000d8c g     F .text	00000168 .hidden __mulsf3
+080092b0 g     F .text	000000f0 HAL_RTC_Init
+20001254 g     O .bss	00000001 uip_ext_bitmap
+20001ec4 g     O .bss	00000008 node_mac
+0800cb58 g     F .text	0000004c uip_ds6_defrt_lookup
+080123a8 g     F .text	00000020 packetbuf_hdrptr
+08005170 g     F .text	0000005c SpiritRadioGetBand
+08013b60 g     F .text	00000074 memb_free
+0800a8dc g     F .text	00000068 SystemInit
+0800f250 g     F .text	0000002c rpl_get_parent_ipaddr
+08000940 g     F .text	0000007a .hidden __nedf2
+0800b09c g     F .text	00000068 etimer_stop
+0800bc08 g     F .text	00000018 list_init
+0801c04c g     F .text	00000000 _fini
+0800c71c g     F .text	000000a4 uip_ds6_route_lookup
+08012fa8 g     F .text	00000080 HAL_UART_MspInit
+20000128 g     O .data	00000010 slip_process
+0800ab68 g     F .text	0000000c energest_flush
+08010928 g     F .text	00000048 rpl_reset_periodic_timer
+0801908c g     F .text	0000000c atexit
+08011b44 g     F .text	0000004c queuebuf_to_packetbuf
+0800102c g     F .text	0000006e .hidden __gesf2
+0801bbec g     F .text	00000028 _write_r
+08013d00 g     F .text	00000020 uip_icmp6_register_input_handler
+08001a08  w    F .text	00000002 DMA1_Channel3_IRQHandler
+08015e84 g     F .text	0000006c dis_output
+08001a08  w    F .text	00000002 COMP_IRQHandler
+0800bd90 g     F .text	00000018 random_init
+08000b70 g     F .text	0000016c .hidden __aeabi_frsub
+2000019c g     O .data	00000004 ds6_neighbors
+08006c50 g     F .text	0000004c HAL_PWR_EnterSLEEPMode
+0801c518 g     O .rodata	00000004 unc_mxconf
+20000000 g     O .data	00000010 low_power_trials
+08006420  w    F .text	00000038 HAL_InitTick
+08016bc8 g     F .text	0000020c dao_output_target
+200006b8 g     O .data	00000004 _impure_ptr
+0801c524 g     O .rodata	0000000c sicslowpan_driver
+08013ac4 g     F .text	0000003c memb_init
+080010b4 g     F .text	00000012 .hidden __aeabi_fcmpeq
+08013bd4 g     F .text	00000040 memb_inmemb
+0801a070 g     F .text	00000148 __sflush_r
+08006458  w    F .text	0000001c HAL_IncTick
+08000d8c g     F .text	00000168 .hidden __aeabi_fmul
+20002354 g     O .bss	00000010 uip_listenports
+08016e4c g     F .text	00000030 rpl_icmp6_register_handlers
+0800109c g     F .text	00000018 .hidden __aeabi_cfrcmple
+08002b4c g     F .text	00000006 WWDG_IRQHandler
+08013ee8 g     F .text	0000023c uip_icmp6_error_output
+080028fc g     F .text	0000000c RadioSleep
+08010cd0 g     F .text	000001a8 rpl_verify_header
+08005fe4 g     F .text	00000044 SpiritTimerSetRxTimeoutMs
+0800ff38 g     F .text	00000198 rpl_join_instance
+200000f8 g     O .data	00000004 SpiTimeout
+08011428 g     F .text	00000018 rpl_get_mode
+200001c4 g     O .data	0000001c rpl_mrhof
+200000e0 g     O .data	00000014 aRADIO_GPIO_PORT
+0800ab5c g     F .text	0000000c energest_init
+0800ad74 g     F .text	00000044 ctimer_stop
+0800b5ec g     F .text	00000020 timer_set
+08012dd4 g     F .text	00000018 slip_arch_writeb
+08003f88 g     F .text	000000d0 SpiritIrq
+0800a968 g     F .text	00000028 TIM2_IRQHandler
+0800b62c g     F .text	00000018 timer_restart
+200001a0 g     O .data	00000010 tcpip_process
+0801034c g     F .text	00000060 rpl_local_repair
+0800b60c g     F .text	00000020 timer_reset
+08000a90 g     F .text	00000040 .hidden __aeabi_d2uiz
+08017374 g     F .text	00000230 frame802154_parse
+20001fa4 g     O .bss	00000038 htim2
+20000094 g     O .data	0000001c xRadioInit
+080010c8 g     F .text	00000012 .hidden __aeabi_fcmplt
+08006754 g     F .text	00000038 HAL_SYSTICK_CLKSourceConfig
+0800edc0 g     F .text	00000028 tcpip_input
+08011ffc g     F .text	0000004c nbr_table_next
+0800453c g     F .text	00000038 SpiritManagementWaCmdStrobeRx
+20014000 g       *ABS*	00000000 _estack
+08001a08  w    F .text	00000002 DAC_IRQHandler
+0800cba4 g     F .text	0000005c uip_ds6_defrt_choose
+080171dc g     F .text	00000030 frame802154_hdrlen
+08002c04 g     F .text	0000001c EXTI1_IRQHandler
+0800ba84 g     F .text	00000034 sensors_changed
+080009dc g     F .text	00000012 .hidden __aeabi_dcmpeq
+20002690 g     O .bss	00000200 UART_RxBuffer
+20000020 g     O .data	00000010 spirit_radio_process
+0800b46c g     F .text	00000030 process_run
+08017718 g     F .text	00000038 _write
+0801c530 g     O .rodata	0000000c framer_802154
+20000b2c g       .data	00000000 _edata
+20000c00 g     O .bss	00000004 process_current
+0800c07c g     F .text	00000068 uip_ds6_is_addr_onlink
+20001255 g     O .bss	00000001 uip_ext_len
+0801bdc0 g     F .text	000000ae __fputwc
+08005124 g     F .text	0000004c SpiritRadioGetSynthWord
+0800f998 g     F .text	00000030 rpl_find_parent
+0800b038 g     F .text	00000022 etimer_expired
+08012f70 g     F .text	00000038 HAL_TIM_Base_MspInit
+20001eb4 g     O .bss	00000003 sensors_flags
+0800bef4 g     F .text	00000074 uip_ds6_periodic
+0801c28c g     O .rodata	00000008 autostart_processes
+08001a08  w    F .text	00000002 TIM11_IRQHandler
+0800f1b8 g     F .text	00000044 rpl_get_nbr
+08001164 g     F .text	0000003e .hidden __aeabi_f2uiz
+08012314 g     F .text	00000050 packetbuf_hdrreduce
+08002cdc g     F .text	0000009c USART2_IRQHandler
+0801c2a4 g     O .rodata	00000010 radio_sensor
+0801ba54 g     F .text	00000038 __swrite
+08006f00 g     F .text	0000155c HAL_RCC_OscConfig
+20000b20 g     O .data	00000004 __malloc_trim_threshold
+08012198 g     F .text	0000002a nbr_table_get_lladdr
+08003d30 g     F .text	00000014 Spirit1SetDestinationAddress
+20001256 g     O .bss	00000001 uip_ext_opt_offset
+08000000 g     O .isr_vector	00000000 g_pfnVectors
+08006058 g     F .text	000002d8 SpiritTimerComputeRxTimeoutValues
+0801a88c g     F .text	00000050 _fwalk_reent
+08000cdc g     F .text	00000024 .hidden __floatunsisf
+0801b3f0 g     F .text	000000e4 __mdiff
+0800c6e0 g     F .text	00000024 uip_ds6_route_next
+08000a40 g     F .text	0000004e .hidden __aeabi_d2iz
+08006d24 g     F .text	000001dc HAL_RCCEx_PeriphCLKConfig
+20001f4c g     O .bss	00000054 pSpiHandle
+08012384 g     F .text	00000024 packetbuf_dataptr
+08002860 g     F .text	0000002c MCU_Enter_StandbyMode
+080010a4 g     F .text	00000010 .hidden __aeabi_cfcmpeq
+08001a08  w    F .text	00000002 I2C2_ER_IRQHandler
+0801c4b0 g     O .rodata	00000009 aPLLMulFactorTable
+08001a08  w    F .text	00000002 DMA1_Channel2_IRQHandler
+08003498 g     F .text	00000074 SdkEvalSpiInit
+08013a90 g     F .text	00000034 stimer_expired
+0801a2f0 g     F .text	00000002 __sfp_lock_release
+08003cc4 g     F .text	00000014 Spirit1GpioIrqInit
+080030c0 g     F .text	00000090 BSP_LED_Init
+0801c500 g     O .rodata	00000010 nullsec_driver
+20001ef4 g     O .bss	00000020 RtcHandle
+08010b04 g     F .text	00000018 rpl_schedule_dao
+080116dc g     F .text	000000a8 rpl_purge_dags
+0800fcc8 g     F .text	0000004c rpl_select_parent
+08003de4 g     F .text	00000010 Spirit1StartRx
+0800eb80 g     F .text	0000001c tcpip_set_outputfunc
+080111c8 g     F .text	00000124 rpl_update_header_final
+0801760c g     F .text	00000028 uart_send_char
+08017750 g     F .text	00000022 _read
+08001320  w    F .text	00000002 .hidden __aeabi_idiv0
+08009908 g     F .text	0000028a HAL_SPI_Transmit
+08005e14 g     F .text	0000005c SpiritRadioPersistenRx
+08001164 g     F .text	0000003e .hidden __fixunssfsi
+0800ce6c g     F .text	000000b8 uip_init
+08001a08  w    F .text	00000002 FLASH_IRQHandler
+0800c3b8 g     F .text	000000fc uip_ds6_select_src
+0800aae0 g     F .text	00000018 clock_time
+08012dec g     F .text	00000020 uart_send_msg
+08002b64 g     F .text	00000006 BusFault_Handler
+08001a08  w    F .text	00000002 USART1_IRQHandler
+0801a8f8 g     F .text	000000e0 __smakebuf_r
+08003400 g     F .text	00000028 SdkEvalExitShutdown
+0800ea84 g     F .text	00000038 uip_ds6_link_neighbor_callback
+08017a94 g     F .text	0000005c strlen
+08003e20 g     F .text	0000002c Spirit1StartTx
+08001a08  w    F .text	00000002 SPI3_IRQHandler
+08003ee0 g     F .text	00000048 SpiritGpioInit
+0800c24c g     F .text	0000003c uip_ds6_addr_lookup
+08003f28 g     F .text	00000060 SpiritIrqDeInit
+0800274c g     F .text	0000005c SPIRIT1_Init
+080009cc g     F .text	00000010 .hidden __aeabi_cdcmpeq
+08000930 g     F .text	0000008a .hidden __gedf2
+08013a70 g     F .text	00000020 stimer_set
+0800ce5c g     F .text	00000010 uip_udpchksum
+080131a0 g     F .text	00000064 SpiritCalibrationSetVcoCalDataTx
+080121c4 g     F .text	0000003c packetbuf_clear
+08011440 g     F .text	00000098 rpl_purge_routes
+0800a1b8 g     F .text	0000008c HAL_UART_Init
+0800f0c0 g     F .text	000000f8 uip_debug_ipaddr_print
+20000b28 g     O .data	00000004 __wctomb
+080012c0 g     F .text	00000030 .hidden __gnu_ldivmod_helper
+0800496c g     F .text	0000006c SpiritPktCommonFilterOnCrc
+08013c14 g     F .text	00000046 memb_numfree
+080115c8 g     F .text	000000b0 rpl_link_neighbor_callback
+08001a08  w    F .text	00000002 I2C1_ER_IRQHandler
+20001fde g     O .bss	00000001 sensors_event
+0801bb2c g     F .text	00000018 __sprint_r
+08013344 g     F .text	0000004e HAL_TIM_OC_Init
+08000464 g     F .text	0000003a .hidden __aeabi_f2d
+08005f10 g     F .text	0000005c SpiritRadioSetDigDiv
+0800b5e0 g     F .text	0000000a rtimer_init
+20001f14 g     O .bss	00000038 I2cHandle
+0801c294 g     O .rodata	00000010 button_sensor
+0800a944 g     F .text	0000000c watchdog_init
+08004574 g     F .text	00000028 SpiritManagementWaTRxFcMem
+0800c614 g     F .text	00000058 uip_ds6_route_init
+200000b0 g     O .data	00000010 xBasicInit
+00000000  w      *UND*	00000000 _Jv_RegisterClasses
+080049d8 g     F .text	0000006c SpiritQiSqiCheck
+080027a8 g     F .text	0000001c BasicProtocolInit
+0800ab20 g     F .text	0000003a autostart_start
+0800474c g     F .text	000000d8 SpiritPktBasicAddressesInit
+08005fc8 g     F .text	0000001c SpiritRadioSetXtalFrequency
+080001a4 g     F .text	0000027a .hidden __subdf3
+08017af0 g     F .text	00001446 _vfprintf_r
+0800bcd4 g     F .text	00000062 list_remove
+20000010 g     O .data	0000000c sensors
+0801b0a8 g     F .text	0000005a __lo0bits
+08006c9c g     F .text	00000058 HAL_PWR_EnterSTOPMode
+080130fc g     F .text	0000006c SpiritCalibrationVco
+08003274 g     F .text	000000d8 RadioGpioInit
+00000000  w      *UND*	00000000 __register_frame_info
+08012430 g     F .text	00000058 packetbuf_attr_clear
+0800f72c g     F .text	0000007e rpl_set_default_route
+080052c4 g     F .text	00000238 SpiritRadioSetFrequencyBase
+08000b7c g     F .text	00000160 .hidden __addsf3
+08013204 g     F .text	00000064 SpiritCalibrationSetVcoCalDataRx
+20002364 g     O .bss	00000002 uip_slen
+0800f9f0 g     F .text	0000003a rpl_find_parent_any_dag
+080063bc g     F .text	0000002c SpiritRefreshStatus
+0800334c g     F .text	00000068 RadioGpioInterruptCmd
+080176c8 g     F .text	00000018 _close
+08011a60 g     F .text	00000014 queuebuf_numfree
+20002368 g     O .bss	00000180 uip_udp_conns
+08001a08  w    F .text	00000002 DMA2_Channel3_IRQHandler
+0801afe4 g     F .text	00000082 __multadd
+0801afd0 g     F .text	00000012 _Bfree
+08012b9c g     F .text	00000038 mac_call_sent_callback
+0800b674 g     F .text	00000014 leds_init
+08002fa4 g     F .text	00000090 HAL_RTC_MspInit
+
+

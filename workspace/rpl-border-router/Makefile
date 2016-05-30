@@ -36,7 +36,7 @@ PROJECT_SOURCEFILES += httpd-simple.c
 else ifneq ($(WITH_WEBSERVER), 0)
 APPS += $(WITH_WEBSERVER)
 CFLAGS += -DUIP_CONF_TCP=1
-CFLAGS += -DWEBSERVER=2
+CFLAGS += -DWEBSERVER=0
 endif
 
 # automatically build RESTful resources

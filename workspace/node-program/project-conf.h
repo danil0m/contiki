@@ -94,13 +94,18 @@
 #define COAP_PROXY_OPTION_PROCESSING   0
 
 /* Enable client-side support for COAP observe */
-#define COAP_OBSERVE_CLIENT 1
+#define COAP_OBSERVE_CLIENT 0
 
+#define RPL_CONF_GROUNDED 1
+
+//#define RPL_CONF_DIS_START_DELAY 0
 /*-------------------------------------------------------------*/
 
 // Neighbor table size 
 #define NBR_TABLE_CONF_MAX_NEIGHBORS	8
 
+
+#define RPL_INSTANCE_DISCARD 0x1e
 //-------------------------------------------------
 // Configures the maximum number of routes each node will be able to handle
 #define UIP_CONF_MAX_ROUTES   20  //5

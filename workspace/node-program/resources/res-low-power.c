@@ -42,9 +42,11 @@
 #include "low-power.h"
 #include "er-coap-separate.h"
 #include "er-coap-transactions.h"
+#include "er-coap-constants.h"
 
 static void res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
+PROCESS(shutdown_process, "Shutdown process");
 
 /*
  * A handler function named [resource name]_handler must be implemented for each RESOURCE.
@@ -64,9 +66,43 @@ SEPARATE_RESOURCE(res_low_power,
 static void
 res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
-	  coap_separate_t request_metadata;
-	  coap_separate_accept(request, &request_metadata);
+	coap_transaction_t* trans;
+		        		  coap_packet_t packet[1];
+		        		  uip_ipaddr_t addr;
+		        		  //setting link-local broadcast address
+		        		  memset(&addr,0, sizeof(addr));
+		        		  addr.u8[0]=0xff;
+		        		  addr.u8[1]=0x02;
+		        		  addr.u8[15]=0x1a;
+		        		  coap_init_message(packet, COAP_TYPE_CON, COAP_POST, coap_get_mid());
+		        		  coap_set_header_uri_path(packet, "node/sdn");
+		        		  uint8_t token[4];
+		        		  uint16_t rand_numb;
+		        		  rand_numb=rand();
+		        		  token[0]=rand_numb/256;
+		        		  token[1]=rand_numb%256;
+		        		  rand_numb=rand();
+		        		  token[2]=rand_numb/256;
+		        		  token[3]=rand_numb%256;
+
+		        		  coap_set_token(packet, token, 4);
+		        		  trans= coap_new_transaction(packet->mid, &addr, UIP_HTONS(5683) );
+		        		  printf("%d\r\n", trans);
+		        		  //Warning: No check for serialization error.
+		        		  trans->packet_len = coap_serialize_message(packet, trans->packet);
+		        		  coap_send_transaction(trans);
+		        		    erbium_status_code = MANUAL_RESPONSE;
+		        		  printf("node shutdown\r\n");
+
+		        		  process_poll(&shutdown_process);
+
+}
+
+PROCESS_THREAD(shutdown_process, ev, data){
+	  PROCESS_BEGIN();
+	  PROCESS_YIELD();
 	  MCU_Enter_StandbyMode();
 
+	  PROCESS_END();
 }
 

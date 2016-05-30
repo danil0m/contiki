@@ -45,7 +45,6 @@
 static void res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_put_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
-
 /*
  * A handler function named [resource name]_handler must be implemented for each RESOURCE.
  * A buffer for the response payload is provided through the buffer pointer. Simple resources can ignore
@@ -64,18 +63,18 @@ RESOURCE(res_time,
 static void
 res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
-  char time_message[]="00:00:00 00/00/00";
+  char time_message[]="00:00:00.000 00/00/00";
   const char* var=NULL;
   Time_Typedef_t curr_time;
   Date_Typedef_t curr_date;
-  int length;
+  int length=12;
   if(REST.get_query_variable(request, "var", &var)){
-  	  if(var[0]=='0'){
-  		  length=8;
-  	  }else if (var[0]=='1'){
-  		length=17;
+	 if (var[0]=='1'){
+  		length=21;
   	  }
+  }
 	  curr_time=RTC_GetTime();
+	  printf("time  sent: %d:%d:%d.%d\r\n", curr_time.hour,curr_time.minute,curr_time.second, curr_time.millisecond);
   	  if(curr_time.hour>9){
   		  time_message[0]='0'+curr_time.hour/10;
   	  }
@@ -89,22 +88,28 @@ res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferr
   	  }
   	  time_message[7]='0'+curr_time.second%10;
 
-  	  if(var[0]=='1'){
+  	  if(curr_time.millisecond>99){
+  		time_message[9]='0'+curr_time.millisecond/100;
+  	  }
+  	  if(curr_time.millisecond>9){
+  	  		time_message[10]='0'+(curr_time.millisecond/10)%10;
+  	  	  }
+  	  time_message[11]='0'+curr_time.millisecond%10;
+  	  if(var!=NULL && var[0]=='1'){
   		  curr_date=RTC_GetDate();
   		if(curr_date.Date>9){
-  		  		  time_message[9]='0'+curr_date.Date/10;
+  		  		  time_message[13]='0'+curr_date.Date/10;
   		  	  }
-  		  	  time_message[10]='0'+curr_date.Date%10;
+  		  	  time_message[14]='0'+curr_date.Date%10;
   		  	  if(curr_date.Month>9){
-  		  		  time_message[12]= '0'+curr_date.Month/10;
+  		  		  time_message[16]= '0'+curr_date.Month/10;
   		  	  }
-  		  	  time_message[13]= '0'+curr_date.Month%10;
+  		  	  time_message[17]= '0'+curr_date.Month%10;
   		  	  if(curr_date.Year>9){
-  		  		  time_message[15]='0'+curr_date.Year/10;
+  		  		  time_message[19]='0'+curr_date.Year/10;
   		  	  }
-  		  	  time_message[16]='0'+curr_date.Year%10;
+  		  	  time_message[20]='0'+curr_date.Year%10;
   	  }
-  }
   int i;
   for(i=0;i<length;i++){
 	  buffer[i]=time_message[i];
@@ -121,15 +126,15 @@ static void res_put_handler(void *request, void *response, uint8_t *buffer, uint
 	Alarm_Typedef_t first_alarm, last_alarm;
 	Time_Typedef_t time;
 	char number[2];
+	char subseconds[3];
 	const char* hour;
 	const char* minute;
 	const char* second;
+	const char* subsec;
 	int fp;
-	int deadbeef=0;
 	int read_file=0;
-	static const char* var=NULL;
-	fp=cfs_open("file", CFS_READ);
-	if(REST.get_query_variable(request, "var", &var) && fp!=-1){
+	static const char* var=	NULL;
+	if(REST.get_request_payload(request, &var)){
 		  printf("var: %s\r\n", var);
 		  /* checks format*/
 
@@ -138,7 +143,9 @@ static void res_put_handler(void *request, void *response, uint8_t *buffer, uint
 					  if(var[3]>='0' && var[3]<='5' && var[4]>='0' && var[4]<='9'){
 						  if(var[5]==':'){
 							  if(var[6]>='0' && var[6]<='5' && var[7]>='0' && var[7]<='9'){
-								  number[0]=var[0];
+								  if(var[8]=='.'){
+									  if(var[9]>='0' && var[9]<='9' && var[10]>='0' && var[10]<='9'&& var[11]>='0' && var[11]<='9'){
+									  number[0]=var[0];
 								  number[1]=var[1];
 								  hour=number;
 								  time.hour=atoi(hour);
@@ -150,26 +157,36 @@ static void res_put_handler(void *request, void *response, uint8_t *buffer, uint
 								  number[1]=var[7];
 								  second=number;
 								  time.second=atoi(second);
-								  printf("time  sent: %d:%d:%d\r\n", time.hour,time.minute,time.second);
-								  RTC_TimeRegulate(time.hour,time.minute,time.second);
+								  /*subseconds[0]=var[9];
+								  subseconds[1]=var[10];
+								  subseconds[2]=var[11];
+								  subsec=subseconds;
+								  time.millisecond=atoi(subsec);*/
+								  printf("time  sent: %d:%d:%d.%d\r\n", time.hour,time.minute,time.second, 0);
+								  RTC_TimeRegulate(time.hour,time.minute,time.second, time.millisecond);
 								  time=RTC_GetTime();
 								  printf("time: %d:%d:%d\r\n", time.hour,time.minute,time.second);
-							  }
+									  }
+									  }
+								  }
 						  }
 					  }
 				  }
 
 		  }
-			  /*seek until first alarm greater than time*/
-			  do{
-			  	  			 if(cfs_read(fp,&last_alarm, sizeof(Alarm_Typedef_t))==-1){
-			  	  				/*if not 0 =-1 else 0*/
-			  	  				read_file=-1*read_file;
-			  	  				 break;
-			  	  			 }
-			  	  			 if(read_file==0){
-			  	  				first_alarm=last_alarm;
-			  	  				read_file=1;
+	}
+	fp=cfs_open("file", CFS_READ);
+	 if(fp!=-1){
+			do{
+				  /*seek until first alarm greater than time*/
+			  	  if(cfs_read(fp,&last_alarm, sizeof(Alarm_Typedef_t))==-1){
+			  	  /*if not 0 =-1 else 0*/
+			  	  read_file=-1*read_file;
+			  	  break;
+			  	   }
+			  	  if(read_file==0){
+			  		  first_alarm=last_alarm;
+			  	  	read_file=1;
 			  	  			 }
 
 			  	  		 }while(!Compare_Alarm(last_alarm));
@@ -189,14 +206,8 @@ static void res_put_handler(void *request, void *response, uint8_t *buffer, uint
 			  	  		else {
 			  	  			 printf("no alarm found\r\n");
 			  	  		}
+			  	  	  	  cfs_close(fp);
 
-	  }
-	  if(fp!=-1){
-
-	  	  	  	  cfs_close(fp);
-	  }
-	  else{
-		  /*error*/
 	  }
 }
 
@@ -240,7 +251,7 @@ static void res_post_handler(void *request, void *response, uint8_t *buffer, uin
 			  printf("alarm not found\r\n");
 		  }else{
 			  	  time=RTC_GetTime();
-		 		 RTC_TimeRegulate((time.hour+last_alarm.hour+ (time.minute+last_alarm.minute)/60)%24, (time.minute+last_alarm.minute+(time.second+last_alarm.second)/60)%60, (time.second+last_alarm.second)%60);
+		 		 RTC_TimeRegulate((time.hour+last_alarm.hour+ (time.minute+last_alarm.minute)/60)%24, (time.minute+last_alarm.minute+(time.second+last_alarm.second)/60)%60, (time.second+last_alarm.second)%60, 0);
 			  	  printf("time: %d:%d:%d\r\n", time.hour,time.minute,time.second);
 			  	printf("alarm: %d:%d:%d\r\n", last_alarm.hour,last_alarm.minute,last_alarm.second);
 			  /*read next alarm*/
@@ -288,3 +299,6 @@ static void res_post_handler(void *request, void *response, uint8_t *buffer, uin
 	 }
 
 }
+
+
+

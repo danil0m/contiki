@@ -4,7 +4,7 @@
 #include "stm32l1xx_hal.h"
 #include "st-lib.h"
 
-#define RTC_CLOCK_SOURCE_LSI
+#define RTC_CLOCK_SOURCE_LSE
 
 
 #ifdef RTC_CLOCK_SOURCE_LSI
@@ -27,6 +27,7 @@ typedef struct {
 	uint8_t hour;
 	uint8_t minute;
 	uint8_t second;
+	uint32_t millisecond;
 } Time_Typedef_t;
 
 typedef RTC_DateTypeDef Date_Typedef_t;
@@ -36,7 +37,7 @@ void RTC_Config(void);
 Date_Typedef_t RTC_GetDate();
 HAL_StatusTypeDef RTC_SetDate(Date_Typedef_t date);
 Time_Typedef_t RTC_GetTime();
-HAL_StatusTypeDef RTC_TimeRegulate(uint8_t hh, uint8_t mm, uint8_t ss);
+HAL_StatusTypeDef RTC_TimeRegulate(uint8_t hh, uint8_t mm, uint8_t ss, uint32_t subss);
 void Set_WakeupTimer(uint32_t milliseconds);
 void Disable_WakeupTimer();
 int Set_Alarm(uint8_t hour, uint8_t minutes, uint8_t seconds);

@@ -50,18 +50,20 @@ Date_Typedef_t RTC_GetDate(){
 HAL_StatusTypeDef RTC_SetDate(Date_Typedef_t date){
 	return HAL_RTC_SetDate(&st_lib_rtc_handle, &date, FORMAT_BIN);
 }
-HAL_StatusTypeDef RTC_TimeRegulate(uint8_t hh, uint8_t mm, uint8_t ss){
+HAL_StatusTypeDef RTC_TimeRegulate(uint8_t hh, uint8_t mm, uint8_t ss, uint32_t milliseconds){
     RTC_TimeTypeDef stimestructure;
 
 	stimestructure.Hours = hh;
 	    stimestructure.Minutes = mm;
 	    stimestructure.Seconds = ss;
+	    stimestructure.SubSeconds=(1000-milliseconds)*(RTC_SYNCH_PREDIV+1)/1000;
 	    stimestructure.TimeFormat = RTC_HOURFORMAT_24;
 	    stimestructure.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
 	    stimestructure.StoreOperation = RTC_STOREOPERATION_RESET;
 
 
-	return HAL_RTC_SetTime(&st_lib_rtc_handle, &stimestructure, FORMAT_BIN);
+	HAL_RTC_SetTime(&st_lib_rtc_handle, &stimestructure, FORMAT_BIN);
+	HAL_RTCEx_SetSynchroShift(&st_lib_rtc_handle, RTC_SHIFTADD1S_SET, (1000-milliseconds)*(RTC_SYNCH_PREDIV)/1000);
 }
 
 
@@ -75,6 +77,7 @@ Time_Typedef_t RTC_GetTime(){
 	ret_time.hour=sTime.Hours;
 	ret_time.minute=sTime.Minutes;
 	ret_time.second=sTime.Seconds;
+	ret_time.millisecond=1000-1000*sTime.SubSeconds/(RTC_SYNCH_PREDIV+1);
 	return ret_time;
 }
 
@@ -84,7 +87,7 @@ void Set_WakeupTimer(uint32_t milliseconds){
 	/*Wakeup Time Base = 16 /(~39.000KHz) = ~0,410 ms
 	      Wakeup Time = seconds = 0,410ms  * WakeUpCounter
 	       ==> WakeUpCounter = seconds /0,410ms = 9750 = 0x2616 */
-    HAL_RTCEx_SetWakeUpTimer_IT(&st_lib_rtc_handle, milliseconds/0.410, RTC_WAKEUPCLOCK_RTCCLK_DIV16);
+    HAL_RTCEx_SetWakeUpTimer_IT(&st_lib_rtc_handle, milliseconds/0.488, RTC_WAKEUPCLOCK_RTCCLK_DIV16);
 
 }
 

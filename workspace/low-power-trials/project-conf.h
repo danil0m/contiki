@@ -1,0 +1,4 @@
+#define STOP_CONF_POWER_CONFIG printHello
+
+
+//#define SYSCLOCKCONFIGMSI

@@ -51,12 +51,21 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "lib/list.h"
+
 #include "net/ipv6/uip-ds6.h"
 #include "rest-engine.h"
+#include "rtc.h"
+#include "rpl-border-router.h"
+#include "dev/leds.h"
 
 #define DEBUG DEBUG_PRINT
 #include "net/ip/uip-debug.h"
 
+extern resource_t res_event, res_newentry, res_time,res_sync, res_low_power;
+
+extern struct address_elem* addr_list;
+/*extern uip_ipaddr_t address;*/
 static uip_ipaddr_t prefix;
 static uint8_t prefix_set;
 static struct uip_ds6_notification route_callbk_struct;
@@ -64,13 +73,14 @@ static void route_notification_callback(int event,uip_ipaddr_t *route,uip_ipaddr
 
 PROCESS(border_router_process, "Border router process");
 
+extern struct process shutdown_process;
 #if WEBSERVER==0
 /* No webserver */
-AUTOSTART_PROCESSES(&border_router_process);
+AUTOSTART_PROCESSES(&border_router_process, &shutdown_process);
 #elif WEBSERVER>1
 /* Use an external webserver application */
 #include "webserver-nogui.h"
-AUTOSTART_PROCESSES(&border_router_process,&webserver_nogui_process);
+AUTOSTART_PROCESSES(&border_router_process,&webserver_nogui_process, &shutdown_process);
 #else
 /* Use simple webserver with only one page for minimum footprint.
  * Multiple connections can result in interleaved tcp segments since
@@ -107,7 +117,7 @@ PROCESS_THREAD(webserver_nogui_process, ev, data)
 
   PROCESS_END();
 }
-AUTOSTART_PROCESSES(&border_router_process,&webserver_nogui_process);
+AUTOSTART_PROCESSES(&border_router_process,&webserver_nogui_process, &shutdown_process);
 
 static const char *TOP = "<html><head><title>ContikiRPL</title></head><body>\n";
 static const char *BOTTOM = "</body></html>\n";
@@ -338,8 +348,19 @@ set_prefix_64(uip_ipaddr_t *prefix_64)
 }
 /*---------------------------------------------------------------------------*/
 void route_notification_callback(int event,uip_ipaddr_t *route,uip_ipaddr_t *nexthop,int num_routes){
-    uip_debug_ipaddr_print(route);
-    printf("\r\n");
+
+
+	/*address=*route;*/
+	struct address_elem* address;
+
+	if(event==UIP_DS6_NOTIFICATION_ROUTE_ADD){
+		address=(struct address_elem*)malloc(sizeof(struct address_elem));
+		address->address=*route;
+		list_add((list_t)&addr_list,(void*)address);
+		uip_debug_ipaddr_print(route);
+		printf("\r\n");
+		res_newentry.trigger();
+	}
 }
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(border_router_process, ev, data)
@@ -352,15 +373,21 @@ PROCESS_THREAD(border_router_process, ev, data)
  * router that will later take precedence over the SLIP fallback interface.
  * Prevent that by turning the radio off until we are initialized as a DAG root.
  */
+
   prefix_set = 0;
   NETSTACK_MAC.off(0);
 
   PROCESS_PAUSE();
-
   SENSORS_ACTIVATE(button_sensor);
 
   PRINTF("RPL-Border router started\n");
- uip_ds6_notification_add(&route_callbk_struct, route_notification_callback);
+  leds_on(LEDS_RED);
+
+  /*initialize address list*/
+  list_init((list_t)&addr_list);
+  /*add callback for routing table modification*/
+  //uip_ds6_notification_add(&route_callbk_struct, route_notification_callback);
+  //Set_WakeupTimer(1000);
 
 #if 0
    /* The border router runs with a 100% duty cycle in order to ensure high
@@ -388,12 +415,20 @@ PROCESS_THREAD(border_router_process, ev, data)
   /* Initialize the REST engine. */
    rest_init_engine();
 
+   rest_activate_resource(&res_event, "gateway/event");
+   rest_activate_resource(&res_newentry, "gateway/newentry");
+   rest_activate_resource(&res_time, "node/time");
+   rest_activate_resource(&res_sync, "node/sync");
+   rest_activate_resource(&res_low_power, "node/sdn");
+
 
   while(1) {
     PROCESS_YIELD();
     if (ev == sensors_event && data == &button_sensor) {
       PRINTF("Initiating global repair\n");
       rpl_repair_root(RPL_DEFAULT_INSTANCE);
+      /* Call the event_handler for this application-specific event. */
+          res_event.trigger();
     }
   }
 

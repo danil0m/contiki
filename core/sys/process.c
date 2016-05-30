@@ -114,7 +114,7 @@ process_start(struct process *p, process_data_t data)
   p->state = PROCESS_STATE_RUNNING;
   PT_INIT(&p->pt);
 
-  PRINTF("process: starting '%s'\n", PROCESS_NAME_STRING(p));
+  PRINTF("process: starting '%s'\r\n", PROCESS_NAME_STRING(p));
 
   /* Post a synchronous initialization event to the process. */
   process_post_synch(p, PROCESS_EVENT_INIT, data);
@@ -126,7 +126,7 @@ exit_process(struct process *p, struct process *fromprocess)
   register struct process *q;
   struct process *old_current = process_current;
 
-  PRINTF("process: exit_process '%s'\n", PROCESS_NAME_STRING(p));
+  PRINTF("process: exit_process '%s'\r\n", PROCESS_NAME_STRING(p));
 
   /* Make sure the process is in the process list before we try to
      exit it. */
@@ -178,13 +178,13 @@ call_process(struct process *p, process_event_t ev, process_data_t data)
 
 #if DEBUG
   if(p->state == PROCESS_STATE_CALLED) {
-    printf("process: process '%s' called again with event %d\n", PROCESS_NAME_STRING(p), ev);
+    printf("process: process '%s' called again with event %d\r\n", PROCESS_NAME_STRING(p), ev);
   }
 #endif /* DEBUG */
   
   if((p->state & PROCESS_STATE_RUNNING) &&
      p->thread != NULL) {
-    PRINTF("process: calling process '%s' with event %d\n", PROCESS_NAME_STRING(p), ev);
+    PRINTF("process: calling process '%s' with event %d\r\n", PROCESS_NAME_STRING(p), ev);
     process_current = p;
     p->state = PROCESS_STATE_CALLED;
     ret = p->thread(&p->pt, ev, data);
@@ -324,10 +324,10 @@ process_post(struct process *p, process_event_t ev, process_data_t data)
   static process_num_events_t snum;
 
   if(PROCESS_CURRENT() == NULL) {
-    PRINTF("process_post: NULL process posts event %d to process '%s', nevents %d\n",
+    PRINTF("process_post: NULL process posts event %d to process '%s', nevents %d\r\n",
 	   ev,PROCESS_NAME_STRING(p), nevents);
   } else {
-    PRINTF("process_post: Process '%s' posts event %d to process '%s', nevents %d\n",
+    PRINTF("process_post: Process '%s' posts event %d to process '%s', nevents %d\r\n",
 	   PROCESS_NAME_STRING(PROCESS_CURRENT()), ev,
 	   p == PROCESS_BROADCAST? "<broadcast>": PROCESS_NAME_STRING(p), nevents);
   }
@@ -335,9 +335,9 @@ process_post(struct process *p, process_event_t ev, process_data_t data)
   if(nevents == PROCESS_CONF_NUMEVENTS) {
 #if DEBUG
     if(p == PROCESS_BROADCAST) {
-      printf("soft panic: event queue is full when broadcast event %d was posted from %s\n", ev, PROCESS_NAME_STRING(process_current));
+      printf("soft panic: event queue is full when broadcast event %d was posted from %s\r\n", ev, PROCESS_NAME_STRING(process_current));
     } else {
-      printf("soft panic: event queue is full when event %d was posted to %s from %s\n", ev, PROCESS_NAME_STRING(p), PROCESS_NAME_STRING(process_current));
+      printf("soft panic: event queue is full when event %d was posted to %s from %s\r\n", ev, PROCESS_NAME_STRING(p), PROCESS_NAME_STRING(process_current));
     }
 #endif /* DEBUG */
     return PROCESS_ERR_FULL;

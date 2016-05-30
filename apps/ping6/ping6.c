@@ -38,7 +38,7 @@
 
 #define MACDEBUG 0
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -86,13 +86,13 @@ ping6handler(process_event_t ev, process_data_t data)
 #else
 /* prompt */
     printf("> ");
-    /** \note the scanf here is blocking (the all stack is blocked waiting
+    /** \r\note the scanf here is blocking (the all stack is blocked waiting
      *  for user input). This is far from ideal and could be improved
      */
     scanf("%s", command);
 
     if(strcmp(command,"ping6") != 0){
-      PRINTF("> invalid command\n");
+      PRINTF("> invalid command\r\n");
       return 0;
     }
 
@@ -103,7 +103,7 @@ ping6handler(process_event_t ev, process_data_t data)
       uip_ip6addr(&dest_addr, addr[0], addr[1],addr[2],
                   addr[3],addr[4],addr[5],addr[6],addr[7]);
     } else {
-      PRINTF("> invalid ipv6 address format\n");
+      PRINTF("> invalid ipv6 address format\r\n");
       return 0;
     }
 #endif
@@ -141,7 +141,7 @@ ping6handler(process_event_t ev, process_data_t data)
     PRINT6ADDR(&UIP_IP_BUF->destipaddr);
     PRINTF("from");
     PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
-    PRINTF("\n");
+    PRINTF("\r\n");
     UIP_STAT(++uip_stat.icmp.sent);
 
     tcpip_ipv6_output();
@@ -160,8 +160,8 @@ PROCESS_THREAD(ping6_process, ev, data)
   uint8_t cont = 1;
 
   PROCESS_BEGIN();
-  PRINTF("In Process PING6\n");
-  PRINTF("Wait for DAD\n");
+  PRINTF("In Process PING6\r\n");
+  PRINTF("Wait for DAD\r\n");
 
   etimer_set(&ping6_periodic_timer, 15*CLOCK_SECOND);
 
@@ -170,7 +170,7 @@ PROCESS_THREAD(ping6_process, ev, data)
     cont = ping6handler(ev, data);
   }
 
-  PRINTF("END PING6\n");
+  PRINTF("END PING6\r\n");
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/

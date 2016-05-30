@@ -42,11 +42,12 @@
  * \author Mathilde Durvy <mdurvy@cisco.com>
  */
 
+
 #include <string.h>
 #include "net/ipv6/uip-ds6.h"
 #include "net/ipv6/uip-icmp6.h"
-#include "contiki-default-conf.h"
-
+#include "contiki-conf.h"
+#ifdef NETSTACK_CONF_WITH_IPV6
 #define DEBUG 0
 #if DEBUG
 #include <stdio.h>
@@ -132,7 +133,7 @@ echo_request_input(void)
   PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
   PRINTF("to");
   PRINT6ADDR(&UIP_IP_BUF->destipaddr);
-  PRINTF("\n");
+  PRINTF("\r\n");
 
   /* IP header */
   UIP_IP_BUF->ttl = uip_ds6_if.cur_hop_limit;
@@ -199,7 +200,7 @@ echo_request_input(void)
   PRINT6ADDR(&UIP_IP_BUF->destipaddr);
   PRINTF("from");
   PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
-  PRINTF("\n");
+  PRINTF("\r\n");
   UIP_STAT(++uip_stat.icmp.sent);
   return;
 }
@@ -286,7 +287,7 @@ uip_icmp6_error_output(uint8_t type, uint8_t code, uint32_t param) {
   PRINT6ADDR(&UIP_IP_BUF->destipaddr);
   PRINTF("from");
   PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
-  PRINTF("\n");
+  PRINTF("\r\n");
   return;
 }
 
@@ -324,6 +325,7 @@ echo_reply_input(void)
 #if UIP_CONF_IPV6_RPL
   uint8_t temp_ext_len;
 #endif /* UIP_CONF_IPV6_RPL */
+
 
   uip_ipaddr_copy(&sender, &UIP_IP_BUF->srcipaddr);
   ttl = UIP_IP_BUF->ttl;
@@ -419,3 +421,4 @@ uip_icmp6_init()
 }
 /*---------------------------------------------------------------------------*/
 /** @} */
+#endif /*NETSTACK_CONF_WITH_IPV6*/
