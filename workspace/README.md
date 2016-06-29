@@ -6,6 +6,14 @@ In this directory there are some example for stm32nucleo-spirit1 platform, inclu
 It needs STM32NUCLEO-L152RE (MCU) board with the X-NUCLEO-IDS01Ax 
 (sub-1GHz RF communication) (and X-NUCLEO-IKS01A1 for sensor-er-rest-example) expansion board(s).
 
+To initialize stm32nucleo platform, you need to execute the following commands:
+
+		git checkout stm32nucleo-spirit1
+		git submodule init
+		git submodule update
+		
+
+
 To build an example on the terminal, enter the directory and type: 
 
 	make 
