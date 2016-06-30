@@ -1,5 +1,6 @@
 CONTIKI_PROJECT= border-router
 TARGET=stm32nucleo-spirit1
+#TARGET=cooja
 BOARD=ids01a4
 all: 
 	make after

@@ -59,9 +59,11 @@
 #define MAX_PATH_COST			100
 /*The theshold of the radio when PER begin to lower*/
 #define RSSI_THRESHOLD			-95
+#define RSSI_RADIO_THRESHOLD			-90
 
-#define SIGMA					2.5
-#define RADIO_THRESHOLD       -101
+
+#define PARENT_SWITCH_THRESHOLD_DIV	2
+
 
 static void reset(rpl_dag_t *);
 static void neighbor_link_callback(rpl_parent_t *, int, int);
@@ -98,25 +100,63 @@ calculate_path_metric(rpl_parent_t *p)
 static void
 reset(rpl_dag_t *dag)
 {
-  PRINTF("RPL: Reset RSSIOF\n");
+  PRINTF("RPL: Reset RSSIOF\r\n");
 }
 static void
 neighbor_link_callback(rpl_parent_t *p, int status, int numtx)
 {
-	  uip_ds6_nbr_t *nbr = NULL;
-	  int rssi_val;
+	  /*num_tx contains rssi value*/
+	int rssi, i;
+	uip_ds6_nbr_t *nbr = NULL;
 	 nbr = rpl_get_nbr(p);
 	  if(nbr == NULL) {
 	    /* No neighbor for this parent - something bad has occurred */
 	    return;
 	  }
-	  rssi_val= radio_sensor.value(RADIO_SENSOR_LAST_PACKET);
-	  if(rssi_val<=RSSI_THRESHOLD*10){
-	    nbr->link_metric =1*RPL_DAG_MC_ETX_DIVISOR;
-	  }else if (rssi_val>RSSI_THRESHOLD*10 &&rssi_val<=(RSSI_THRESHOLD +SIGMA)*10){
-		  nbr->link_metric =(uint16_t)(10*RPL_DAG_MC_ETX_DIVISOR*MAX_LINK_METRIC/(RADIO_THRESHOLD-RSSI_THRESHOLD)*(rssi_val-RSSI_THRESHOLD*10));
+	  PRINTF("RSSIOF, link callback: neighbor \r\n");
+#if DEBUG
+	  uip_debug_ipaddr_print(&nbr->ipaddr);
+#endif
+	  PRINTF("\r\n");
+	  rssi=radio_sensor.value(RADIO_SENSOR_LAST_PACKET);
+	  PRINTF("rssi current value sensor %d\r\n", rssi);
+	  PRINTF("compare %d\r\n", rssi<RSSI_THRESHOLD*10);
+	  if(nbr->rssi_nvalues<10){
+		  nbr->rssi_values[nbr->rssi_nvalues]=rssi;
+		  nbr->rssi_nvalues++;
+	  }else{
+		 /*shift vector*/
+		  for(i=8;i>=0;i--){
+			  nbr->rssi_values[i+1]=nbr->rssi_values[i];
+		  }
+		  nbr->rssi_values[0]=rssi;
+	  }
+	  rssi=0;
+	  /*compute average value*/
+	  for(i=0;i<nbr->rssi_nvalues;i++){
+		  rssi=rssi+nbr->rssi_values[i];
+		  PRINTF("rssi value %d: %d\r\n",i, nbr->rssi_values[i]);
+	  }
+	  rssi=rssi/nbr->rssi_nvalues;
+	  PRINTF("average rssi: %d\r\n", rssi);
+	  if(rssi>RSSI_THRESHOLD*10){
+	    if(rssi>RSSI_RADIO_THRESHOLD){
+	    	nbr->link_metric =1*RPL_DAG_MC_ETX_DIVISOR;
+	    	PRINTF("link metric set to 1\r\n");
+	    }
+	    else{
+	    	if(nbr->rssi_nvalues>6){
+	    		nbr->link_metric =1*RPL_DAG_MC_ETX_DIVISOR;
+	    		PRINTF("link metric set to 1\r\n");
+	    }else{
+	    	 nbr->link_metric=MAX_LINK_METRIC*RPL_DAG_MC_ETX_DIVISOR;
+	    	 PRINTF("link metric set to infinite\r\n");
+	    }
+	    }
 	  }else {
+		  PRINTF("%d>%d", rssi, RSSI_THRESHOLD*10);
 		  nbr->link_metric=MAX_LINK_METRIC*RPL_DAG_MC_ETX_DIVISOR;
+		  PRINTF("link metric set to infinite\r\n");
 	  }
 
 }
@@ -171,28 +211,33 @@ static rpl_parent_t *
 best_parent(rpl_parent_t *p1, rpl_parent_t *p2)
 {
   rpl_dag_t *dag;
+  rpl_path_metric_t min_diff;
   rpl_path_metric_t p1_metric;
   rpl_path_metric_t p2_metric;
-  uint16_t min_diff=2*RPL_DAG_MC_ETX_DIVISOR;
+
   dag = p1->dag; /* Both parents are in the same DAG. */
+
+  min_diff = RPL_DAG_MC_ETX_DIVISOR /
+             PARENT_SWITCH_THRESHOLD_DIV;
+
   p1_metric = calculate_path_metric(p1);
   p2_metric = calculate_path_metric(p2);
+
+  /* Maintain stability of the preferred parent in case of similar ranks. */
   if(p1 == dag->preferred_parent || p2 == dag->preferred_parent) {
-      if(p1_metric <= p2_metric + min_diff &&
-         p1_metric >= p2_metric - min_diff) {
-        PRINTF("RPL: RSSIOF hysteresis: %u <= %u <= %u\n",
-               p2_metric - min_diff,
-               p1_metric,
-               p2_metric + min_diff);
-        return dag->preferred_parent;
-      }
+    if(p1_metric < p2_metric + min_diff &&
+       p1_metric > p2_metric - min_diff) {
+      PRINTF("RPL: RSSIOF hysteresis: %u <= %u <= %u\r\n",
+             p2_metric - min_diff,
+             p1_metric,
+             p2_metric + min_diff);
+      return dag->preferred_parent;
     }
-
-
+  }
 
   return p1_metric < p2_metric ? p1 : p2;
-
 }
+
 
 static void
 update_metric_container(rpl_instance_t *instance)

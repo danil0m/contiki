@@ -63,6 +63,7 @@
 #include "stdbool.h"
 #include "dev/button-sensor.h"
 #include "dev/radio-sensor.h"
+#include "rtc.h"
 /*---------------------------------------------------------------------------*/
 #if NETSTACK_CONF_WITH_IPV6
 #ifndef NO_STACK_PROCESS
@@ -135,6 +136,8 @@ panic_main(void)
 int
 main(int argc, char *argv[])
 {
+	Time_Typedef_t init_time;
+
   stm32cube_hal_init();
 
   /* init LEDs */
@@ -150,13 +153,11 @@ main(int argc, char *argv[])
 
   /* Restore node id if such has been stored in external mem */
   node_id_restore(); /* also configures node_mac[] */
-
-  set_rime_addr();
   random_init(node_id);
+  set_rime_addr();
 
   netstack_init();
   spirit_radio_driver.on();
-
   energest_init();
 
 #if NETSTACK_CONF_WITH_IPV6
@@ -172,6 +173,9 @@ main(int argc, char *argv[])
   uip_ds6_addr_add(&ipaddr, 0, ADDR_AUTOCONF);
 #endif /*NO_STACK_PROCESS*/
 #endif /* NETSTACK_CONF_WITH_IPV6*/
+
+  init_time=RTC_GetTime();
+  random_init(init_time.hour+init_time.minute+init_time.second+node_id);
 
   process_start(&sensors_process, NULL);
 

@@ -42,10 +42,10 @@
 #include "rtc.h"
 #include "cfs.h"
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #include <stdio.h>
-#define PRINTF(...) PRINTF(__VA_ARGS__)
+#define PRINTF(...) printf(__VA_ARGS__)
 #else
 #define PRINTF(...)
 #endif
@@ -59,7 +59,7 @@ static void res_delete_handler(void *request, void *response, uint8_t *buffer, u
  * if the alarm sent is correct and it is greater than the previous. Get method gets the value of the alarm that
  * is in the position given by the value in the param. Delete method deletes all the list.
  */
-RESOURCE(res_alarms,
+RESOURCE(res_alarms_test,
          "title=\"Set Alarms?alarm=00:00:00\";rt=\"Text\"",
          res_get_handler,
 		 NULL,
@@ -73,26 +73,11 @@ static void res_get_handler(void *request, void *response, uint8_t *buffer, uint
 	const char* number;
 	char vect[2];
 	int length=8;
-	int n_alarm;
 	int fp;
 	int i;
 	int read_chars=0,seek_status;
 	Alarm_Typedef_t alarm;
-	 fp=cfs_open("alarms", CFS_READ);
-	 if(REST.get_query_variable(request, "alarm", &var) && fp!=-1){
-		 vect[0]=var[0];
-		 vect[1]=var[1];
-		 /*because atoi needs const char* */
-		 number=vect;
-		 n_alarm=atoi(number);
-		 PRINTF("alarm selected: %d\r\n", n_alarm);
-		 seek_status=cfs_seek(fp, n_alarm*sizeof(Alarm_Typedef_t),CFS_SEEK_SET);
-		 /*for(i=0;i<n_alarm &&read_chars!=-1;i++){
-			 read_chars=cfs_read(fp,&alarm, sizeof(Alarm_Typedef_t));
-		}*/
-		 read_chars=cfs_read(fp,&alarm, sizeof(Alarm_Typedef_t));
-		 if(read_chars!=-1&& seek_status!=-1){
-
+		 	 alarm=GetAlarm();
 			 if(alarm.hour>9){
 				 time_message[0]='0'+alarm.hour/10;
 			 }
@@ -105,7 +90,6 @@ static void res_get_handler(void *request, void *response, uint8_t *buffer, uint
 				 time_message[6]='0'+alarm.second/10;
 			 }
 			 time_message[7]='0'+alarm.second%10;
-			 int i;
 			 for(i=0;i<8;i++){
 				 buffer[i]=time_message[i];
 			 }
@@ -113,23 +97,6 @@ static void res_get_handler(void *request, void *response, uint8_t *buffer, uint
 			 REST.set_header_content_type(response, REST.type.TEXT_PLAIN); /* text/plain is the default, hence this option could be omitted. */
 			 REST.set_header_etag(response, (uint8_t *)length, 1);
 			 REST.set_response_payload(response, buffer, length);
-		 }
-		 else{
-			 REST.set_header_content_type(response, REST.type.TEXT_PLAIN); /* text/plain is the default, hence this option could be omitted. */
-			 			 REST.set_header_etag(response, (uint8_t *)length, 1);
-			 			 REST.set_response_payload(response, "alarm not found", 15);
-		 }
-	 }
-	 else{
-	 			 REST.set_header_content_type(response, REST.type.TEXT_PLAIN); /* text/plain is the default, hence this option could be omitted. */
-	 			 			 REST.set_header_etag(response, (uint8_t *)length, 1);
-	 			 			 REST.set_response_payload(response, "error", 5);
-	 		 }
-
-	 if(fp!=-1){
-		 cfs_close(fp);
-	 }
-
 }
 
 
@@ -148,7 +115,7 @@ static void res_put_handler(void *request, void *response, uint8_t *buffer, uint
 	 if(REST.get_request_payload(request, &var)){
 
 		 /*checks whrere ends arrays of alarms*/
-		 PRINTF("var: %s\r\n", var);
+		 PRINTF("payload: %s\r\n", var);
 	 		  /* checks format*/
 
 	 			  if((var[0]>='0' && var[0]<='1' && var[1]>='0' && var[1]<='9') || (var[0]=='2' && var[1]>='0' && var[1]<='3')){
@@ -169,38 +136,10 @@ static void res_put_handler(void *request, void *response, uint8_t *buffer, uint
 	 								  second=number;
 	 								  alarm.second=atoi(second);
 	 								  PRINTF("alarm  sent: %d:%d:%d\r\n", alarm.hour,alarm.minute, alarm.second);
-
-	 					 			 fp=cfs_open("alarm", CFS_READ &&CFS_WRITE && CFS_APPEND);
-	 					 			 if(fp!=-1){
-
-	 									  seek_status=cfs_seek(fp,sizeof(Alarm_Typedef_t), CFS_SEEK_END);
-	 									  if(seek_status!=-1){
-	 										  cfs_read(fp, &prev_alarm, sizeof(Alarm_Typedef_t));
-	 										  if(Compare_Alarms(alarm, prev_alarm)){
-	 											  PRINTF("alarm written\r\n");
-	 											  cfs_write(fp, &alarm, sizeof(Alarm_Typedef_t));
-	 										}else{
-	 											PRINTF("alarm sent < last alarm %d:%d:%d\r\n", prev_alarm.hour,prev_alarm.minute,prev_alarm.second);
-	 									    }
-	 									  }
-	 									  else{
-	 										 cfs_seek(fp, 0 ,CFS_SEEK_SET);
-	 										 PRINTF("no alarm found, writing alarm send first\r\n");
-	 										 cfs_write(fp, &alarm, sizeof(Alarm_Typedef_t));
-	 									  }
-	 					 			 }else{
-	 							fp=cfs_open("alarms", CFS_WRITE);
-	 							if(fp!=-1){
-	 								PRINTF("no alarm found, writing alarm send first\r\n");
-	 								cfs_write(fp, &alarm, sizeof(Alarm_Typedef_t));
-	 							}else {
-	 								PRINTF("file already opened\r\n");
-	 							}
+	 								  	  Set_Alarm(alarm.hour,alarm.minute,alarm.second);
 
 	 						}
 
-
-	 							  }
 
 	 							  }
 	 						  }
@@ -209,13 +148,9 @@ static void res_put_handler(void *request, void *response, uint8_t *buffer, uint
 
 	 		  }
 
-	  else {		  /* bad response*/
+	  else {
+		  /* bad response*/
 	  }
-
-	 if(fp!=-1){
-		 cfs_close(fp);
-	 }
-
 	  }
 static void res_delete_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset){
 	cfs_remove("alarms");

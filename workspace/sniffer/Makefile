@@ -43,7 +43,7 @@ ifndef COMPORT
 	@echo Example:
 	@echo make sniff COMPORT=/dev/com11
 endif
-	sudo ./serialdump-linux -b115200 /dev/ttyACM1 | ./convert-to-binary | wireshark -k -i - 
+	sudo ./serialdump-linux -b115200 /dev/ttyACM2 | ./convert-to-binary | wireshark -k -i - 
 	#sudo $(SERIALDUMP) –b115200 $(COMPORT) | $(CONVERTTOBINARY) | $(WIRESHARK) –k –i – 
 
 %.pcap:

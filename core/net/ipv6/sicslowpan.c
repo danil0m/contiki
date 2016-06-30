@@ -68,7 +68,11 @@
 #include "net/rime/rime.h"
 #include "net/ipv6/sicslowpan.h"
 #include "net/netstack.h"
-
+#if UIP_CONF_IPV6_RPL
+#include "rpl-conf.h"
+#include "rpl.h"
+extern rpl_of_t RPL_OF;
+#endif
 #include <stdio.h>
 
 #define DEBUG DEBUG_NONE
@@ -1309,9 +1313,10 @@ compress_hdr_ipv6(linkaddr_t *link_destaddr)
 static void
 packet_sent(void *ptr, int status, int transmissions)
 {
-  uip_ds6_link_neighbor_callback(status, transmissions);
-
-  if(callback != NULL) {
+if(RPL_OF.ocp!=2){
+	uip_ds6_link_neighbor_callback(status, transmissions);
+}
+	if(callback != NULL) {
     callback->output_callback(status);
   }
   last_tx_status = status;
@@ -1841,6 +1846,10 @@ input(void)
       PRINTF("\r\n");
     }
 #endif
+    /*if objective function equals to rssiof, then link callback*/
+    if(RPL_OF.ocp==2){
+    	uip_ds6_link_neighbor_callback(MAC_TX_OK, sicslowpan_get_last_rssi());
+    }
 
     /* if callback is set then set attributes and call */
     if(callback) {

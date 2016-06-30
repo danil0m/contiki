@@ -357,8 +357,8 @@ void route_notification_callback(int event,uip_ipaddr_t *route,uip_ipaddr_t *nex
 		address=(struct address_elem*)malloc(sizeof(struct address_elem));
 		address->address=*route;
 		list_add((list_t)&addr_list,(void*)address);
-		uip_debug_ipaddr_print(route);
-		printf("\r\n");
+		/*uip_debug_ipaddr_print(route);
+		printf("\r\n");*/
 		res_newentry.trigger();
 	}
 }
@@ -386,7 +386,7 @@ PROCESS_THREAD(border_router_process, ev, data)
   /*initialize address list*/
   list_init((list_t)&addr_list);
   /*add callback for routing table modification*/
-  //uip_ds6_notification_add(&route_callbk_struct, route_notification_callback);
+  uip_ds6_notification_add(&route_callbk_struct, route_notification_callback);
   //Set_WakeupTimer(1000);
 
 #if 0

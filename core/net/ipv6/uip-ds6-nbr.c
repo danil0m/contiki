@@ -93,6 +93,9 @@ uip_ds6_nbr_add(const uip_ipaddr_t *ipaddr, const uip_lladdr_t *lladdr,
     stimer_set(&nbr->reachable, 0);
     stimer_set(&nbr->sendns, 0);
     nbr->nscount = 0;
+#if RPL_OF==rpl_rssiof
+    nbr->rssi_nvalues=0;
+#endif
     PRINTF("Adding neighbor with ip addr ");
     PRINT6ADDR(ipaddr);
     PRINTF(" link addr ");
@@ -193,11 +196,14 @@ uip_ds6_nbr_lladdr_from_ipaddr(const uip_ipaddr_t *ipaddr)
 void
 uip_ds6_link_neighbor_callback(int status, int numtx)
 {
-  const linkaddr_t *dest = packetbuf_addr(PACKETBUF_ADDR_RECEIVER);
+#if RPL_OF== rpl_rssiof
+	const linkaddr_t *dest = packetbuf_addr(PACKETBUF_ADDR_SENDER);
+#else
+	const linkaddr_t *dest = packetbuf_addr(PACKETBUF_ADDR_RECEIVER);
+	#endif
   if(linkaddr_cmp(dest, &linkaddr_null)) {
     return;
   }
-
   LINK_NEIGHBOR_CALLBACK(dest, status, numtx);
 
 #if UIP_DS6_LL_NUD

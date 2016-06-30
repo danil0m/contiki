@@ -69,7 +69,7 @@ PROCESS_THREAD(low_power_trials, ev, data)
   vector[0].second=10;
 
   vector[1].hour=15;
-    vector[1].minute=30;
+    vector[1].minute=33;
     vector[1].second=20;
 
     vector[2].hour=21;
@@ -111,16 +111,14 @@ PROCESS_THREAD(low_power_trials, ev, data)
    }
 
    time2=RTC_GetTime();
-   printf("time: %d:%d:%d.%d\r\n", time2.hour,time2.minute,time2.second,time2.subsecond);
-   //printf("Status: %d\r\n", RTC_TimeRegulate(15,29,00));
-   time2=RTC_GetTime();
-   printf("new time: %d:%d:%d.%d\r\n", time2.hour,time2.minute,time2.second,time2.subsecond);
+   printf("time: %d:%d:%d.%d\r\n", time2.hour,time2.minute,time2.second,time2.millisecond);
    printf("Status: %d\r\n", RTC_TimeRegulate(15,30,00, 999));
-   HAL_Delay(300);
    time2=RTC_GetTime();
-   printf("new time: %d:%d:%d.%d\r\n", time2.hour,time2.minute,time2.second,time2.subsecond);
+   printf("new time: %d:%d:%d.%d\r\n", time2.hour,time2.minute,time2.second,time2.millisecond);
    //printf("switching off\r\n");
-   Set_Alarm(array_out[1].hour,array_out[1].minute, array_out[1].second);
+   Set_Alarm(vector[1].hour,vector[1].minute, vector[1].second);
+   Alarm_Typedef_t alarm= GetAlarm();
+   printf("alarm set %d:%d:%d\r\n", alarm.hour,alarm.minute,alarm.second);
    /*Set_WakeupTimer(10000);*/
    intheap[0]=(int*)malloc(sizeof(int));
    //printf("address: %x\r\n", intheap[0]);
@@ -137,12 +135,8 @@ PROCESS_THREAD(low_power_trials, ev, data)
 
 
    }
-   HAL_Delay(1000);
-   time2=RTC_GetTime();
 
-   printf("time: %d:%d:%d.%d\r\n", time2.hour,time2.minute,time2.second,time2.subsecond);
-
- MCU_Enter_StopMode();
+ MCU_Enter_StandbyMode();
   }
   while(1){
 	  PROCESS_WAIT_EVENT_UNTIL(ev==sensors_event && data==&button_sensor);

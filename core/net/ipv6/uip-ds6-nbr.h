@@ -75,6 +75,10 @@ typedef struct uip_ds6_nbr {
   uint8_t isrouter;
   uint8_t state;
   uint16_t link_metric;
+#if RPL_OF==rpl_rssiof
+  short int rssi_values[10];
+  uint8_t rssi_nvalues;
+#endif
 #if UIP_CONF_IPV6_QUEUE_PKT
   struct uip_packetqueue_handle packethandle;
 #define UIP_DS6_NBR_PACKET_LIFETIME CLOCK_SECOND * 4

@@ -131,7 +131,7 @@ neighbor_link_callback(rpl_parent_t *p, int status, int numtx)
     /* No neighbor for this parent - something bad has occurred */
     return;
   }
-
+  printf("called other callback\r\n");
   recorded_etx = nbr->link_metric;
 
   /* Do not penalize the ETX when collisions or transmission errors occur. */
@@ -191,38 +191,9 @@ calculate_rank(rpl_parent_t *p, rpl_rank_t base_rank)
   return new_rank;
 }
 
-#ifdef NOCONFLICT
-int isConflictAddress(uip_ipaddr_t* address){
-	int i;
-	uip_ipaddr_t confl_addr;
-	  uip_ip6addr_u8(&confl_addr, 0xaa,0xaa,0x0,0x0,0x0,0x0,0x0,0x0, 0x0b, 0x00,0xf6,0xff, 0xb8,0xb5, 0x47,0x4a);
-	for(i=0;i<sizeof(uip_ipaddr_t);i++){
-		if(address->u8[i]!=confl_addr.u8[i]){
-			return 0;
-		}
-
-	}
-	return 1;
-}
-#endif /**/
-
 static rpl_dag_t *
 best_dag(rpl_dag_t *d1, rpl_dag_t *d2)
 {
-#ifdef NOCONFLICT
-
-	if(!isConflictAddress(&d1->dag_id)){
-		return d2;
-		uip_debug_ipaddr_print(&d2->dag_id);
-		PRINTF("\r\n");
-	}
-	if(!isConflictAddress(&d2->dag_id)){
-			return d1;
-			uip_debug_ipaddr_print(&d1->dag_id);
-					PRINTF("\r\n");
-		}
-#endif
-
   if(d1->grounded != d2->grounded) {
     return d1->grounded ? d1 : d2;
   }

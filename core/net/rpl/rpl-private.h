@@ -90,6 +90,14 @@
 
 #define RPL_DAO_K_FLAG                   0x80 /* DAO ACK requested */
 #define RPL_DAO_D_FLAG                   0x40 /* DODAG ID present */
+
+#define RPL_DAO_ACK_UNCONDITIONAL_ACCEPT 0
+#define RPL_DAO_ACK_ACCEPT               1   /* 1 - 127 is OK but not good */
+#define RPL_DAO_ACK_UNABLE_TO_ACCEPT     128 /* >127 is fail */
+#define RPL_DAO_ACK_UNABLE_TO_ADD_ROUTE_AT_ROOT 255 /* root can not accept */
+
+#define RPL_DAO_ACK_TIMEOUT              -1
+
 /*---------------------------------------------------------------------------*/
 /* RPL IPv6 extension header option. */
 #define RPL_HDR_OPT_LEN			4
@@ -116,6 +124,18 @@
 #else /* RPL_CONF_NOPATH_REMOVAL_DELAY */
 #define RPL_NOPATH_REMOVAL_DELAY          60
 #endif /* RPL_CONF_NOPATH_REMOVAL_DELAY */
+
+#ifdef RPL_CONF_DAO_MAX_RETRANSMISSIONS
+#define RPL_DAO_MAX_RETRANSMISSIONS RPL_CONF_DAO_MAX_RETRANSMISSIONS
+#else
+#define RPL_DAO_MAX_RETRANSMISSIONS     5
+#endif /* RPL_CONF_DAO_MAX_RETRANSMISSIONS */
+
+#ifdef RPL_CONF_DAO_RETRANSMISSION_TIMEOUT
+#define RPL_DAO_RETRANSMISSION_TIMEOUT RPL_CONF_DAO_RETRANSMISSION_TIMEOUT
+#else
+#define RPL_DAO_RETRANSMISSION_TIMEOUT  (5 * CLOCK_SECOND)
+#endif /* RPL_CONF_DAO_RETRANSMISSION_TIMEOUT */
 
 /* Special value indicating immediate removal. */
 #define RPL_ZERO_LIFETIME               0
@@ -250,6 +270,8 @@ typedef struct rpl_stats rpl_stats_t;
 
 extern rpl_stats_t rpl_stats;
 #endif
+
+
 /*---------------------------------------------------------------------------*/
 /* RPL macros. */
 
@@ -270,7 +292,6 @@ void dao_output(rpl_parent_t *, uint8_t lifetime);
 void dao_output_target(rpl_parent_t *, uip_ipaddr_t *, uint8_t lifetime);
 void dao_ack_output(rpl_instance_t *, uip_ipaddr_t *, uint8_t);
 void rpl_icmp6_register_handlers(void);
-
 /* RPL logic functions. */
 void rpl_join_dag(uip_ipaddr_t *from, rpl_dio_t *dio);
 void rpl_join_instance(uip_ipaddr_t *from, rpl_dio_t *dio);
@@ -309,6 +330,7 @@ rpl_of_t *rpl_find_of(rpl_ocp_t);
 /* Timer functions. */
 void rpl_schedule_dao(rpl_instance_t *);
 void rpl_schedule_dao_immediately(rpl_instance_t *);
+void rpl_schedule_unicast_dio_immediately(rpl_instance_t *instance);
 void rpl_cancel_dao(rpl_instance_t *instance);
 void rpl_schedule_probing(rpl_instance_t *instance);
 

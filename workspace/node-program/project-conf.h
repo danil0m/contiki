@@ -65,8 +65,25 @@
 #define UIP_CONF_TCP                   0
 
 #undef NETSTACK_CONF_MAC
-#define NETSTACK_CONF_MAC     csma_driver	//nullmac_driver
+#define NETSTACK_CONF_MAC     	csma_driver
 
+#define RPL_CONF_OF rpl_rssiof
+
+//delay when reboot in sending DIS
+#define RPL_CONF_DIS_START_DELAY 0
+
+//min interval between one dis to another
+
+#define RPL_CONF_DIO_INTERVAL_MIN 6
+
+//delay in sending DAO
+#define RPL_CONF_DAO_DELAY 3*CLOCK_SECOND
+
+#define RPL_CONF_DAO_ACK 0
+
+#define RPL_CONF_WITH_DAO_ACK 0
+
+#define CSMA_SW
 /* Increase rpl-border-router IP-buffer when using more than 64. */
 #undef REST_MAX_CHUNK_SIZE
 #define REST_MAX_CHUNK_SIZE            48
@@ -86,7 +103,7 @@
    #undef COAP_MAX_OBSERVERS
    #define COAP_MAX_OBSERVERS             2
  */
-
+#define RPL_CONF_INIT_LINK_METRIC 10
 /* Filtering .well-known/core per query can be disabled to save space. */
 #undef COAP_LINK_FORMAT_FILTERING
 #define COAP_LINK_FORMAT_FILTERING     0

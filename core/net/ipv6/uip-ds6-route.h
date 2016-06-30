@@ -61,6 +61,17 @@ void uip_ds6_route_init(void);
 #define UIP_DS6_NOTIFICATION_ROUTE_ADD 2
 #define UIP_DS6_NOTIFICATION_ROUTE_RM  3
 
+#define RPL_ROUTE_ENTRY_NOPATH_RECEIVED   0x01
+#define RPL_ROUTE_ENTRY_DAO_PENDING       0x02
+#define RPL_ROUTE_ENTRY_DAO_NACK          0x04
+
+#define RPL_ROUTE_CLEAR_DAO_PENDING(route) do {                         \
+    (route)->state.state_flags &= ~RPL_ROUTE_ENTRY_DAO_PENDING;         \
+  } while(0)
+
+#define RPL_ROUTE_IS_DAO_PENDING(route)                                 \
+  ((route->state.state_flags & RPL_ROUTE_ENTRY_DAO_PENDING) != 0)
+
 typedef void (* uip_ds6_notification_callback)(int event,
 					       uip_ipaddr_t *route,
 					       uip_ipaddr_t *nexthop,
@@ -98,9 +109,11 @@ typedef struct rpl_route_entry {
   void *dag;
   uint8_t learned_from;
   uint8_t nopath_received;
+  uint8_t dao_seqno_out;
+  uint8_t dao_seqno_in;
+  uint8_t state_flags;
 } rpl_route_entry_t;
 #endif /* UIP_DS6_ROUTE_STATE_TYPE */
-
 /** \brief The neighbor routes hold a list of routing table entries
     that are attached to a specific neihbor. */
 struct uip_ds6_route_neighbor_routes {

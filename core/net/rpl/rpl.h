@@ -216,6 +216,9 @@ struct rpl_instance {
   uint8_t dio_intcurrent;
   uint8_t dio_send; /* for keeping track of which mode the timer is in */
   uint8_t dio_counter;
+  /* my last registered DAO that I might be waiting for ACK on */
+   uint8_t my_dao_seqno;
+   uint8_t my_dao_transmissions;
   rpl_rank_t max_rankinc;
   rpl_rank_t min_hoprankinc;
   uint16_t lifetime_unit; /* lifetime in seconds = l_u * d_l */
@@ -231,6 +234,9 @@ struct rpl_instance {
   struct ctimer dio_timer;
   struct ctimer dao_timer;
   struct ctimer dao_lifetime_timer;
+#if RPL_WITH_DAO_ACK
+  struct ctimer dao_retransmit_timer;
+#endif /* RPL_WITH_DAO_ACK */
 };
 
 /*---------------------------------------------------------------------------*/

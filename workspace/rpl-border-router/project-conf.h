@@ -53,9 +53,24 @@
 
 #define RPL_CONF_DEFAULT_INSTANCE 31
 
-/*to compile APIs for observing resources*/
-#define COAP_OBSERVE_CLIENT 1
+//delay when reboot in sending DIS
+#define RPL_CONF_DIS_START_DELAY 0
 
+//min interval between one dio to another
+
+#define RPL_CONF_DIO_INTERVAL_MIN 4
+
+//delay in sending DAO
+#define RPL_CONF_DAO_DELAY CLOCK_SECOND
+
+#define RPL_CONF_DAO_ACK 0
+
+#undef NETSTACK_CONF_MAC
+#define NETSTACK_CONF_MAC     	csma_driver
+
+#define RPL_CONF_OF rpl_rssiof
+
+#define CSMA_SW
 //Added to configure Routing Tables lifetime shorter than 0xffff * 0xff
 
 #define RPL_CONF_DEFAULT_LIFETIME_UNIT           60 //60 seconds

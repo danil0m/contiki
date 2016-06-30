@@ -65,6 +65,15 @@ static struct filestate file={FLAG_FILE_CLOSED,0,0};
 
 #define VALID 0xDEADBEEF
 
+#define DEBUG 0
+#if DEBUG
+#include <stdio.h>
+#define PRINTF(...) PRINTF(__VA_ARGS__)
+#else
+#define PRINTF(...)
+#endif
+
+
 struct file_eeprom {
 	eeprom_addr_t filesize;
 	uint32_t valid;
@@ -89,8 +98,8 @@ struct file_eeprom file_info;
       if(file.filesize==0 ){
     	  /*checks if there is a valid file*/
     	  eeprom_read(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE, (uint8_t*)&file_info, sizeof(file_info));
-    	  printf("fileinfo: filesize:%d\r\n",file_info.filesize);
-    	  printf("fileinfo: valid:%x\r\n",file_info.valid);
+    	  PRINTF("CFS: fileinfo: filesize:%d\r\n",file_info.filesize);
+    	  PRINTF("CFS: fileinfo: valid:%x\r\n",file_info.valid);
     	  if(file_info.valid==VALID){
     		  file.filesize=file_info.filesize;
       	  }else {
@@ -106,7 +115,7 @@ struct file_eeprom file_info;
       if(file.filesize==0 ){
     	  /*checks if there is a valid file*/
     	  eeprom_read(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE,(uint8_t*) &file_info, sizeof(file_info));
-    	  if(file_info.valid==VALID){
+    	  if(file_info.valid==VALID && file_info.filesize!=0){
     		  file.filesize=file_info.filesize;
       	  }
       }
@@ -144,7 +153,7 @@ cfs_read(int f, void *buf, unsigned int len)
   if(f == 1) {
 #ifdef  CFS_EEPROM_EOF_ENABLED
     	  if(file.fileptr+len>file.filesize){
-    		    printf("file size: %d\r\n", file.filesize);
+    		    PRINTF("CFS: file size: %d\r\n", file.filesize);
     		  return -1;
     	        }
 #endif /*CFS_EEPROM_EOF_ENABLED*/
@@ -165,14 +174,15 @@ cfs_write(int f, const void *buf, unsigned int len)
 struct file_eeprom file_info;
 /*check if writing in the info page*/
 	  if(file.fileptr+len+CFS_EEPROM_PAGE_SIZE>EEPROM_SIZE){
-	  	      	return -1;
+	  	  PRINTF("CFS: not enough memory\r\n");
+		  return -1;
 	  	      }
 #endif /*CFS_EEPROM_EOF_ENABLED*/
 	  eeprom_write(CFS_EEPROM_OFFSET + file.fileptr, (unsigned char *)buf, len);
 
     file.fileptr += len;
     file.filesize=file.fileptr;
-    printf("file size: %d\r\n", file.filesize);
+    PRINTF("file size: %d\r\n", file.filesize);
 #ifdef CFS_EEPROM_EOF_ENABLED
 	/*sets new info of the file*/
     file_info.filesize=file.filesize;
@@ -219,7 +229,7 @@ struct file_eeprom file_info;
 /*sets new info of the file*/
 	file.filesize=0;
 	file_info.filesize=0;
-	file_info.valid=VALID;
+	file_info.valid=VALID+1;
 	eeprom_write(EEPROM_SIZE-CFS_EEPROM_PAGE_SIZE, (uint8_t*)&file_info, sizeof(file_info));
 
 

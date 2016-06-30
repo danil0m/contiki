@@ -12,6 +12,12 @@ after: $(CONTIKI_PROJECT) er-example-client
 CONTIKI = ../..
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 
+#ifeq($(TARGET), cooja)
+CFLAGS+=-I/usr/lib/jvm/java-8-openjdk-amd64/include
+CFLAGS+=-I/usr/lib/jvm/java-8-openjdk-amd64/include/linux
+
+#endif
+
 # automatically build RESTful resources
 REST_RESOURCES_DIR = ./resources
 ifndef TARGET

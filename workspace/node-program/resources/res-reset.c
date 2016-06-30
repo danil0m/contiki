@@ -44,9 +44,14 @@
 #include "er-coap-transactions.h"
 #include "er-coap-constants.h"
 
+#include "stm32l1xx.h"
+#include "stm32l1xx_hal_rcc.h"
+#include "stm32l1xx_hal_cortex.h"
+#include "stm32l1xx_hal.h"
+
 static void res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
-PROCESS(shutdown_process, "Shutdown process");
+PROCESS(reset_process, "Reset process");
 
 /*
  * A handler function named [resource name]_handler must be implemented for each RESOURCE.
@@ -54,8 +59,8 @@ PROCESS(shutdown_process, "Shutdown process");
  * preferred_size and offset, but must respect the REST_MAX_CHUNK_SIZE limit for the buffer.
  * If a smaller block size is requested for CoAP, the REST framework automatically splits the data.
  */
-SEPARATE_RESOURCE(res_low_power,
-         "title=\"Enter Standby Mode\";rt=\"Text\"",
+SEPARATE_RESOURCE(res_reset,
+         "title=\"Reset Node\";rt=\"Text\"",
          NULL,
 		 res_post_handler,
          NULL,
@@ -66,44 +71,27 @@ SEPARATE_RESOURCE(res_low_power,
 static void
 res_post_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
-	coap_transaction_t* trans;
-		        		  coap_packet_t packet[1];
-		        		  uip_ipaddr_t addr;
-		        		  //setting link-local broadcast address
-		        		  memset(&addr,0, sizeof(addr));
-		        		  addr.u8[0]=0xff;
-		        		  addr.u8[1]=0x02;
-		        		  addr.u8[15]=0x1a;
-		        		  coap_init_message(packet, COAP_TYPE_CON, COAP_POST, coap_get_mid());
-		        		  coap_set_header_uri_path(packet, "node/sdn");
-		        		  uint8_t token[4];
-		        		  uint16_t rand_numb;
-		        		  rand_numb=rand();
-		        		  token[0]=rand_numb/256;
-		        		  token[1]=rand_numb%256;
-		        		  rand_numb=rand();
-		        		  token[2]=rand_numb/256;
-		        		  token[3]=rand_numb%256;
+	coap_packet_t ack[1];
+	coap_packet_t *const coap_req = (coap_packet_t *)request;
 
-		        		  coap_set_token(packet, token, 4);
-		        		  trans= coap_new_transaction(packet->mid, &addr, UIP_HTONS(5683) );
-		        		  printf("%d\r\n", trans);
-		        		  //Warning: No check for serialization error.
-		        		  trans->packet_len = coap_serialize_message(packet, trans->packet);
-		        		  coap_send_transaction(trans);
-		        		    erbium_status_code = MANUAL_RESPONSE;
-		        		  printf("node shutdown\r\n");
 
-		        		  process_poll(&shutdown_process);
+	 /* sending ACK */
+	 coap_init_message(ack, COAP_TYPE_ACK, CONTENT_2_05, coap_req->mid);
+	 /* serializing into IPBUF: Only overwrites header parts that are already parsed into the request struct */
+	 coap_send_message(&UIP_IP_BUF->srcipaddr, UIP_UDP_BUF->srcport,
+	                        (uip_appdata), coap_serialize_message(ack,
+	                                                              uip_appdata));
+
+	process_poll(&reset_process);
 
 }
 
-PROCESS_THREAD(shutdown_process, ev, data){
+PROCESS_THREAD(reset_process, ev, data){
 	  PROCESS_BEGIN();
 	  while(1){
-	  	  PROCESS_YIELD();
+		  PROCESS_YIELD();
 	  	  if(ev==PROCESS_EVENT_POLL){
-	  		  MCU_Enter_StandbyMode();
+	  		  HAL_NVIC_SystemReset();
 	  	  }
 	  }
 	  PROCESS_END();

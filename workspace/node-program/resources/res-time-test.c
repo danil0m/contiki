@@ -53,7 +53,7 @@ static void res_put_handler(void *request, void *response, uint8_t *buffer, uint
  */
 
 
-RESOURCE(res_time,
+RESOURCE(res_time_test,
          "title=\"Set time: ?var=0 if request only time, var=1 to get also date for GET method | var=00:00:00 for PUT\";rt=\"Text\"",
          res_get_handler,
          NULL,
@@ -175,40 +175,6 @@ static void res_put_handler(void *request, void *response, uint8_t *buffer, uint
 
 		  }
 	}
-	fp=cfs_open("file", CFS_READ);
-	 if(fp!=-1){
-			do{
-				  /*seek until first alarm greater than time*/
-			  	  if(cfs_read(fp,&last_alarm, sizeof(Alarm_Typedef_t))==-1){
-			  	  /*if not 0 =-1 else 0*/
-			  	  read_file=-1*read_file;
-			  	  break;
-			  	   }
-			  	  if(read_file==0){
-			  		  first_alarm=last_alarm;
-			  	  	read_file=1;
-			  	  			 }
-
-			  	  		 }while(!Compare_Alarm(last_alarm));
-
-			  	  		 if(read_file==-1){
-			  		  /*not found an alarm greater than time set the first*/
-			  	  			 Set_Alarm(first_alarm.hour,first_alarm.minute,first_alarm.second);
-			  	  			 last_alarm=GetAlarm();
-			  	  			 printf("alarm set: %d:%d:%d\r\n", last_alarm.hour, last_alarm.minute, last_alarm.second);
-
-			  	  		 }
-			  	  		 else if(read_file==1){
-			  	  				 Set_Alarm(last_alarm.hour,last_alarm.minute,last_alarm.second);
-			  	  				 last_alarm=GetAlarm();
-			  	  				 printf("alarm set: %d:%d:%d\r\n", last_alarm.hour, last_alarm.minute, last_alarm.second);
-			  	  			}
-			  	  		else {
-			  	  			 printf("no alarm found\r\n");
-			  	  		}
-			  	  	  	  cfs_close(fp);
-
-	  }
 }
 
 /*adds to the time the alarm selected in the query variable and sets next alarm*/

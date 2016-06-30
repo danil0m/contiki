@@ -39,7 +39,9 @@
 #include "net/rime/rimestats.h"
 #include "spirit1-arch.h"
 #include <stdio.h>
+#include "SPIRIT_Csma.h"
 #include "st-lib.h"
+#include "random.h"
 /*---------------------------------------------------------------------------*/
 /* MGR extern st_lib_spirit_irqs st_lib_x_irq_status; */
 extern volatile st_lib_spirit_flag_status rx_timeout;
@@ -75,6 +77,7 @@ extern volatile st_lib_spirit_flag_status rx_timeout;
 /*---------------------------------------------------------------------------*/
 static volatile unsigned int spirit_on = OFF;
 static volatile uint8_t receiving_packet = 0;
+static volatile uint8_t rssi_above=0;
 static packetbuf_attr_t last_rssi = 0;  /* MGR */
 static packetbuf_attr_t last_lqi = 0;  /* MGR */
 /*---------------------------------------------------------------------------*/
@@ -99,6 +102,9 @@ static int wants_an_ack = 0; /* The packet sent expects an ack */
 static int packet_is_prepared = 0;
 /*---------------------------------------------------------------------------*/
 PROCESS(spirit_radio_process, "SPIRIT radio driver");
+PROCESS(rssi_above_in_process, "RSSI above in process");
+PROCESS(rssi_above_out_process, "RSSI above out process");
+
 /*---------------------------------------------------------------------------*/
 static int spirit_radio_init(void);
 static int spirit_radio_prepare(const void *payload, unsigned short payload_len);
@@ -236,7 +242,7 @@ spirit_radio_init(void)
   st_lib_spirit_irq(RX_DATA_DISC, S_ENABLE);
   st_lib_spirit_irq(TX_FIFO_ERROR, S_ENABLE);
   st_lib_spirit_irq(RX_FIFO_ERROR, S_ENABLE);
-
+  st_lib_spirit_irq(RSSI_ABOVE_TH, S_ENABLE);
   /* Configure Spirit1 */
   st_lib_spirit_radio_persisten_rx(S_ENABLE);
   st_lib_spirit_qi_set_sqi_threshold(SQI_TH_0);
@@ -245,7 +251,6 @@ spirit_radio_init(void)
   st_lib_spirit_timer_set_rx_timeout_stop_condition(SQI_ABOVE_THRESHOLD);
   SET_INFINITE_RX_TIMEOUT();
   st_lib_spirit_radio_afc_freeze_on_sync(S_ENABLE);
-
   /* Puts the SPIRIT1 in STANDBY mode (125us -> rx/tx) */
   spirit1_strobe(SPIRIT1_STROBE_STANDBY);
   spirit_on = OFF;
@@ -260,6 +265,10 @@ spirit_radio_init(void)
 
   process_start(&spirit_radio_process, NULL);
 
+#if DEBUG
+  process_start(&rssi_above_in_process, NULL);
+  process_start(&rssi_above_out_process, NULL);
+#endif
   PRINTF("Spirit1 init done\r\n");
   return 0;
 }
@@ -309,31 +318,55 @@ spirit_radio_transmit(unsigned short payload_len)
 
   PRINTF("TRANSMIT IN\r\n");
   if(!packet_is_prepared) {
-    return RADIO_TX_ERR;
+	  PRINTF("Spirit1: Error transmit\r\n");
+	  return RADIO_TX_ERR;
   }
 
   /* Stores the length of the packet to send */
   /* Others spirit_radio_prepare will be in hold */
   spirit_txbuf[0] = payload_len;
-
+  PRINTF("Spirit1: SPIRIT STATUS %x\r\n",SPIRIT1_STATUS()>>1);
+#ifdef CSMA_SW
+  int rand_numb;
+  rand_numb=random_rand()%10;
+  BUSYWAIT_UNTIL(SpiritQiGetCs(),2*RTIMER_SECOND / 1000);
+  if(SpiritQiGetCs()){
+		 PRINTF("Spirit1: detected collision\r\n");
+		    	  return RADIO_TX_COLLISION;
+	}
+  /*rssi_above=0;
+  BUSYWAIT_UNTIL(rssi_above, (32+rand_numb)* RTIMER_SECOND / 1000);
+     if(rssi_above){
+      	  PRINTF("Spirit1: detected collision\r\n");
+      	  return RADIO_TX_NOACK;
+        }*/
+#endif
   /* Puts the SPIRIT1 in TX state */
   receiving_packet = 0;
   spirit_set_ready_state();
+  PRINTF("Spirit1: SPIRIT STATUS %x\r\n",SPIRIT1_STATUS()>>1);
+#ifdef CSMA_HW
+  SpiritCsma(S_ENABLE);
+#endif
   spirit1_strobe(SPIRIT1_STROBE_TX);
   just_got_an_ack = 0;
   BUSYWAIT_UNTIL(SPIRIT1_STATUS() == SPIRIT1_STATE_TX, 1 * RTIMER_SECOND / 1000);
   /* BUSYWAIT_UNTIL(SPIRIT1_STATUS() != SPIRIT1_STATE_TX, 4 * RTIMER_SECOND/1000); //For GFSK with high data rate */
   BUSYWAIT_UNTIL(SPIRIT1_STATUS() != SPIRIT1_STATE_TX, 50 * RTIMER_SECOND / 1000); /* For FSK with low data rate */
 
+  PRINTF("Spirit1: SPIRIT STATUS %x\r\n",SPIRIT1_STATUS()>>1);
   /* Reset radio - needed for immediate RX of ack */
   CLEAR_TXBUF();
-  CLEAR_RXBUF();
+  //CLEAR_RXBUF();
   IRQ_DISABLE();
   st_lib_spirit_irq_clear_status();
   spirit1_strobe(SPIRIT1_STROBE_SABORT);
   BUSYWAIT_UNTIL(0, RTIMER_SECOND / 2500);
   spirit1_strobe(SPIRIT1_STROBE_READY);
   BUSYWAIT_UNTIL(SPIRIT1_STATUS() == SPIRIT1_STATE_READY, 1 * RTIMER_SECOND / 1000);
+#ifdef CSMA_HW
+  SpiritCsma(S_DISABLE);
+#endif
   spirit1_strobe(SPIRIT1_STROBE_RX);
   BUSYWAIT_UNTIL(SPIRIT1_STATUS() == SPIRIT1_STATE_RX, 1 * RTIMER_SECOND / 1000);
   IRQ_ENABLE();
@@ -534,8 +567,14 @@ spirit_radio_on(void)
       PRINTF("Spirit1: failed to turn on\r\n");
       while(1) ;
       /* return 1; */
-    }
 
+
+    }
+     CsmaInit csmainfo;
+        csmainfo.xCsmaPersistentMode=1;
+        csmainfo.xMultiplierTbit=1;
+        SpiritCsmaInit(&csmainfo);
+        SpiritRadioCsBlanking(S_DISABLE);
     /* now we go to Rx */
     spirit1_strobe(SPIRIT1_STROBE_RX);
     BUSYWAIT_UNTIL(SPIRIT1_STATUS() == SPIRIT1_STATE_RX, 5 * RTIMER_SECOND / 1000);
@@ -624,6 +663,31 @@ PROCESS_THREAD(spirit_radio_process, ev, data)
 
   PROCESS_END();
 }
+PROCESS_THREAD(rssi_above_in_process, ev, data){
+	PROCESS_BEGIN();
+	while(1){
+		PROCESS_YIELD();
+		if(ev==PROCESS_EVENT_POLL){
+
+			PRINTF("RSSI above IN\r\n");
+			}
+		}
+
+	PROCESS_END();
+}
+
+PROCESS_THREAD(rssi_above_out_process, ev, data){
+	PROCESS_BEGIN();
+	while(1){
+	PROCESS_YIELD();
+	if(ev==PROCESS_EVENT_POLL){
+
+		PRINTF("rx full\r\n");
+		}
+	}
+	PROCESS_END();
+}
+
 /*---------------------------------------------------------------------------*/
 void
 spirit1_interrupt_callback(void)
@@ -675,7 +739,10 @@ spirit1_interrupt_callback(void)
 
   /* The IRQ_RX_DATA_READY notifies a new packet arrived */
   if(x_irq_status.IRQ_RX_DATA_READY) {
-    st_lib_spirit_spi_read_linear_fifo(st_lib_spirit_linear_fifo_read_num_elements_rx_fifo(),
+    if(IS_RXBUF_FULL()){
+    	process_poll(&rssi_above_out_process);
+    }
+	  st_lib_spirit_spi_read_linear_fifo(st_lib_spirit_linear_fifo_read_num_elements_rx_fifo(),
                                        &spirit_rxbuf[1]);
     spirit_rxbuf[0] = st_lib_spirit_pkt_basic_get_received_pkt_length();
     spirit1_strobe(SPIRIT1_STROBE_FRX);
@@ -707,6 +774,12 @@ spirit1_interrupt_callback(void)
       rx_timeout = SET;
     }
   }
+
+  if(x_irq_status.IRQ_RSSI_ABOVE_TH){
+	  rssi_above=1;
+	  process_poll(&rssi_above_in_process);
+  }
+
 
   interrupt_callback_in_progress = 0;
 }

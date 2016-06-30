@@ -48,6 +48,7 @@
 #include "rpl.h"
 #include "net/ip/uip-debug.h"
 #include "etimer.h"
+#include "ctimer.h"
 #include "contiki.h"
 #include "er-coap.h"
 #include "er-coap-transactions.h"
@@ -57,6 +58,8 @@
 #include "process.h"
 #include "net/ipv6/uip-ds6-route.h"
 #include "dev/leds.h"
+#include "timer.h"
+#include "SPIRIT_Csma.h"
 
 
 #define DEBUG 0
@@ -71,6 +74,8 @@
 #define PRINTLLADDR(addr)
 #endif
 
+
+#define WATCHDOG_TIMER_SECONDS 40
 /*
  * Resources to be activated need to be imported through the extern keyword.
  * The build system automatically compiles the resources in the corresponding sub-directory.
@@ -79,18 +84,23 @@ extern resource_t
   res_hello,
   res_low_power,
   res_alarms,
+  res_alarms_test,
   res_sensors,
   res_time,
+  res_time_test,
   res_date,
   res_rssi,
   res_lqi,
   res_radio,
   res_sendpacket,
   res_separate,
-  res_sync;
+  res_sync,
+  res_reset;
 
 struct etimer event_timer;
 
+struct timer tim;
+int istimerset=0;
 static void printok(void* data, void* response){
 	printf("ok\r\n");
 
@@ -98,50 +108,20 @@ static void printok(void* data, void* response){
 
 
 int i=0;
-extern struct process shutdown_process;
+extern struct process reset_process, shutdown_process, measure_process;
 PROCESS(er_example_server, "Erbium Example Server");
-AUTOSTART_PROCESSES(&er_example_server, &shutdown_process);
+AUTOSTART_PROCESSES(&er_example_server,&reset_process, &shutdown_process, &measure_process );
+struct ctimer watchdog_timer;
+
+void watchdog_shutdown(){
+	MCU_Enter_StandbyMode();
+}
+
 
 PROCESS_THREAD(er_example_server, ev, data)
 {
   PROCESS_BEGIN();
-
-  int read_file=0,fp;
-  Alarm_Typedef_t first_alarm,last_alarm;
-
-  //dis_output(NULL);
   /*when wake-up from standby, select next alarm*/
-  fp=cfs_open("file", CFS_READ);
-  if(fp!=-1){
-  	  do{
-  		  if(cfs_read(fp,&last_alarm, sizeof(Alarm_Typedef_t))==-1){
-  			  /*if not 0 =-1 else 0*/
-  			  read_file=-1*read_file;
-  			  break;
-  		  }
-  		  if(read_file==0){
-  			  first_alarm=last_alarm;
-  			  read_file=1;
-  		  }
-
-  	  }while(!Compare_Alarm(last_alarm));
-
-  	  if(read_file==-1){
-  		  /*not found an alarm greater than time set the first*/
-  		  Set_Alarm(first_alarm.hour,first_alarm.minute,first_alarm.second);
-  		  last_alarm=GetAlarm();
-  		  printf("alarm set: %d:%d:%d\r\n", last_alarm.hour, last_alarm.minute, last_alarm.second);
-  	  }
-  	  else if(read_file==1){
-  		  Set_Alarm(last_alarm.hour,last_alarm.minute,last_alarm.second);
-  		  last_alarm=GetAlarm();
-  		  printf("alarm set: %d:%d:%d\r\n", last_alarm.hour, last_alarm.minute, last_alarm.second);
-  	  }
-  	  else {
-  		  printf("no alarm found\r\n");
-  	  }
-  	  cfs_close(fp);
-  }
 
   PROCESS_PAUSE();
 
@@ -170,49 +150,60 @@ PROCESS_THREAD(er_example_server, ev, data)
    */
   rest_activate_resource(&res_hello, "test/hello");
   rest_activate_resource(&res_low_power, "node/sdn");
+  rest_activate_resource(&res_alarms_test, "node/alarms_tst");
   rest_activate_resource(&res_alarms, "node/alarms");
   rest_activate_resource(&res_sensors, "node/sensors");
+  rest_activate_resource(&res_time_test, "node/time_tst");
   rest_activate_resource(&res_time, "node/time");
   rest_activate_resource(&res_date, "node/date");
   rest_activate_resource(&res_rssi, "node/rssi");
   rest_activate_resource(&res_lqi, "node/lqi");
   rest_activate_resource(&res_radio, "node/radio");
-  rest_activate_resource(&res_sendpacket, "node/sendpacket");
   rest_activate_resource(&res_separate, "node/separate");
-  rest_activate_resource(&res_sync, "node/sync");
+  rest_activate_resource(&res_reset, "node/reset");
+
+  //set callback timer if lost shutdown message
+  ctimer_set(&watchdog_timer, CLOCK_SECOND*WATCHDOG_TIMER_SECONDS, watchdog_shutdown, NULL);
 
 
   /* Define application-specific events here. */
   while(1) {
-
-	  if(rpl_get_instance(RPL_DEFAULT_INSTANCE)!=NULL){
-	        	if(rpl_get_instance(RPL_DEFAULT_INSTANCE)->current_dag!=NULL){
+#ifdef SEND_MESSAGE
+	  if(rpl_get_any_dag()!=NULL){
+		  if(!istimerset){
+		  timer_set(&tim, 1000);
+		  istimerset=1;
+		  }
+		  if(!timer_expired(&tim)){
+			  printf("remaining : %d\r\n", timer_remaining(&tim));
+			  process_poll(PROCESS_CURRENT());
+		  }
+		  else{
 	        		printf("grounded\r\n");
 	        		coap_transaction_t* trans;
 	        		  coap_packet_t packet[1];
 	        		  uip_ipaddr_t addr;
-	        		  printf("root: ");
-	        		  uip_debug_ipaddr_print(&(rpl_get_instance(RPL_DEFAULT_INSTANCE)->current_dag->dag_id));
-	        		  printf("\r\n");
 	        		  uip_ip6addr_u8(&addr, 0xaa,0xaa,0x0,0x0,0x0,0x0,0x0,0x0, 0x0, 0x00,0x0,0x0, 0x0,0x0, 0x0,0x1);
 	        		  uip_debug_ipaddr_print(&addr);
+
 	        		  printf("\r\n");
 	        		  coap_init_message(packet, COAP_TYPE_CON, COAP_PUT, coap_get_mid());
 	        		  coap_set_header_uri_path(packet, "sensors/");
+	        		  coap_set_payload(packet,"{\"tilt\": 0.001}", 15);
 	        		  uint8_t token[4];
 	        		  uint16_t rand_numb;
 	        		  rand_numb=rand();
-	        		  printf("rand1: %x\r\n", rand_numb);
+	        		  //printf("rand1: %x\r\n", rand_numb);
 	        		  token[0]=rand_numb/256;
 	        		  token[1]=rand_numb%256;
 	        		  rand_numb=rand();
-	        		  printf("rand2: %x\r\n", rand_numb);
+	        		  //printf("rand2: %x\r\n", rand_numb);
 	        		  token[2]=rand_numb/256;
 	        		  token[3]=rand_numb%256;
-	        		  printf("token: ");
-	        		  for(i=0;i<4;i++){
+	        		  //printf("token: ");
+	        		  /*for(i=0;i<4;i++){
 	        			  printf("%x", token[i]);
-	        		  }
+	        		  }*/
 	        		  printf("\r\n");
 	        		  coap_set_token(packet, token, 4);
 	        		  trans= coap_new_transaction(packet->mid, &addr, UIP_HTONS(5683) );
@@ -223,7 +214,7 @@ PROCESS_THREAD(er_example_server, ev, data)
 	        		  for(i=0;i<packet->token_len;i++){
 	        			  printf("%x", packet->token[i]);
 	        		  }
-	        		  printf("\r\n");
+	        		  /*printf("\r\n");
 	        		  printf("packet: ");
 	        		  for(i=0;i<trans->packet_len; i++){
 	        			  if(trans->packet[i]<0x41){
@@ -233,7 +224,7 @@ PROCESS_THREAD(er_example_server, ev, data)
 
 	        			  }
 	        		  }
-	        		  printf("\r\n");
+	        		  printf("\r\n");*/
 	        		  coap_send_transaction(trans);
 /*
 	        		  Time_Typedef_t time1;
@@ -248,18 +239,18 @@ PROCESS_THREAD(er_example_server, ev, data)
 	        		  	    Time_Typedef_t time2;
 	        		  	    time2=RTC_GetTime();
 	        		  	    printf("time end: %d:%d:%d.%d\r\n", time2.hour,time2.minute,time2.second,time2.millisecond);*/
-
+		  }
 	        	}
-	        	else{
-	        	}
-	    }else{
+	      else{
 	    	process_poll(PROCESS_CURRENT());
 	        }
+#endif
     PROCESS_WAIT_EVENT();
     if(ev == sensors_event && data == &button_sensor) {
-
+    	printf("resuming\r\n");
       /* Also call the separate response example handler. */
-      res_separate.resume();
+     // res_separate.resume();
+      res_sensors.resume();
     }
 
 
